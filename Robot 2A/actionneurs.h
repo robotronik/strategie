@@ -1,4 +1,5 @@
-
+#ifndef ACTIONNEURS_H
+#define ACTIONNEURS_H
 
 // Empileur
 // // Porte
@@ -23,6 +24,6 @@ int bras_gauche_libere_verre();
 
 
 // Attrape-popcorns
-int attrape_popcorns_tourne(int position) {
+int attrape_popcorns_tourne(int position);
 
-}
+#endif
