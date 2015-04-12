@@ -7,11 +7,11 @@ int empileur_porte_ouvre() {
 int empileur_porte_ferme() {
 }
 // // Monte-pieds
-int empileur_monteur_descend(){
+int empileur_monteur_descend() {
 }
-int empileur_monteur_monte_un_pied(){
+int empileur_monteur_monte_un_pied() {
 }
-int empileur_monteur_prend_une_ampoule(){
+int empileur_monteur_prend_une_ampoule() {
 }
 
 
