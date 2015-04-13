@@ -32,13 +32,13 @@ view: all
 all: $(EXEC)
 
 $(EXEC): $(OBJECTS) $(CARTO_LIB)
-	$(CC) $(CFLAGS) -o $@ $^ $(CARTO_LIB) $(LDFLAGS) $(SDLFLAGS)
+	$(CC) $(CFLAGS) -o $@ $^ $(CARTO_LIB) $(LDFLAGS)
 
 $(CARTO_LIB): $(CARTO_DIR)$(CARTO_LIB)
 	cp $(CARTO_DIR)$(CARTO_LIB) .
 
 $(CARTO_DIR)$(CARTO_LIB):
-	cd $(CARTO_DIR) && make clean && make $(CARTO_LIB) SDL=no
+	cd $(CARTO_DIR) && make $(CARTO_LIB) SDL=no
 
 %.o: %.c
 	$(CC) $(CFLAGS) -o $@ -c $<
@@ -52,3 +52,4 @@ clean:
 mrproper: clean
 	rm -rf $(EXEC) $(EXEC).tar.bz2
 	cd $(CARTO_DIR) && make clean
+	
