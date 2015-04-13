@@ -1,0 +1,7 @@
+*.o
+*.a
+strategie_robot
+strategie_robot.*
+
+
+massif.out.*
