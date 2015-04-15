@@ -10,6 +10,7 @@ LDFLAGS = -lm
 EXEC = strategie_robot
 CARTO_DIR = ../../cartographie/
 CARTO_LIB = libCARTOGRAPHIE.a
+CARTO_LIB_FULL_PATH = $(CARTO_DIR)$(CARTO_LIB)
 CARTO_HEADER = pathfinding.h
 
 ################################################################################
@@ -31,23 +32,20 @@ view: all
 
 all: $(EXEC)
 
-$(EXEC): $(OBJECTS) $(CARTO_LIB)
-	$(CC) $(CFLAGS) -o $@ $^ $(CARTO_LIB) $(LDFLAGS)
+$(EXEC): $(OBJECTS) $(CARTO_LIB_FULL_PATH)
+	$(CC) $(CFLAGS) -o $@ $^ $(CARTO_LIB_FULL_PATH) $(LDFLAGS)
 
-$(CARTO_LIB): $(CARTO_DIR)$(CARTO_LIB)
-	cp $(CARTO_DIR)$(CARTO_LIB) .
-
-$(CARTO_DIR)$(CARTO_LIB):
+$(CARTO_LIB_FULL_PATH):
 	cd $(CARTO_DIR) && make $(CARTO_LIB) SDL=no
 
-%.o: %.c
+%.o: %.cd
 	$(CC) $(CFLAGS) -o $@ -c $<
 
 tarall: $(SOURCEFILES)
 	tar -jcvf $(EXEC).tar.bz2 $^
 
 clean:
-	rm -f $(OBJECTS) $(CARTO_LIB)
+	rm -f $(OBJECTS)
 
 mrproper: clean
 	rm -rf $(EXEC) $(EXEC).tar.bz2
