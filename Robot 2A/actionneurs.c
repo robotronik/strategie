@@ -1,11 +1,27 @@
+#include "actionneurs.h"
 
+int perimetre_actuel = PERIMETRE_BASE;
 
 // Empileur
 // // Porte
+int empileur_porte_ouverte = 0;
 int empileur_porte_ouvre() {
+    if (!empileur_porte_ouverte
+        && (perimetre_actuel+PERIMETRE_ADD_EMPILEUR_OUVERT)<PERIMETRE_MAX ) {
+        // On ouvre l'empileur
+        perimetre_actuel += PERIMETRE_ADD_EMPILEUR_OUVERT;
+        empileur_porte_ouverte = 1;
+        return 0;
+    }
     return 1;
 }
 int empileur_porte_ferme() {
+    // On ferme l'empileur
+    if (empileur_porte_ouverte) {
+        perimetre_actuel -= PERIMETRE_ADD_EMPILEUR_OUVERT;
+        empileur_porte_ouverte = 0;
+        return 0;
+    }
     return 1;
 }
 // // Monte-pieds
@@ -21,6 +37,7 @@ int empileur_monteur_prend_une_ampoule() {
 
 
 // Bras latéraux
+int bras_droit_position = 0;
 int bras_droit_ferme() {
     return 1;
 }
@@ -35,6 +52,7 @@ int bras_droit_libere_verre() {
 }
 
 
+int bras_gauche_position = 0;
 int bras_gauche_ferme() {
     return 1;
 }

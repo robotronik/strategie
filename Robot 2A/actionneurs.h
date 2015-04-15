@@ -1,6 +1,18 @@
 #ifndef ACTIONNEURS_H
 #define ACTIONNEURS_H
 
+#define PERIMETRE_MAX   1500
+#define PERIMETRE_BASE  1000    // ?
+#define PERIMETRE_ADD_EMPILEUR_OUVERT       200 // ?
+
+// Périmètre ajouté pendant l'ouverture
+#define PERIMETRE_ADD_BRAS_OUVERTURE        500 // ?
+// Périmètre ajouté en "position de repos" pour les différentes actions.
+// Utilisé pour savoir si on peut ouvrir un autre actionneur en même temps.
+#define PERIMETRE_ADD_BRAS_POSITION_NEUTRE  500 // ?
+#define PERIMETRE_ADD_BRAS_POSITION_CLAPS   500 // ?
+#define PERIMETRE_ADD_BRAS_POSITION_VERRE   500 // ?
+
 // Empileur
 // // Porte
 int empileur_porte_ouvre();
