@@ -2,7 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../../cartographie/pathfinding.h"
+#include "../../cartographie/cartographie.h"
+#include "../../common_code/debug.h"
 
 int x_actuel = 300;
 int y_actuel = 1000;
@@ -12,7 +13,7 @@ void new_xy_absolu(int x, int y) {
 
     // On appelle le pathfinding et on regarde si il y a un chemin
     int on_a_un_chemin = pathfinding(x_actuel, y_actuel, x, y);
-    printf("chemin trouvé ? %d\n", on_a_un_chemin);
+    debug("chemin trouvé ? %d\n", on_a_un_chemin);
 
     if (on_a_un_chemin) {
 
@@ -26,7 +27,7 @@ void new_xy_absolu(int x, int y) {
         // On l'affiche
         int i;
         for (i = 0; i < taille; ++i)
-            printf("%d -- %d\n", chemin_trouve[i][0], chemin_trouve[i][1]);
+            debug("%d -- %d\n", chemin_trouve[i][0], chemin_trouve[i][1]);
 
         // Et on l'exécute !
         x_actuel = x;

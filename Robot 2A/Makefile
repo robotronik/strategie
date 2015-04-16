@@ -13,6 +13,9 @@ CARTO_LIB = libCARTOGRAPHIE.a
 CARTO_LIB_FULL_PATH = $(CARTO_DIR)$(CARTO_LIB)
 CARTO_HEADER = pathfinding.h
 
+# options
+DEBUG = yes
+
 ################################################################################
 
 SOURCES=main.c \
@@ -22,6 +25,11 @@ HEADERS=$(SOURCES:.c=.h)
 OBJECTS=$(SOURCES:.c=.o)
 
 SOURCEFILES=main.c $(SOURCES) $(HEADERS)
+
+
+ifeq ($(DEBUG),yes)
+	CFLAGS += -DDEBUG=1 -g
+endif
 
 ################################################################################
 
@@ -36,7 +44,7 @@ $(EXEC): $(OBJECTS) $(CARTO_LIB_FULL_PATH)
 	$(CC) $(CFLAGS) -o $@ $^ $(CARTO_LIB_FULL_PATH) $(LDFLAGS)
 
 $(CARTO_LIB_FULL_PATH):
-	cd $(CARTO_DIR) && make $(CARTO_LIB) SDL=no
+	cd $(CARTO_DIR) && make $(CARTO_LIB) SDL=no DEBUG=$(DEBUG)
 
 %.o: %.cd
 	$(CC) $(CFLAGS) -o $@ -c $<
