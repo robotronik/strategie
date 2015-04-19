@@ -8,38 +8,63 @@
 int x_actuel = 300;
 int y_actuel = 1000;
 
+int x_futur, y_futur;
 
-void new_xy_absolu(int x, int y) {
+int found_path[20][2];
+int found_path_length;
 
-    // On appelle le pathfinding et on regarde si il y a un chemin
-    int on_a_un_chemin = pathfinding(x_actuel, y_actuel, x, y);
-    debug("chemin trouvé ? %d\n", on_a_un_chemin);
-
-    if (on_a_un_chemin) {
-
-        // On récupère le nombre de points de ce chemin
-        int taille = return_length_of_path_found();
-
-        // On récupère le chemin lui-même
-        int chemin_trouve[taille][2];
-        return_path_found(chemin_trouve);
-
-        // On l'affiche
-        int i;
-        for (i = 0; i < taille; ++i)
-            debug("%d -- %d\n", chemin_trouve[i][0], chemin_trouve[i][1]);
-
-        // Et on l'exécute !
-        x_actuel = x;
-        y_actuel = y;        
+int find_path_to(int x, int y) {
+    int path_found = pathfinding(x_actuel, y_actuel, x, y);
+    switch(path_found) {
+        case -1: 
+            debug("Il y a eu une erreur dans l'algorithme, à débugger !\n");
+            manage_carto_system_errors();
+            return -1;
+        case  0:
+            debug("Pas de chemin trouvé…\n");
+            return  0;
     }
+    x_futur = x;
+    y_futur = y;
+
+    // On récupère le chemin
+    found_path_length = return_length_of_path_found();
+    return_path_found(found_path);
+
+    return 1; 
 }
 
+void manage_carto_system_errors() {
+
+}
+
+void affiche_chemin() {
+    int i;
+    for (i = 0; i < found_path_length; ++i)
+        debug("%d -- %d\n", found_path[i][0], found_path[i][1]);
+
+}
+void execute_chemin() {
+    x_actuel = x_futur;
+    y_actuel = y_futur;
+}
 int main() {
+    x_futur = x_actuel;
+    y_futur = y_actuel;
     pathfinding_init();
     nouvel_obstacle_rond(1500, 1200, 200);
-    new_xy_absolu(2700,1600);
-    new_xy_absolu(300,1600);
-    new_xy_absolu(2700,1600);
+    if(find_path_to(2700,4000)) {
+        affiche_chemin();
+        execute_chemin();
+    }
+    //execute_chemin();
+    if(find_path_to( 300,1600)) {
+        affiche_chemin();
+        execute_chemin();
+    }
+    if(find_path_to(2700,1600)) {
+        affiche_chemin();
+        execute_chemin();
+    }
     return 0;
 }
