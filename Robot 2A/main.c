@@ -14,6 +14,7 @@ int found_path[20][2];
 int found_path_length;
 
 int find_path_to(int x, int y) {
+    // On exécute l'algo
     int path_found = pathfinding(x_actuel, y_actuel, x, y);
     switch(path_found) {
         case -1: 
@@ -57,11 +58,15 @@ int main() {
         affiche_chemin();
         execute_chemin();
     }
-    //execute_chemin();
+    // Si on force un chemin qui a été déterminé comme impossible,
+    // il n'est PAS exécuté ! :)
+    execute_chemin();
+
     if(find_path_to( 300,1600)) {
         affiche_chemin();
         execute_chemin();
     }
+
     if(find_path_to(2700,1600)) {
         affiche_chemin();
         execute_chemin();
