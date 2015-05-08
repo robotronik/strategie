@@ -8,7 +8,7 @@ int perimetre_actuel = PERIMETRE_BASE;
 void init_actionneurs()
 {
     init_all_servo();
-    init_moteur_empileur();
+    init_empileur();
 }
 
 // Empileur
