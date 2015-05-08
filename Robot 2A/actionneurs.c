@@ -1,20 +1,32 @@
 #include "actionneurs.h"
-#include "Calibration/Servos/reglage_servos.h"
+#include "Calibration/reglages_servos.h"
+#include "Calibration/reglages_ascenseur.h"
+#include "Calibration/reglages_moulin.h"
 #include "LowLevel/empileur.h"
 #include "LowLevel/empileur.h"
 
+void init_protection_perimetre();
+void init_position_actionneurs();
 
-int porte_empileur_is_open = 0;
-int bras_droit_is_risen = 0;
-int bras_gauche_is_risen = 0;
+static int porte_empileur_is_open = 0;
+static int bras_droit_is_risen = 0;
+static int bras_gauche_is_risen = 0;
+static int gobelet_saisi = 0;
+static int ascenseur_en_position_balle=0;
 
-//init
+
+//================================= INIT ====================================//
+
 void init_actionneurs()
 {
     init_all_servo();
     init_empileur();
     init_protection_perimetre();
+    init_position_actionneurs();
 }
+
+
+//================================= ETAT ====================================//
 
 int something_is_open()
 {
@@ -22,7 +34,24 @@ int something_is_open()
     return retour;
 }
 
-//empileur
+e_actionneur actionneur_ouvert()
+{
+    if porte_empileur_is_open
+        return PORTE_EMPILEAR
+    if bras_droit_is_risen
+        return BRAS_DROIT
+    if bras_gauche_is_risen
+        return BRAS_GAUCHE
+}
+
+int un_gobelet_est_saisi()
+{
+    return gobelet_saisi;
+}
+
+//=============================== EMPILEUR ==================================//
+
+//porte
 int ouvre_porte_empileur()
 {
     if(something_is_open())
@@ -39,7 +68,45 @@ void ferme_porte_empileur()
     porte_empileur_is_open=0;
 }
 
-//bras gauche
+//ascenseur
+void stop_ascenseur()
+{
+    set_PWM_moteur_empileur(0,0);
+}
+
+void monte_pied()
+{
+    set_PWM_moteur_empileur(PWM_MOTEUR,DIR_MONTEE);
+    if(ascenseur_en_position_balle) {
+        //wait(TPS_MONTEE_PIED-TPS_MONTEE_BALLE);
+    }
+    else {
+        //wait(TPS_MONTEE_PIED);      
+    }
+    stop_ascenseur();
+    ascenseur_en_position_balle=0;
+}
+
+void ascenseur_position_prise_balle();
+{
+    descend_ascenseur();
+    set_PWM_moteur_empileur(PWM_MOTEUR,DIR_MONTEE);
+    //wait(TPS_MONTEE_BALLE);
+    stop_ascenseur();
+    ascenseur_en_position_balle=1;
+
+}
+
+void descend_ascenseur();
+{
+    set_PWM_moteur_empileur(PWM_MOTEUR,DIR_DESCENTE);
+    while(!rupteur_empileur_is_pushed()){;}
+    stop_ascenseur();
+    ascenseur_en_position_balle=0;
+}
+
+//============================== BRAS GAUCHE ================================//
+
 void bras_gauche_repos()
 {
     bras_gauche_set_angle(ANGLE_REPOS_BRAS_GAUCHE);
@@ -57,7 +124,7 @@ int bras_gauche_position_clap()
 
 int bras_gauche_position_prise_gobelet()
 {
-     if(porte_empileur_is_open || bras_droit_is_risen)
+    if(porte_empileur_is_open || bras_droit_is_risen)
         return 1;
     bras_gauche_is_risen=1;
     bras_gauche_set_angle(ANGLE_GOBELET_LIBRE_BRAS_GAUCHE);
@@ -66,10 +133,11 @@ int bras_gauche_position_prise_gobelet()
 
 int bras_gauche_coince_gobelet()
 {
-     if(porte_empileur_is_open || bras_droit_is_risen)
+    if(porte_empileur_is_open || bras_droit_is_risen)
         return 1;
     bras_gauche_is_risen=1;
     bras_gauche_set_angle(ANGLE_GOBELET_COINCE_BRAS_GAUCHE);
+    gobelet_saisi=1;
     /*wait();
     bras_gauche_set_angle(ANGLE_GOBELET_LIBRE_BRAS_GAUCHE);
     wait();
@@ -79,14 +147,16 @@ int bras_gauche_coince_gobelet()
 
 int bras_gauche_libere_gobelet()
 {
-     if(porte_empileur_is_open || bras_droit_is_risen)
+    if(porte_empileur_is_open || bras_droit_is_risen)
         return 1;
     bras_gauche_is_risen=1;
     bras_gauche_set_angle(ANGLE_GOBELET_LIBRE_BRAS_GAUCHE);
+    gobelet_saisi=0;
     return 0; 
 }
 
-//bras droit
+//============================== BRAS DROIT =================================//
+
 void bras_droit_repos()
 {
     bras_droit_set_angle(ANGLE_REPOS_BRAS_DROIT);
@@ -104,7 +174,7 @@ int bras_droit_position_clap()
 
 int bras_droit_position_prise_gobelet()
 {
-     if(porte_empileur_is_open || bras_gauche_is_risen)
+    if(porte_empileur_is_open || bras_gauche_is_risen)
         return 1;
     bras_droit_is_risen=1;
     bras_droit_set_angle(ANGLE_GOBELET_LIBRE_BRAS_DROIT);
@@ -113,10 +183,11 @@ int bras_droit_position_prise_gobelet()
 
 int bras_droit_coince_gobelet()
 {
-     if(porte_empileur_is_open || bras_gauche_is_risen)
+    if(porte_empileur_is_open || bras_gauche_is_risen)
         return 1;
     bras_droit_is_risen=1;
     bras_droit_set_angle(ANGLE_GOBELET_COINCE_BRAS_DROIT);
+    gobelet_saisi=1;
     /*wait();
     bras_droit_set_angle(ANGLE_GOBELET_LIBRE_BRAS_DROIT);
     wait();
@@ -126,17 +197,58 @@ int bras_droit_coince_gobelet()
 
 int bras_droit_libere_gobelet()
 {
-     if(porte_empileur_is_open || bras_gauche_is_risen)
+    if(porte_empileur_is_open || bras_gauche_is_risen)
         return 1;
     bras_droit_is_risen=1;
     bras_droit_set_angle(ANGLE_GOBELET_LIBRE_BRAS_DROIT);
+    gobelet_saisi=0;
     return 0; 
 }
 
-//init
+//================================ MOULIN ===================================//
+
+void moulin_position_repos()
+{
+    attrape_popcorns_set_angle(ANGLE_REPOS_MOULIN);
+}
+
+void prend_pop_corn()
+{
+    /*int i;
+    for(i=ANGLE_REPOS_MOULIN,i<ANGLE_VIDE_POP_CORN,i++)
+    {
+        attrape_popcorns_set_angle(i);
+        //wait(SLOW_PREND_POP_CORN);
+    }*/
+    attrape_popcorns_set_angle(ANGLE_PREND_POP_CORN);
+}
+
+void libere_pop_corn()
+{
+    /*int i;
+    for(i=ANGLE_REPOS_MOULIN,i>ANGLE_VIDE_POP_CORN,i--)
+    {
+        attrape_popcorns_set_angle(i);
+        //wait(SLOW_VIDE_POP_CORN);
+    }*/
+    attrape_popcorns_set_angle(ANGLE_VIDE_POP_CORN);
+    //wait éventuel
+    moulin_position_repos();
+}
+
+//============================= INIT INTERNE ================================//
+
 void init_protection_perimetre()
 {
     int porte_empileur_is_open=0;
     int bras_droit_is_risen=0;
     int bras_gauche_is_risen=0;
+}
+
+void init_position_actionneurs()
+{
+    moulin_position_repos();
+    bras_droit_repos();
+    bras_gauche_repos();
+    ferme_porte_empileur();
 }

@@ -11,8 +11,12 @@ void init_empileur()
 	init_rupteur_moteur();
 }
 
-void moteur_empileur_set_hauteur() {
+void set_PWM_moteur_empileur(float pwm, int direction) {
 
+}
+
+int rupteur_empileur_is_pushed() {
+	return 1;
 }
 
 void init_moteur_empileur() {

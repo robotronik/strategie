@@ -5,7 +5,8 @@
 
 void init_empileur();
 
-void moteur_empileur_set_hauteur();
+void set_PWM_moteur_empileur(float pwm, int direction);
+int rupteur_empileur_is_pushed();
 
 
 #endif

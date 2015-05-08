@@ -1,43 +1,46 @@
 #ifndef ACTIONNEURS_H
 #define ACTIONNEURS_H
 
-#define PERIMETRE_MAX   1500
-#define PERIMETRE_BASE  1000    // ?
-#define PERIMETRE_ADD_EMPILEUR_OUVERT       200 // ?
-
-// Périmètre ajouté pendant l'ouverture
-#define PERIMETRE_ADD_BRAS_OUVERTURE        500 // ?
-// Périmètre ajouté en "position de repos" pour les différentes actions.
-// Utilisé pour savoir si on peut ouvrir un autre actionneur en même temps.
-#define PERIMETRE_ADD_BRAS_POSITION_NEUTRE  500 // ?
-#define PERIMETRE_ADD_BRAS_POSITION_CLAPS   500 // ?
-#define PERIMETRE_ADD_BRAS_POSITION_VERRE   500 // ?
+typedef enum
+{
+	PORTE_EMPILEUR,
+	BRAS_DROIT,
+	BRAS_GAUCHE
+} e_actionneur;
 
 void init_actionneurs();
 
-// Empileur
-// // Porte
-int empileur_porte_ouvre();
-int empileur_porte_ferme();
-// // Monte-pieds
-int empileur_monteur_descend();
-int empileur_monteur_monte_un_pied();
-int empileur_monteur_prend_une_ampoule();
 
-// Bras latéraux
-int bras_droit_ferme();
-int bras_droit_position_clap();
-int bras_droit_coince_verre();
-int bras_droit_libere_verre();
+//etat
+int something_is_open();
+e_actionneur actionneur_ouvert();
+un_gobelet_est_saisi();
 
+//empileur
+	//porte
+int ouvre_porte_empileur();
+void ferme_porte_empileur();
+	//ascenseur
+void monte_pied();
+void ascenseur_position_prise_balle();;
+void descend_ascenseur();
 
-int bras_gauche_ferme();
+//bras gauche
+void bras_gauche_repos();
 int bras_gauche_position_clap();
-int bras_gauche_coince_verre();
-int bras_gauche_libere_verre();
+int bras_gauche_position_prise_gobelet();
+int bras_gauche_coince_gobelet();
+int bras_gauche_libere_gobelet();
 
+//bras droit
+void bras_droit_repos();
+int bras_droit_position_clap();
+int bras_droit_position_prise_gobelet();
+int bras_droit_coince_gobelet();
+int bras_droit_libere_gobelet();
 
-// Attrape-popcorns
-int attrape_popcorns_tourne(int position);
+//moulin
+void prend_pop_corn();
+void libere_pop_corn();
 
 #endif
