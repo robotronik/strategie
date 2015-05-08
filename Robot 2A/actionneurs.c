@@ -1,6 +1,15 @@
 #include "actionneurs.h"
+#include "/LowLevel/empileur.h"
+#include "/LowLevel/empileur.h"
 
 int perimetre_actuel = PERIMETRE_BASE;
+
+//init
+void init_actionneurs()
+{
+    init_all_servo();
+    init_moteur_empileur();
+}
 
 // Empileur
 // // Porte

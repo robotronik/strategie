@@ -13,6 +13,8 @@
 #define PERIMETRE_ADD_BRAS_POSITION_CLAPS   500 // ?
 #define PERIMETRE_ADD_BRAS_POSITION_VERRE   500 // ?
 
+void init_actionneurs();
+
 // Empileur
 // // Porte
 int empileur_porte_ouvre();
