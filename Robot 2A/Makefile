@@ -1,4 +1,14 @@
 
+# Options prises en compte :
+#    SDL=yes       pour utiliser le simulateur
+#    DEBUG=yes     pour activer le debug
+
+# Cibles :
+#    run: lance l'executable
+#    all: créer l'executable
+#    demo: lance un ensemble de commande au robot
+
+################################################################################
 # Variables de compilation
 
 CC = gcc
@@ -8,10 +18,9 @@ LDFLAGS = -lm
 
 # Variables d'environnement
 EXEC = strategie_robot
-CARTO_DIR = ../../cartographie/
-CARTO_LIB = libCARTOGRAPHIE.a
-CARTO_LIB_FULL_PATH = $(CARTO_DIR)$(CARTO_LIB)
-CARTO_HEADER = pathfinding.h
+CARTO_HEADER = ../../cartographie/pathfinding.h
+STM32_Dir = ../../stm32f407/
+
 
 # options
 DEBUG = yes
@@ -28,34 +37,46 @@ SOURCEFILES=main.c $(SOURCES) $(HEADERS)
 
 
 ifeq ($(DEBUG),yes)
-	CFLAGS += -DDEBUG=1 -g
+	DEBUGFLAGS += -DDEBUG=1 -g
+else
+	DEBUGFLAGS += -DDEBUG=0
 endif
 
 ################################################################################
 
-.PHONY:view
+all:
+	make -C $(STM32_Dir) $@
 
-view: all
-	./$(EXEC)
+##### Envoi du binaire sur le STM32
+flash: 
+	make -C $(STM32_Dir) $@
 
-all: $(EXEC)
+##### Débug
+debug:
+	make -C $(STM32_Dir) $@
 
-$(EXEC): $(OBJECTS) $(CARTO_LIB_FULL_PATH)
-	$(CC) $(CFLAGS) -o $@ $^ $(CARTO_LIB_FULL_PATH) $(LDFLAGS)
+debug1:
+	make -C $(STM32_Dir) $@
 
-$(CARTO_LIB_FULL_PATH):
-	cd $(CARTO_DIR) && make $(CARTO_LIB) SDL=no DEBUG=$(DEBUG)
+debug2:
+	make -C $(STM32_Dir) $@
 
-%.o: %.cd
-	$(CC) $(CFLAGS) -o $@ -c $<
+
+
+##### Création du .a nécessaire au stm32
+libStrategie.a: $(OBJECTS)
+	$(AR) -r $@ $(OBJECTS)
+	ranlib $@
+
+%.o: %.c
+	$(CC) $(CFLAGS) $(DEBUGFLAG) -o $@ -c $<
 
 tarall: $(SOURCEFILES)
 	tar -jcvf $(EXEC).tar.bz2 $^
 
+.PHONY: clean
 clean:
 	rm -f $(OBJECTS)
 
 mrproper: clean
 	rm -rf $(EXEC) $(EXEC).tar.bz2
-	cd $(CARTO_DIR) && make clean
-	
