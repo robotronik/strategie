@@ -1,82 +1,142 @@
 #include "actionneurs.h"
+#include "Calibration/Servos/reglage_servos.h"
 #include "/LowLevel/empileur.h"
 #include "/LowLevel/empileur.h"
 
-int perimetre_actuel = PERIMETRE_BASE;
+
+int porte_empileur_is_open;
+int bras_droit_is_rised;
+int bras_gauche_is_rised;
 
 //init
 void init_actionneurs()
 {
     init_all_servo();
     init_empileur();
+    init_protection_perimetre();
 }
 
-// Empileur
-// // Porte
-int empileur_porte_ouverte = 0;
-int empileur_porte_ouvre() {
-    if (!empileur_porte_ouverte
-        && (perimetre_actuel+PERIMETRE_ADD_EMPILEUR_OUVERT)<PERIMETRE_MAX ) {
-        // On ouvre l'empileur
-        perimetre_actuel += PERIMETRE_ADD_EMPILEUR_OUVERT;
-        empileur_porte_ouverte = 1;
-        return 0;
-    }
-    return 1;
-}
-int empileur_porte_ferme() {
-    // On ferme l'empileur
-    if (empileur_porte_ouverte) {
-        perimetre_actuel -= PERIMETRE_ADD_EMPILEUR_OUVERT;
-        empileur_porte_ouverte = 0;
-        return 0;
-    }
-    return 1;
-}
-// // Monte-pieds
-int empileur_monteur_descend() {
-    return 1;
-}
-int empileur_monteur_monte_un_pied() {
-    return 1;
-}
-int empileur_monteur_prend_une_ampoule() {
-    return 1;
+int something_is_open()
+{
+    retour= porte_empileur_is_open||bras_gauche_is_rised||bras_gauche_is_rised;
+    return retour;
 }
 
+//empileur
+int ouvre_porte_empileur()
+{
+    if(something_is_open)
+        return 1;
+    porte_empileur_is_open=1;
+    porte_empileur_set_angle(ANGLE_OUVERTURE_PORTE);
+    return 0;
 
-// Bras latéraux
-int bras_droit_position = 0;
-int bras_droit_ferme() {
-    return 1;
-}
-int bras_droit_position_clap() {
-    return 1;
-}
-int bras_droit_coince_verre() {
-    return 1;
-}
-int bras_droit_libere_verre() {
-    return 1;
 }
 
-
-int bras_gauche_position = 0;
-int bras_gauche_ferme() {
-    return 1;
-}
-int bras_gauche_position_clap() {
-    return 1;
-}
-int bras_gauche_coince_verre() {
-    return 1;
-}
-int bras_gauche_libere_verre() {
-    return 1;
+void ferme_porte_empileur()
+{
+    porte_empileur_set_angle(ANGLE_FERMETURE_PORTE);
+    porte_empileur_is_open=0;
 }
 
+//bras gauche
+void bras_gauche_repos()
+{
+    bras_gauche_set_angle(ANGLE_REPOS_BRAS_GAUCHE);
+    bras_gauche_is_rised=0;
+}
 
-// Attrape-popcorns
-int attrape_popcorns_tourne(int position) {
-    return 1;
+int bras_gauche_position_clap()
+{
+    if(porte_empileur_is_open || bras_droit_is_rised)
+        return 1;
+    bras_gauche_is_rised=1;
+    bras_gauche_set_angle(ANGLE_CLAP_BRAS_DROIT);
+    return 0;
+}
+
+int bras_gauche_position_prise_gobelet()
+{
+     if(porte_empileur_is_open || bras_droit_is_rised)
+        return 1;
+    bras_gauche_is_rised=1;
+    bras_gauche_set_angle(ANGLE_GOBELET_LIBRE_BRAS_GAUCHE);
+    return 0;   
+}
+
+int bras_gauche_coince_gobelet()
+{
+     if(porte_empileur_is_open || bras_droit_is_rised)
+        return 1;
+    bras_gauche_is_rised=1;
+    bras_gauche_set_angle(ANGLE_GOBELET_COINCE_BRAS_GAUCHE);
+    /*wait();
+    bras_gauche_set_angle(ANGLE_GOBELET_LIBRE_BRAS_GAUCHE);
+    wait();
+    bras_gauche_set_angle(ANGLE_GOBELET_COINCE_BRAS_GAUCHE);*/
+    return 0;   
+}
+
+int bras_gauche_libere_gobelet()
+{
+     if(porte_empileur_is_open || bras_droit_is_rised)
+        return 1;
+    bras_gauche_is_rised=1;
+    bras_gauche_set_angle(ANGLE_GOBELET_LIBRE_BRAS_GAUCHE);
+    return 0; 
+}
+
+//bras droit
+void bras_droit_repos()
+{
+    bras_droit_set_angle(ANGLE_REPOS_BRAS_DROIT);
+    bras_droit_is_rised=0;
+}
+
+int bras_droit_position_clap()
+{
+    if(porte_empileur_is_open || bras_gauche_is_rised)
+        return 1;
+    bras_droit_is_rised=1;
+    bras_droit_set_angle(ANGLE_CLAP_BRAS_DROIT);
+    return 0;
+}
+
+int bras_droit_position_prise_gobelet()
+{
+     if(porte_empileur_is_open || bras_gauche_is_rised)
+        return 1;
+    bras_droit_is_rised=1;
+    bras_droit_set_angle(ANGLE_GOBELET_LIBRE_BRAS_DROIT);
+    return 0;   
+}
+
+int bras_droit_coince_gobelet()
+{
+     if(porte_empileur_is_open || bras_gauche_is_rised)
+        return 1;
+    bras_droit_is_rised=1;
+    bras_droit_set_angle(ANGLE_GOBELET_COINCE_BRAS_DROIT);
+    /*wait();
+    bras_droit_set_angle(ANGLE_GOBELET_LIBRE_BRAS_DROIT);
+    wait();
+    bras_droit_set_angle(ANGLE_GOBELET_COINCE_BRAS_DROIT);*/
+    return 0;   
+}
+
+int bras_droit_libere_gobelet()
+{
+     if(porte_empileur_is_open || bras_gauche_is_rised)
+        return 1;
+    bras_droit_is_rised=1;
+    bras_droit_set_angle(ANGLE_GOBELET_LIBRE_BRAS_DROIT);
+    return 0; 
+}
+
+//init
+void init_protection_perimetre()
+{
+    int porte_empileur_is_open=0;
+    int bras_droit_is_rised=0;
+    int bras_gauche_is_rised=0;
 }
