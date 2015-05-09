@@ -71,11 +71,13 @@ debug2:
 
 ##### Création du .a nécessaire au stm32
 libStrategie.a: $(OBJECTS)
-	$(AR) -r $@ $(OBJECTS)
-	ranlib $@
+	@echo "	AR	$@"
+	@$(AR) -r $@ $(OBJECTS)
+	@echo "	RANLIB	$@"
+	@ranlib $@
 
 %.o: %.c
-	@echo "    CC  $@"
+	@echo "	CC	$@"
 	@$(CC) $(CFLAGS) $(DEBUGFLAGS) -o $@ -c $<
 
 ##### Nettoyage
