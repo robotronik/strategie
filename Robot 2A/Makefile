@@ -42,9 +42,9 @@ SOURCEFILES=main.c $(SOURCES) $(HEADERS)
 
 
 ifeq ($(DEBUG),yes)
-	DEBUGFLAGS += -DDEBUG=1 -g
+	DEBUGFLAGS = -DDEBUG=1 -g
 else
-	DEBUGFLAGS += -DDEBUG=0
+	DEBUGFLAGS = -DDEBUG=0
 endif
 
 ################################################################################
@@ -74,7 +74,7 @@ libStrategie.a: $(OBJECTS)
 	ranlib $@
 
 %.o: %.c
-	$(CC) $(CFLAGS) $(DEBUGFLAG) -o $@ -c $<
+	$(CC) $(CFLAGS) $(DEBUGFLAGS) -o $@ -c $<
 
 tarall: $(SOURCEFILES)
 	tar -jcvf $(EXEC).tar.bz2 $^
