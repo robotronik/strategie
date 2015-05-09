@@ -18,11 +18,11 @@ int find_path_to(int x, int y) {
     int path_found = pathfinding(x_actuel, y_actuel, x, y);
     switch(path_found) {
         case -1: 
-            debug("Il y a eu une erreur dans l'algorithme, à débugger !\n");
+            debug(0, "Il y a eu une erreur dans l'algorithme, à débugger !\n");
             manage_carto_system_errors();
             return -1;
         case  0:
-            debug("Pas de chemin trouvé…\n");
+            debug(1, "Pas de chemin trouvé…\n");
             return  0;
     }
     x_futur = x;
@@ -42,7 +42,7 @@ void manage_carto_system_errors() {
 void affiche_chemin() {
     int i;
     for (i = 0; i < found_path_length; ++i)
-        debug("%d -- %d\n", found_path[i][0], found_path[i][1]);
+        debug(3, "%d -- %d\n", found_path[i][0], found_path[i][1]);
 
 }
 void execute_chemin() {
