@@ -41,6 +41,7 @@ e_actionneur actionneur_ouvert()
         return BRAS_DROIT;
     if (bras_gauche_is_risen)
         return BRAS_GAUCHE;
+    return NOTHING;
 }
 
 int un_gobelet_est_saisi()
