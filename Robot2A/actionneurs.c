@@ -30,18 +30,17 @@ void init_actionneurs()
 
 int something_is_open()
 {
-    retour= porte_empileur_is_open||bras_gauche_is_risen||bras_gauche_is_risen;
-    return retour;
+    return porte_empileur_is_open||bras_gauche_is_risen||bras_gauche_is_risen;
 }
 
 e_actionneur actionneur_ouvert()
 {
-    if porte_empileur_is_open
-        return PORTE_EMPILEAR
-    if bras_droit_is_risen
-        return BRAS_DROIT
-    if bras_gauche_is_risen
-        return BRAS_GAUCHE
+    if (porte_empileur_is_open)
+        return PORTE_EMPILEUR;
+    if (bras_droit_is_risen)
+        return BRAS_DROIT;
+    if (bras_gauche_is_risen)
+        return BRAS_GAUCHE;
 }
 
 int un_gobelet_est_saisi()
@@ -87,7 +86,7 @@ void monte_pied()
     ascenseur_en_position_balle=0;
 }
 
-void ascenseur_position_prise_balle();
+void ascenseur_position_prise_balle()
 {
     descend_ascenseur();
     set_PWM_moteur_empileur(PWM_MOTEUR,DIR_MONTEE);
@@ -97,7 +96,7 @@ void ascenseur_position_prise_balle();
 
 }
 
-void descend_ascenseur();
+void descend_ascenseur()
 {
     set_PWM_moteur_empileur(PWM_MOTEUR,DIR_DESCENTE);
     while(!rupteur_empileur_is_pushed()){;}

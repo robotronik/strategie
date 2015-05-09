@@ -1,4 +1,5 @@
 #include "../../mapping/PWM.h"
+#include "../../../stm32f407/headers/servo.h"
 
 void init_bras_gauche();
 void init_bras_droit();
