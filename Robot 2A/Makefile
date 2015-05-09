@@ -29,6 +29,11 @@ DEBUG = yes
 
 SOURCES=main.c \
 		actionneurs.c \
+		communication.c \
+		LowLevel/capteurIR.c \
+		LowLevel/capteurUS.c \
+		LowLevel/empileur.c \
+		LowLevel/servos.c \
 
 HEADERS=$(SOURCES:.c=.h)
 OBJECTS=$(SOURCES:.c=.o)
@@ -77,6 +82,10 @@ tarall: $(SOURCEFILES)
 .PHONY: clean
 clean:
 	rm -f $(OBJECTS)
+
+cleanAll:
+	make -C $(STM32_Dir) clean
+
 
 mrproper: clean
 	rm -rf $(EXEC) $(EXEC).tar.bz2
