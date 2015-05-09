@@ -75,18 +75,18 @@ libStrategie.a: $(OBJECTS)
 	ranlib $@
 
 %.o: %.c
-	$(CC) $(CFLAGS) $(DEBUGFLAGS) -o $@ -c $<
+	@echo "    CC  $@"
+	@$(CC) $(CFLAGS) $(DEBUGFLAGS) -o $@ -c $<
 
-tarall: $(SOURCEFILES)
-	tar -jcvf $(EXEC).tar.bz2 $^
+##### Nettoyage
+.PHONY: clean cleanDist cleanLib bclean mrproper
 
-.PHONY: clean
 clean:
 	rm -f $(OBJECTS)
+	rm -f libStrategie.a
 
-cleanAll:
-	make -C $(STM32_Dir) clean
+cleanDist: clean
+	$(MAKE) -C $(STM32_Dir) clean
 
-
-mrproper: clean
-	rm -rf $(EXEC) $(EXEC).tar.bz2
+bclean:
+	$(MAKE) -C $(STM32_Dir) $@
