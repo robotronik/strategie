@@ -20,7 +20,7 @@ void set_PWM_moteur_empileur(float pwm, int direction) {
 }
 
 int rupteur_empileur_is_pushed() {
-	return !read_pin(IO4_PORT, IO4_PIN);;
+	return !read_pin(IO4_PORT, IO4_PIN);
 }
 
 void init_moteur_empileur() {
