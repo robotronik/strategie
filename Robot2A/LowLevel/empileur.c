@@ -24,7 +24,7 @@ int rupteur_pied_empileur_is_pushed() {
 }
 
 int rupteur_moteur_empileur_is_pushed() {
-	return !read_pin(IO4_PORT, IO4_PIN);
+	return !read_pin(IO5_PORT, IO5_PIN);
 }
 
 void init_moteur_empileur() {
