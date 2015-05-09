@@ -20,21 +20,21 @@ void init_all_servo() {
 }
 
 
-int bras_gauche_set_angle(int angle) {
+void bras_gauche_set_angle(int angle) {
     set_position_servo(angle, &servo_bras_gauche);
 }
 
 
-int bras_droit_set_angle(int angle) {
+void bras_droit_set_angle(int angle) {
     set_position_servo(angle, &servo_bras_droit);
 }
 
 
-int porte_empileur_set_angle(int angle) {
+void porte_empileur_set_angle(int angle) {
     set_position_servo(angle, &servo_porte_empileur);
 }
 
-int attrape_popcorns_set_angle(int angle) {
+void attrape_popcorns_set_angle(int angle) {
     set_position_servo(angle, &servo_attrape_popcorns);
 }
 

@@ -4,9 +4,9 @@
 void init_all_servo();
 
 
-int bras_gauche_set_angle(int angle);
-int bras_droit_set_angle(int angle);
-int porte_empileur_set_angle(int angle);
-int attrape_popcorns_set_angle(int angle);
+void bras_gauche_set_angle(int angle);
+void bras_droit_set_angle(int angle);
+void porte_empileur_set_angle(int angle);
+void attrape_popcorns_set_angle(int angle);
 
 #endif
