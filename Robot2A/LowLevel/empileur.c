@@ -1,6 +1,6 @@
-#include "../../IO_pinout.h"
+#include "../../mapping/IO_pinout.h"
 #include "../../../stm32f407/headers/GPIO.h"
-
+#include "utilities.h"
 
 // Low-level pour la gestion du moteur de l'empileur
 
@@ -24,7 +24,7 @@ int rupteur_empileur_is_pushed() {
 }
 
 void init_moteur_empileur() {
-	init_pin_mode(DIR_MOT1_PORT, DIR_MOT1_PIN, GPIO_MODE_OUTPUT, GPIO_NOLLUP);
+	init_pin_mode(DIR_MOT1_PORT, DIR_MOT1_PIN, GPIO_MODE_OUTPUT_PP, GPIO_NOPULL);
 	//TODO : init PWM_MOT1
 }
 
