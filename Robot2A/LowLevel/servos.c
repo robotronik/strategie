@@ -1,4 +1,4 @@
-#include "../../mapping/PWM.h"
+#include "../../mapping/PWM_pinout.h"
 #include "../../../stm32f407/headers/servo.h"
 
 void init_bras_gauche();
