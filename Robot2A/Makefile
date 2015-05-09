@@ -11,10 +11,7 @@
 ################################################################################
 # Variables de compilation
 
-CC = gcc
-AR = ar
-CFLAGS  = -W -Wall -fdiagnostics-color=auto -std=c99
-LDFLAGS = -lm
+include ../../stm32f407/stm32f407.mk
 
 # Variables d'environnement
 EXEC = strategie_robot
