@@ -14,7 +14,7 @@ void init_actionneurs();
 //etat
 int something_is_open();
 e_actionneur actionneur_ouvert();
-un_gobelet_est_saisi();
+int un_gobelet_est_saisi();
 
 //empileur
 	//porte
