@@ -4,6 +4,7 @@
 #include "Calibration/reglages_moulin.h"
 #include "LowLevel/empileur.h"
 #include "LowLevel/empileur.h"
+#include "utilities.h"
 
 void init_protection_perimetre();
 void init_position_actionneurs();
@@ -100,7 +101,7 @@ void ascenseur_position_prise_balle()
 void descend_ascenseur()
 {
     set_PWM_moteur_empileur(PWM_MOTEUR,DIR_DESCENTE);
-    while(!rupteur_empileur_is_pushed()){;}
+    while(!rupteur_moteur_empileur_is_pushed()){;}
     stop_ascenseur();
     ascenseur_en_position_balle=0;
 }
