@@ -51,7 +51,7 @@ endif
 ################################################################################
 
 all:
-	make -C $(STM32_Dir) $@
+	@make -s -C $(STM32_Dir) $@
 
 ##### Envoi du binaire sur le STM32
 flash: 
