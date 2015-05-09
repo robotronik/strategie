@@ -19,6 +19,10 @@ CARTO_HEADER = ../../cartographie/pathfinding.h
 STM32_Dir = ../../stm32f407/
 
 
+# Chemin du dépôt stm32f407
+# /!\ Doit être le chemin absolu. Pas relatif.
+PathSTM32 = ../../stm32f407/
+
 # options
 DEBUG = yes
 
