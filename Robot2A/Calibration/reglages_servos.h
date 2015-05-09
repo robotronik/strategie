@@ -2,8 +2,8 @@
 #define REGLAGE_SERVOS_H
 
 //Porte (inverser les deux valeurs ?)
-#define ANGLE_OUVERTURE_PORTE 105
-#define ANGLE_FERMETURE_PORTE 15
+#define ANGLE_OUVERTURE_PORTE 88
+#define ANGLE_FERMETURE_PORTE 2
 
 //Bras droit
 #define ANGLE_CLAP_BRAS_DROIT 35
