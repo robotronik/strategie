@@ -4,6 +4,7 @@
 
 #include "../../cartographie/cartographie.h"
 #include "../../common_code/debug.h"
+#include "utilities.h"
 
 int x_actuel = 300;
 int y_actuel = 1000;
