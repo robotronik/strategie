@@ -1,6 +1,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "../../cartographie/cartographie.h"
 #include "../../common_code/uart_emission.h"
@@ -21,6 +22,9 @@
 //#include "../../mapping/PWM_pinout.h"
 #include "../../stm32f407/headers/servo.h"
 
+//test uart
+#include "../../stm32f407/headers/UART.h"
+
 s_PWM moteur_empileur;
 Servo_t servo_porte_empileur;
 
@@ -28,6 +32,26 @@ int mainStrategie() {
     init_actionneurs();
     test_led();
 
+    //test de l'uart asser
+    init_UART_Asser(&UART_Asser);
+    Delay(10);
+    char* message1 ="x=0\n";
+    UART_send_message_asser(message1, strlen(message1));
+    char* message2 ="y=2000\n";
+    UART_send_message_asser(message2, strlen(message2));
+    char* message3 ="xy_absolu()\n";
+    UART_send_message_asser(message3, strlen(message3));
+    Delay(100);
+    while(1);
+
+    //test de l'uart_asser
+    //init_UART_Asser(&UART_Asser);
+    /*while(1)
+    {
+        //send_word(&UART_Asser,"I'm alive");
+        //UART_send_message("I'm alive");
+        Delay(100);
+    }*/
     //test du bras droit
     /*while(1) {
         bras_droit_position_clap();
@@ -66,14 +90,14 @@ int mainStrategie() {
     }*/
 
     //test de l'empileur
-    while(1)
+    /*while(1)
     {
         if (rupteur_pied_empileur_is_pushed()) {
             descend_ascenseur();
             Delay(100);
             monte_pied();
         }
-    }
+    }*/
 
     /*x_futur = x_actuel;
     y_futur = y_actuel;
