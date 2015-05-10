@@ -3,7 +3,7 @@
 #include "Calibration/reglages_ascenseur.h"
 #include "Calibration/reglages_moulin.h"
 #include "LowLevel/empileur.h"
-#include "LowLevel/empileur.h"
+#include "LowLevel/servos.h"
 #include "utilities.h"
 
 void init_protection_perimetre();
@@ -24,6 +24,7 @@ void init_actionneurs()
     init_empileur();
     init_protection_perimetre();
     init_position_actionneurs();
+    //descend_ascenseur();
 }
 
 
@@ -72,17 +73,18 @@ void ferme_porte_empileur()
 //ascenseur
 void stop_ascenseur()
 {
-    set_PWM_moteur_empileur(0,0);
+    //set_PWM_moteur_empileur(1,1);
+    stop_moteur_empileur();
 }
 
 void monte_pied()
 {
     set_PWM_moteur_empileur(PWM_MOTEUR,DIR_MONTEE);
     if(ascenseur_en_position_balle) {
-        //wait(TPS_MONTEE_PIED-TPS_MONTEE_BALLE);
+        Delay(TPS_MONTEE_PIED-TPS_MONTEE_BALLE);
     }
     else {
-        //wait(TPS_MONTEE_PIED);      
+        Delay(TPS_MONTEE_PIED);
     }
     stop_ascenseur();
     ascenseur_en_position_balle=0;
@@ -92,7 +94,7 @@ void ascenseur_position_prise_balle()
 {
     descend_ascenseur();
     set_PWM_moteur_empileur(PWM_MOTEUR,DIR_MONTEE);
-    //wait(TPS_MONTEE_BALLE);
+    Delay(TPS_MONTEE_BALLE);
     stop_ascenseur();
     ascenseur_en_position_balle=1;
 
@@ -101,7 +103,7 @@ void ascenseur_position_prise_balle()
 void descend_ascenseur()
 {
     set_PWM_moteur_empileur(PWM_MOTEUR,DIR_DESCENTE);
-    while(!rupteur_moteur_empileur_is_pushed()){;}
+    while(!rupteur_moteur_empileur_is_pushed());
     stop_ascenseur();
     ascenseur_en_position_balle=0;
 }
@@ -119,7 +121,7 @@ int bras_gauche_position_clap()
     if(porte_empileur_is_open || bras_droit_is_risen)
         return 1;
     bras_gauche_is_risen=1;
-    bras_gauche_set_angle(ANGLE_CLAP_BRAS_DROIT);
+    bras_gauche_set_angle(ANGLE_CLAP_BRAS_GAUCHE);
     return 0;
 }
 
