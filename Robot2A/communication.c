@@ -1,4 +1,4 @@
-
+/*
 int x_actuel = 300;
 int y_actuel = 1000;
 
@@ -43,3 +43,4 @@ void execute_chemin() {
     x_actuel = x_futur;
     y_actuel = y_futur;
 }
+*/
