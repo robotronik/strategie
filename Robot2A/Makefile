@@ -24,7 +24,7 @@ STM32_Dir = ../../stm32f407/
 PathSTM32 = ../../stm32f407/
 
 # options
-DEBUG = yes
+DEBUG = no
 
 ################################################################################
 
@@ -73,11 +73,13 @@ debug2:
 ##### Création du .a nécessaire au stm32
 libStrategie.a: $(OBJECTS)
 	@echo "	AR	$@"
-	@$(LD) -r $(OBJECTS) -o $@
+	@$(AR) -r $@  $(OBJECTS)
+	@echo "	RANLIB	$@"
+	@ranlib   $@
 
 %.o: %.c
 	@echo "	CC	$@"
-	@$(CC) $(CFLAGS) $(DEBUGFLAGS) -o $@ -c $<
+	@$(CC) $(GCCFLAGS) $(DEBUGFLAGS) -o $@ -c $<
 
 ##### Nettoyage
 .PHONY: clean cleanDist cleanLib bclean mrproper
