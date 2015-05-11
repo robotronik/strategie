@@ -4,7 +4,7 @@
 #include <string.h>
 
 #include "../../cartographie/cartographie.h"
-#include "../../common_code/uart_emission.h"
+//#include "../../common_code/uart_emission.h"
 #include "../../common_code/debug.h"
 #include "actionneurs.h"
 #include "utilities.h"
@@ -25,14 +25,41 @@
 //test uart
 #include "../../stm32f407/headers/UART.h"
 
+//#include "actions.h"
+
 s_PWM moteur_empileur;
 Servo_t servo_porte_empileur;
+
+void gestion_capteurs()
+{
+    //TODO
+
+}
+void gestion_rupteurs()
+{
+    //TODO
+}
+
+void gestion_communication()
+{
+    set_asser_done();
+}
 
 int mainStrategie() {
     init_actionneurs();
     test_led();
+    init_UART_Asser(&UART_Asser);
+    Delay(10);
 
-    //test de l'uart asser
+    while(1)
+    {
+        gestion_capteurs();
+        gestion_rupteurs();
+        gestion_communication();
+        gestion_actions();
+    }
+
+    /*//test de l'uart asser
     init_UART_Asser(&UART_Asser);
     Delay(10);
     char* message1 ="x=0\n";
@@ -42,7 +69,7 @@ int mainStrategie() {
     char* message3 ="xy_absolu()\n";
     UART_send_message_asser(message3, strlen(message3));
     Delay(100);
-    while(1);
+    while(1);*/
 
     //test de l'uart_asser
     //init_UART_Asser(&UART_Asser);

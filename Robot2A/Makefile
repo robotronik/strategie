@@ -35,6 +35,7 @@ SOURCES=main.c \
 		LowLevel/capteurUS.c \
 		LowLevel/empileur.c \
 		LowLevel/servos.c \
+		actions.c \
 
 HEADERS=$(SOURCES:.c=.h)
 OBJECTS=$(SOURCES:.c=.o)
@@ -72,9 +73,7 @@ debug2:
 ##### Création du .a nécessaire au stm32
 libStrategie.a: $(OBJECTS)
 	@echo "	AR	$@"
-	@$(AR) -r $@ $(OBJECTS)
-	@echo "	RANLIB	$@"
-	@ranlib $@
+	@$(LD) -r $(OBJECTS) -o $@
 
 %.o: %.c
 	@echo "	CC	$@"
