@@ -25,7 +25,7 @@
 //test uart
 #include "../../stm32f407/headers/UART.h"
 
-//#include "actions.h"
+#include "actions.h"
 
 s_PWM moteur_empileur;
 Servo_t servo_porte_empileur;
@@ -47,10 +47,15 @@ void gestion_communication()
 
 int mainStrategie() {
     init_actionneurs();
-    test_led();
+    init_RTC();
+        test_led();
+    //demarre_alarme_90secondes();
+
     init_UART_Asser(&UART_Asser);
     Delay(10);
+    inverse_couleur();
 
+    char* auie;
     while(1)
     {
         gestion_capteurs();

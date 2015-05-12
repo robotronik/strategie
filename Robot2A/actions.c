@@ -13,13 +13,14 @@ static int asser_done=1;
 
 static int milestones[40][3]=
 {
-	{DELTA,800,0},
+	{DELTA,500,0},
 	{THETA,-1571,0},
-	{DELTA,800,0},
+	{DELTA,740,0},
+	{THETA,0,0},
+	{CLAP_OUVRE_D,0,0},
+	{DELTA,250,0},
 	{THETA,1571,0},
-	{CLAP_OUVRE_G,0,0},
-	{DELTA,200,0},
-	{CLAP_FERME_D,0,0}, //
+	{CLAP_FERME_D,0,0},
 	{FIN,0,0}
 };
 
@@ -96,8 +97,8 @@ void inverse_couleur()
 
 void gestion_actions()
 {
-	char buff[33];
-	int length;
+	//char buff[33];
+	//int length;
 	if (!asser_done)
 		return;
 
@@ -105,28 +106,32 @@ void gestion_actions()
 	{
 		//déplacement
 		case XY :
+			send_val(s2a_keys[S2A_KEY_X], milestones[cpt][1]);
+			send_val(s2a_keys[S2A_KEY_Y], milestones[cpt][1]);
+			send_fonction(s2a_keys[S2A_FCT_XY_ABSOLU]);
+			Delay(2000);
 			//TODO
 			break;
 		case ALPHA :
+			send_val(s2a_keys[S2A_KEY_ALPHA], milestones[cpt][1]);
+			send_val(s2a_keys[S2A_KEY_DELTA], 0);
+			send_fonction(s2a_keys[S2A_FCT_ALPHA_DELTA]);
+			Delay(2000);
 			//TODO
 			break;
+
 		case DELTA :
-			UART_send_message_asser("delta=800\n",strlen("delta=800\n"));
-			//int2str(milestones[cpt][1],buff);
-			//UART_send_message_asser(&buff, length);
-			length=sprintf(buff,"%d",milestones[cpt][1]);
-			//UART_send_message_asser(buff, length);
-			UART_send_message_asser("alpha=",strlen("alpha="));
-			UART_send_message_asser("0\n", 2);
-			UART_send_message_asser("alpha_delta()\n",strlen("alpha_delta()\n"));
-			Delay(10000);
+			send_val(s2a_keys[S2A_KEY_DELTA], milestones[cpt][1]);
+			send_val(s2a_keys[S2A_KEY_ALPHA], 0);
+			send_fonction(s2a_keys[S2A_FCT_ALPHA_DELTA]);
+			Delay(2000);
 			asser_done=0;
 			break;
+			
 		case THETA :
-			UART_send_message_asser("theta=\n",strlen("theta=\n"));
-			//length=sprintf(buff,"%d",milestones[cpt][1]);
-			//UART_send_message_asser(buff, length);
-			UART_send_message_asser("theta()\n",strlen("theta()\n"));
+			send_val(s2a_keys[S2A_KEY_THETA], milestones[cpt][1]);
+			send_fonction(s2a_keys[S2A_FCT_THETA]);
+			Delay(2000);
 			asser_done=0;
 			break;
 
@@ -190,12 +195,14 @@ void gestion_actions()
 
 		case FIN :
 			cpt--;
-			UART_send_message_asser("estop()\n",strlen("estop()\n"));
-			Delay(3600000); //on attend une heur parce on sait jamais ;)
+			send_cmd(s2a_keys[S2A_CMD_EMERGENCY_STOP]);
+			Delay(3600000); //on attend une heure parce on sait jamais ;)
 			break;
+
 	}
 	cpt++;
 }
+
 
 void set_asser_done()
 {
