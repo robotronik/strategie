@@ -24,6 +24,7 @@ typedef enum
 	FERME_PORTE_EMPILEUR,
 	PREND_POP_CORN,
 	VIDE_POP_CORN,
+	PAUSE,
 
 	FIN
 } e_action_type;

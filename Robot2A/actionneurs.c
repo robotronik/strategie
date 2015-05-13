@@ -228,15 +228,15 @@ void prend_pop_corn()
 
 void libere_pop_corn()
 {
-    /*int i;
-    for(i=ANGLE_REPOS_MOULIN,i>ANGLE_VIDE_POP_CORN,i--)
+    int i;
+    for(i=ANGLE_REPOS_MOULIN;i>ANGLE_VIDE_POP_CORN;i--)
     {
         attrape_popcorns_set_angle(i);
-        //wait(SLOW_VIDE_POP_CORN);
-    }*/
+        Delay(SLOW_VIDE_POP_CORN);
+    }
     attrape_popcorns_set_angle(ANGLE_VIDE_POP_CORN);
     //wait éventuel
-    moulin_position_repos();
+    //moulin_position_repos();
 }
 
 //============================= INIT INTERNE ================================//
