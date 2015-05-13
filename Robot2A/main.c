@@ -7,7 +7,7 @@
 //#include "../../common_code/uart_emission.h"
 #include "../../common_code/debug.h"
 #include "actionneurs.h"
-#include "utilities.h"
+//#include "utilities.h"
 #include "LowLevel/empileur.h"
 #include "../mapping/PWM_pinout.h"
 
@@ -27,12 +27,41 @@
 
 #include "actions.h"
 
+#define LIMIT_RANCHE 2500
+
 s_PWM moteur_empileur;
 Servo_t servo_porte_empileur;
 
+static int compteur=0;
+static int value=0;
+
 void gestion_capteurs()
 {
-    //TODO
+    compteur++;
+    if (compteur<10)
+    {
+        value=get_value_capt1();
+    }
+    if (compteur==10)
+    {
+        deinit_capteur1();
+        desactivate_sensor1();
+        init_capteur2();
+        activate_sensor2();
+    }
+    if(compteur>10)
+    {
+        value=get_value_capt2();
+    }
+    if (compteur==20)
+    {
+        deinit_capteur2();
+        desactivate_sensor2();
+        init_capteur1();
+        activate_sensor1();
+    }
+    compteur%=20;
+
 
 }
 void gestion_rupteurs()
@@ -56,11 +85,14 @@ int mainStrategie() {
     inverse_couleur();
 
     char* auie;
+            init_capteur1();
+        activate_sensor1();
     while(1)
     {
         gestion_capteurs();
         gestion_rupteurs();
         gestion_communication();
+        //test_led();
         gestion_actions();
     }
 
