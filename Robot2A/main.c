@@ -27,7 +27,7 @@
 
 #include "actions.h"
 
-#define LIMIT_RANCHE 2500
+#define LIMIT_RANGE 2500
 
 s_PWM moteur_empileur;
 Servo_t servo_porte_empileur;
@@ -62,6 +62,17 @@ void gestion_capteurs()
     }
     compteur%=20;
 
+    if (value<LIMIT_RANGE)
+    {
+        send_fonction("stop()");
+        init_GPIO_LED();
+        while(1)
+        {
+            HAL_GPIO_TogglePin(GPIOD, LED_ROUGE);
+            Delay(100);
+        }
+    }
+
 
 }
 void gestion_rupteurs()
@@ -83,7 +94,6 @@ int mainStrategie() {
     init_UART_Asser(&UART_Asser);
     Delay(10);
     inverse_couleur();
-
     char* auie;
             init_capteur1();
         activate_sensor1();
