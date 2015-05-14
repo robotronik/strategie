@@ -16,6 +16,7 @@ static int milestones[40][3]=
 {
 	{DELTA,500,0},
 	{PAUSE,2000,0},
+	{ARRET_CAPTEUR,0,0},
 	{THETA,-1571,0},
 	{PAUSE,2000,0},
 	{DELTA,740,0},
@@ -33,76 +34,6 @@ static int milestones[40][3]=
 	{FIN,0,0}
 };
 
-void inverse_couleur()
-{
-	int i=0;
-	while(milestones[i][0]!=FIN)
-	{
-		switch(milestones[i][1])
-		{
-			case XY :
-				//on inverse les valeurs pour x
-				//(l'axe des Y coupe la table en deux, on est dessus au départ)
-				milestones[i][1]=-milestones[i][1];
-				break;
-			case ALPHA :
-				//on inverse le sens de rotation
-				milestones[i][1]=-milestones[i][1];
-				break;
-			case DELTA :
-				//rien à faire
-				break;
-			case THETA :
-				//on inverse le sens de rotation
-				milestones[i][1]=-milestones[i][1];
-				break;
-			//surement moyen de faire ça plus propre
-			case CLAP_OUVRE_D :
-				milestones[i][0]=CLAP_OUVRE_G;
-				break;
-			case CLAP_FERME_D :
-				milestones[i][0]=CLAP_FERME_G;
-				break;
-			case CLAP_OUVRE_G :
-				milestones[i][0]=CLAP_OUVRE_D;
-				break;
-			case CLAP_FERME_G :
-				milestones[i][0]=CLAP_FERME_D;
-				break;
-			case GOBELET_OUVRE_D :
-				milestones[i][0]=GOBELET_OUVRE_G;
-				break;
-			case GOBELET_COINCE_D :
-				milestones[i][0]=GOBELET_COINCE_G;
-				break;
-			case GOBELET_LIBERE_D :
-				milestones[i][0]=GOBELET_LIBERE_G;
-				break;
-			case GOBELET_OUVRE_G :
-				milestones[i][0]=GOBELET_OUVRE_D;
-				break;
-			case GOBELET_COINCE_G :
-				milestones[i][0]=GOBELET_COINCE_D;
-				break;
-			case GOBELET_LIBERE_G :
-				milestones[i][0]=GOBELET_LIBERE_D;
-				break;
-
-			//rien à faire pour le reste
-			case OUVRE_PORTE_EMPILEUR :
-				break;
-			case FERME_PORTE_EMPILEUR :
-				break;
-			case PREND_POP_CORN :
-				break;
-			case VIDE_POP_CORN :
-				break;
-			case FIN :
-				break;
-		}
-		i++;
-	}
-}
 
 void pause(int ms)
 {
@@ -201,6 +132,13 @@ void gestion_actions()
 			cpt--;
 			break;
 
+
+			case ARRET_CAPTEUR :
+				set_arret_capteur(1);
+				HAL_NVIC_DisableIRQ(TIM5_IRQn);
+				set_all_led();
+				break;
+
 		case FIN :
 			cpt--;
 			send_cmd(s2a_keys[S2A_CMD_EMERGENCY_STOP]);
@@ -211,6 +149,81 @@ void gestion_actions()
 	cpt++;
 }
 
+
+void inverse_couleur()
+{
+	int i=0;
+	while(milestones[i][0]!=FIN)
+	{
+		switch(milestones[i][1])
+		{
+			case XY :
+				//on inverse les valeurs pour x
+				//(l'axe des Y coupe la table en deux, on est dessus au départ)
+				milestones[i][1]=-milestones[i][1];
+				break;
+			case ALPHA :
+				//on inverse le sens de rotation
+				milestones[i][1]=-milestones[i][1];
+				break;
+			case DELTA :
+				//rien à faire
+				break;
+			case THETA :
+				//on inverse le sens de rotation
+				milestones[i][1]=-milestones[i][1];
+				break;
+			//surement moyen de faire ça plus propre
+			case CLAP_OUVRE_D :
+				milestones[i][0]=CLAP_OUVRE_G;
+				break;
+			case CLAP_FERME_D :
+				milestones[i][0]=CLAP_FERME_G;
+				break;
+			case CLAP_OUVRE_G :
+				milestones[i][0]=CLAP_OUVRE_D;
+				break;
+			case CLAP_FERME_G :
+				milestones[i][0]=CLAP_FERME_D;
+				break;
+			case GOBELET_OUVRE_D :
+				milestones[i][0]=GOBELET_OUVRE_G;
+				break;
+			case GOBELET_COINCE_D :
+				milestones[i][0]=GOBELET_COINCE_G;
+				break;
+			case GOBELET_LIBERE_D :
+				milestones[i][0]=GOBELET_LIBERE_G;
+				break;
+			case GOBELET_OUVRE_G :
+				milestones[i][0]=GOBELET_OUVRE_D;
+				break;
+			case GOBELET_COINCE_G :
+				milestones[i][0]=GOBELET_COINCE_D;
+				break;
+			case GOBELET_LIBERE_G :
+				milestones[i][0]=GOBELET_LIBERE_D;
+				break;
+
+			//rien à faire pour le reste
+			case OUVRE_PORTE_EMPILEUR :
+				break;
+			case FERME_PORTE_EMPILEUR :
+				break;
+			case PREND_POP_CORN :
+				break;
+			case VIDE_POP_CORN :
+				break;
+
+			case ARRET_CAPTEUR :
+				break;
+
+			case FIN :
+				break;
+		}
+		i++;
+	}
+}
 
 void set_asser_done()
 {

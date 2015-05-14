@@ -26,6 +26,8 @@ typedef enum
 	VIDE_POP_CORN,
 	PAUSE,
 
+	ARRET_CAPTEUR,
+
 	FIN
 } e_action_type;
 

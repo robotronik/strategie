@@ -17,6 +17,7 @@
 #include "../../stm32f407/headers/GPIO.h"
 #include "../../stm32f407/headers/PWM.h"
 #include "utilities.h"
+#include "LowLevel/capteurUS.h"
 
 //test servo
 //#include "../../mapping/PWM_pinout.h"
@@ -27,42 +28,47 @@
 
 #include "actions.h"
 
-#define LIMIT_RANGE 2500
-
+static int compteur=0;
 s_PWM moteur_empileur;
 Servo_t servo_porte_empileur;
+int value=LIMIT_RANGE+100;
+int arret_capteur=0;
 
-static int compteur=0;
-static int value=0;
+void set_arret_capteur(int a)
+{
+    arret_capteur=a;
+}
 
 void gestion_capteurs()
 {
     compteur++;
-    if (compteur<10)
+    if (compteur<4)
     {
+        //nouvelle_valeur_captee_capteur1(get_value_capt1());
         value=get_value_capt1();
     }
-    if (compteur==10)
+    if (compteur==4)
     {
         deinit_capteur1();
         desactivate_sensor1();
         init_capteur2();
         activate_sensor2();
     }
-    if(compteur>10)
+    if(compteur>4 && compteur<8)
     {
+        //nouvelle_valeur_captee_capteur1(get_value_capt2());
         value=get_value_capt2();
     }
-    if (compteur==20)
+    if (compteur==8)
     {
         deinit_capteur2();
         desactivate_sensor2();
         init_capteur1();
         activate_sensor1();
     }
-    compteur%=20;
+    compteur%=8;
 
-    if (value<LIMIT_RANGE)
+    if (value < LIMIT_RANGE)
     {
         send_fonction("stop()");
         init_GPIO_LED();
@@ -92,14 +98,22 @@ int mainStrategie() {
     //demarre_alarme_90secondes();
 
     init_UART_Asser(&UART_Asser);
+    // Init tirette
+    init_pin_mode(IO1_PORT, IO1_PIN, GPIO_MODE_INPUT, GPIO_PULLUP);
     Delay(10);
     inverse_couleur();
     char* auie;
             init_capteur1();
         activate_sensor1();
+    while(read_pin(IO1_PORT, IO1_PIN));
+    Delay(10);
     while(1)
     {
-        gestion_capteurs();
+        if (!arret_capteur)
+        {
+            gestion_capteurs();
+                
+        }
         gestion_rupteurs();
         gestion_communication();
         //test_led();
