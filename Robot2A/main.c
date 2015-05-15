@@ -105,6 +105,7 @@ int mainStrategie() {
 
     init_UART_Asser(&UART_Asser);
     init_pin_mode(IO6_PORT, IO6_PIN, GPIO_MODE_INPUT, GPIO_PULLUP); //init du changement de couleur
+    init_pin_mode(IO7_PORT, IO7_PIN, GPIO_MODE_INPUT, GPIO_NOPULL); //pin de retour de l'asservissement
     // Init tirette
     Delay(10);
 
