@@ -16,7 +16,7 @@ static int milestones[40][3]=
 {
 	{DELTA,500,0},
 	{PAUSE,2000,0},
-	{ARRET_CAPTEUR,0,0},
+	//{ARRET_CAPTEUR,0,0},
 	{THETA,-1571,0},
 	{PAUSE,2000,0},
 	{DELTA,740,0},
@@ -155,7 +155,7 @@ void inverse_couleur()
 	int i=0;
 	while(milestones[i][0]!=FIN)
 	{
-		switch(milestones[i][1])
+		switch(milestones[i][0])
 		{
 			case XY :
 				//on inverse les valeurs pour x

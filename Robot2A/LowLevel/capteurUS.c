@@ -6,7 +6,6 @@ int on_a_detecte = 0;
 int a_t_on_detecte;
 
 void adversaire_detecte_callback() {
-    HAL_GPIO_TogglePin(GPIOD, LED_BLEUE);
     on_a_detecte = 1;
 
 	// On acquite les interruptions pour être tranquille

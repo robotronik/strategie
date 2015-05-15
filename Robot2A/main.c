@@ -99,12 +99,17 @@ int mainStrategie() {
     init_RTC();
     init_sensor1();
     activate_sensor1();
+    init_sensor2();
+    activate_sensor2();
     //demarre_alarme_90secondes();
 
     init_UART_Asser(&UART_Asser);
+    init_pin_mode(IO6_PORT, IO6_PIN, GPIO_MODE_INPUT, GPIO_PULLUP); //init du changement de couleur
     // Init tirette
     Delay(10);
-    inverse_couleur();
+
+    if (read_pin(IO6_PORT, IO6_PIN)) //on regarde notre couleur
+        inverse_couleur(); //ici on change si on est en vert
 
     init_pin_mode(IO1_PORT, IO1_PIN, GPIO_MODE_INPUT, GPIO_PULLUP);
     while(read_pin(IO1_PORT, IO1_PIN));
