@@ -12,7 +12,7 @@ static int cpt=0;
 static int asser_done=1;
 static int cpt_pause=0;
 
-
+/*
 static int milestones[40][3]=
 {
 	//{DELTA,0,0},
@@ -34,60 +34,60 @@ static int milestones[40][3]=
 	{CLAP_FERME_D,0,0},
 	{PAUSE,1000,0},
 	{FIN,0,0}
-};
-/*
-static int milestones[100][3]=
+};*/
+
+static int milestones[][3]=
 {
 	{DELTA,400,0},
-	{PAUSE,2000,0},
+		{PAUSE,1000,0},
 	{ARRET_CAPTEUR,0,0},
 	{ALPHA,-1571,0},
-	{PAUSE,2000,0},
-	{DELTA,560,0},
-	{PAUSE,2000,0},
+		{PAUSE,1000,0},
+	{DELTA,500,0},
+		{PAUSE,1000,0},
 	{ALPHA,-1571,0},
-	{PAUSE,2000,0},
+		{PAUSE,1000,0},
 	{GOBELET_OUVRE_G, 0,0},
-	{DELTA,220,0},
-	{PAUSE,1000,0},
+	{DELTA,480,0},
+		{PAUSE,1000,0},
 	{GOBELET_COINCE_G,0,0},
-	{PAUSE,2000,0},
-	{DELTA,50,0},
-	{PAUSE,2000,0},
+		{PAUSE,1000,0},
+	//{DELTA,50,0},
+	//	{PAUSE,1000,0},
 	{ALPHA,1571,0},
-	{PAUSE,2000,0},
-	{DELTA,240,0},
-	{PAUSE,2000,0},
-	{ALPHA,1571,0},
-	{PAUSE,2000,0},
-	{CLAP_OUVRE_D,0,0},
-	{PAUSE,2000,0},
-	{DELTA,210,0},
-	{PAUSE,2000,0},
-	{CLAP_FERME_D,0,0},
-	{PAUSE,2000,0},
-	{DELTA,410,0},
-	{PAUSE,2000,0},
-	{CLAP_OUVRE_D,0,0},
-	{PAUSE,2000,0},
+		{PAUSE,2000,0},
 	{DELTA,190,0},
-	{PAUSE,2000,0},
+		{PAUSE,1000,0},
+	{CLAP_OUVRE_D,0,0},
+	{ALPHA,1571,0},
+		{PAUSE,1000,0},
+	{PAUSE,1000,0},
+	{DELTA,210,0},
+	{PAUSE,1000,0},
 	{CLAP_FERME_D,0,0},
-	{PAUSE,2000,0},
+	{PAUSE,1000,0},
+	{DELTA,410,0},
+	{PAUSE,1000,0},
+	{CLAP_OUVRE_D,0,0},
+	{PAUSE,1000,0},
+	{DELTA,190,0},
+	{PAUSE,1000,0},
+	{CLAP_FERME_D,0,0},
+	/*{PAUSE,2000,0},
 	{ALPHA,1064,0},
 	{PAUSE,2000,0},
 	{DELTA,500,0},
 	{PAUSE,2000,0},
 	{ALPHA,3142,0},
-	{PAUSE,2000,0},
+	{PAUSE,2000,0},*/
 	{DELTA,300,0},
 	{PAUSE,2000,0},
 	{ALPHA,1571,0},
 	{PAUSE,2000,0},
 	{OUVRE_PORTE_EMPILEUR,0,0},
 	{PAUSE,2000,0},
-	{DELTA,100,0},
-	{PAUSE,2000,0},
+	{DELTA,500,0},
+	{PAUSE,2000,0},/*
 	{FERME_PORTE_EMPILEUR,0,0},
 	{PAUSE,2000,0},
 	{DELTA,480,0},
@@ -148,9 +148,9 @@ static int milestones[100][3]=
 	{CLAP_OUVRE_G,0,0},
 	{PAUSE,2000,0},
 	{DELTA,200,0},
-	{PAUSE,1000,0},
+	{PAUSE,1000,0},*/
 	{FIN,0,0}
-};*/
+};
 
 
 void pause(int ms)
@@ -272,7 +272,7 @@ void gestion_actions()
 
 		case FIN :
 			cpt--;
-			send_cmd(s2a_keys[S2A_CMD_EMERGENCY_STOP]);
+			send_cmd(s2a_keys[S2A_CMD_STOP]);
 			Delay(3600000); //on attend une heure parce on sait jamais ;)
 			break;
 

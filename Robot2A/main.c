@@ -99,6 +99,9 @@ void gestion_communication()
 }
 
 int mainStrategie() {
+    //init_EOM_timer();
+
+
     init_actionneurs();
     init_RTC();
     init_sensor1();
@@ -118,6 +121,7 @@ int mainStrategie() {
 
     init_pin_mode(IO1_PORT, IO1_PIN, GPIO_MODE_INPUT, GPIO_PULLUP);
     while(read_pin(IO1_PORT, IO1_PIN));
+    //activate_EOM_timer();
     while(1)
     {
         //if (!arret_capteur)
