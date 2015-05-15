@@ -12,7 +12,7 @@ static int cpt=0;
 static int asser_done=1;
 static int cpt_pause=0;
 
-/*
+
 static int milestones[40][3]=
 {
 	{DELTA,500,0},
@@ -33,8 +33,8 @@ static int milestones[40][3]=
 	{CLAP_FERME_D,0,0},
 	{PAUSE,1000,0},
 	{FIN,0,0}
-};*/
-
+};
+/*
 static int milestones[100][3]=
 {
 	{DELTA,400,0},
@@ -111,11 +111,15 @@ static int milestones[100][3]=
 	{PAUSE,2000,0},
 	{DELTA,800,0},
 	{PAUSE,2000,0},
-	{ALPHA,-1571,0},
-	{PAUSE,2000,0},
-	{DELTA,-1800,0},
-	{PAUSE,2000,0},
 	{ALPHA,1571,0},
+	{PAUSE,2000,0},
+	{OUVRE_PORTE_EMPILEUR,0,0},
+	{PAUSE,2000,0},
+	{DELTA,1800,0},
+	{PAUSE,2000,0},
+	{FERME_PORTE_EMPILEUR,0,0},
+	{PAUSE,2000,0},
+	{ALPHA,-1571,0},
 	{PAUSE,2000,0},
 	{DELTA,400,0},
 	{PAUSE,2000,0},
@@ -145,7 +149,7 @@ static int milestones[100][3]=
 	{DELTA,200,0},
 	{PAUSE,1000,0},
 	{FIN,0,0}
-};
+};*/
 
 
 void pause(int ms)

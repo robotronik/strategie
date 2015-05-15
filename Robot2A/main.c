@@ -91,11 +91,11 @@ void gestion_rupteurs()
 
 void gestion_communication()
 {
-    if (read_pin(IO7_PORT, IO7_PIN)
+    /*if (read_pin(IO7_PORT, IO7_PIN))
     {
         set_asser_done();
-    }
-    //set_asser_done();
+    }*/
+    set_asser_done();
 }
 
 int mainStrategie() {
@@ -109,7 +109,7 @@ int mainStrategie() {
 
     init_UART_Asser(&UART_Asser);
     init_pin_mode(IO6_PORT, IO6_PIN, GPIO_MODE_INPUT, GPIO_PULLUP); //init du changement de couleur
-    init_pin_mode(IO7_PORT, IO7_PIN, GPIO_MODE_INPUT, GPIO_NOPULL); //pin de retour de l'asservissement
+    //init_pin_mode(IO7_PORT, IO7_PIN, GPIO_MODE_INPUT, GPIO_NOPULL); //pin de retour de l'asservissement
     // Init tirette
     Delay(10);
 
