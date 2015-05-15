@@ -28,16 +28,18 @@
 
 #include "actions.h"
 
-static int compteur=0;
 s_PWM moteur_empileur;
 Servo_t servo_porte_empileur;
-int value=LIMIT_RANGE+100;
 int arret_capteur=0;
+/*
+static int compteur=0;
+int value=LIMIT_RANGE+100;
 
 void set_arret_capteur(int a)
 {
     arret_capteur=a;
 }
+
 
 void gestion_capteurs()
 {
@@ -81,6 +83,7 @@ void gestion_capteurs()
 
 
 }
+*/
 void gestion_rupteurs()
 {
     //TODO
@@ -94,30 +97,28 @@ void gestion_communication()
 int mainStrategie() {
     init_actionneurs();
     init_RTC();
-        test_led();
+    init_sensor1();
+    activate_sensor1();
     //demarre_alarme_90secondes();
 
     init_UART_Asser(&UART_Asser);
     // Init tirette
-    init_pin_mode(IO1_PORT, IO1_PIN, GPIO_MODE_INPUT, GPIO_PULLUP);
     Delay(10);
     inverse_couleur();
-    char* auie;
-            init_capteur1();
-        activate_sensor1();
+
+    init_pin_mode(IO1_PORT, IO1_PIN, GPIO_MODE_INPUT, GPIO_PULLUP);
     while(read_pin(IO1_PORT, IO1_PIN));
-    Delay(10);
     while(1)
     {
-        if (!arret_capteur)
-        {
-            gestion_capteurs();
-                
-        }
+        //if (!arret_capteur)
+        //    gestion_capteurs();
         gestion_rupteurs();
         gestion_communication();
-        //test_led();
+        //HAL_GPIO_TogglePin(GPIOD, LED_BLEUE);
         gestion_actions();
+        //HAL_GPIO_TogglePin(GPIOD, LED_VERTE);
+        //Delay(300);
+
     }
 
     /*//test de l'uart asser

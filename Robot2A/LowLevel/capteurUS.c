@@ -1,49 +1,27 @@
 #include "capteurUS.h"
 // Low-level pour initialiser les capteurs US
 // Et pour récupérer les valeurs de distance
+int on_a_detecte = 0;
 
-static int valeurs_capteur1[10] =
-{LIMIT_RANGE+100,
- LIMIT_RANGE+100,
- LIMIT_RANGE+100,
- LIMIT_RANGE+100,
- LIMIT_RANGE+100,
- LIMIT_RANGE+100,
- LIMIT_RANGE+100,
- LIMIT_RANGE+100,
- LIMIT_RANGE+100,
- LIMIT_RANGE+100};
-static int somme_capteur1 = 10*(LIMIT_RANGE+100);
-static int pos_in_valeurs_capteur1 = 0;
-void nouvelle_valeur_captee_capteur1(int valeur) {
-    somme_capteur1 -= valeurs_capteur1[pos_in_valeurs_capteur1];
-    valeurs_capteur1[pos_in_valeurs_capteur1] = valeur;
-    somme_capteur1 += valeur;
-    pos_in_valeurs_capteur1 = (pos_in_valeurs_capteur1 + 1)%10;
-}
-int get_moyenne_capteur1() {
-    return somme_capteur1/10;
-}
+int a_t_on_detecte;
 
-static int valeurs_capteur2[10] =
-{LIMIT_RANGE+100,
- LIMIT_RANGE+100,
- LIMIT_RANGE+100,
- LIMIT_RANGE+100,
- LIMIT_RANGE+100,
- LIMIT_RANGE+100,
- LIMIT_RANGE+100,
- LIMIT_RANGE+100,
- LIMIT_RANGE+100,
- LIMIT_RANGE+100};
-static int somme_capteur2 = 10*(LIMIT_RANGE+100);
-static int pos_in_valeurs_capteur2 = 0;
-void nouvelle_valeur_captee_capteur2(int valeur) {
-    somme_capteur2 -= valeurs_capteur2[pos_in_valeurs_capteur2];
-    valeurs_capteur2[pos_in_valeurs_capteur2] = valeur;
-    somme_capteur2 += valeur;
-    pos_in_valeurs_capteur2 = (pos_in_valeurs_capteur2 + 1)%10;
-}
-int get_moyenne_capteur2() {
-    return somme_capteur2/10;
+void adversaire_detecte_callback() {
+    HAL_GPIO_TogglePin(GPIOD, LED_BLEUE);
+    on_a_detecte = 1;
+
+	// On acquite les interruptions pour être tranquille
+	//HAL_NVIC_DisableIRQ(TIM5_IRQn);
+	//HAL_NVIC_DisableIRQ(TIM8_BRK_TIM12_IRQn);
+
+	// On a détecté quelqu'un, on dit à l'asser de s'arrêter
+    send_fonction("stop()");
+
+    // Il faut faire d'autres choses !
+    init_GPIO_LED();
+    while(1)
+    {
+        HAL_GPIO_TogglePin(GPIOD, LED_ROUGE);
+        //Delay(500);
+    }
+
 }

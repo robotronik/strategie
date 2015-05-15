@@ -134,7 +134,7 @@ void gestion_actions()
 
 
 			case ARRET_CAPTEUR :
-				set_arret_capteur(1);
+				//set_arret_capteur(1);
 				HAL_NVIC_DisableIRQ(TIM5_IRQn);
 				set_all_led();
 				break;
