@@ -175,12 +175,16 @@ void gestion_actions()
 			send_val(s2a_keys[S2A_KEY_X], milestones[cpt][1]);
 			send_val(s2a_keys[S2A_KEY_Y], milestones[cpt][1]);
 			send_fonction(s2a_keys[S2A_FCT_XY_ABSOLU]);
+			asser_done=0;
+			Delay(10);
 			//TODO
 			break;
 		case ALPHA :
 			send_val(s2a_keys[S2A_KEY_ALPHA], milestones[cpt][1]);
 			send_val(s2a_keys[S2A_KEY_DELTA], 0);
 			send_fonction(s2a_keys[S2A_FCT_ALPHA_DELTA]);
+			asser_done=0;
+			Delay(10);
 			//TODO
 			break;
 
@@ -189,12 +193,14 @@ void gestion_actions()
 			send_val(s2a_keys[S2A_KEY_ALPHA], 0);
 			send_fonction(s2a_keys[S2A_FCT_ALPHA_DELTA]);
 			asser_done=0;
+			Delay(10);
 			break;
 			
 		case THETA :
 			send_val(s2a_keys[S2A_KEY_THETA], milestones[cpt][1]);
 			send_fonction(s2a_keys[S2A_FCT_THETA]);
 			asser_done=0;
+			Delay(10);
 			break;
 
 		//actions

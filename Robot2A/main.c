@@ -91,7 +91,11 @@ void gestion_rupteurs()
 
 void gestion_communication()
 {
-    set_asser_done();
+    if (read_pin(IO7_PORT, IO7_PIN)
+    {
+        set_asser_done();
+    }
+    //set_asser_done();
 }
 
 int mainStrategie() {
