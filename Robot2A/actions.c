@@ -15,6 +15,7 @@ static int cpt_pause=0;
 
 static int milestones[40][3]=
 {
+	//{DELTA,0,0},
 	{DELTA,500,0},
 	{PAUSE,2000,0},
 	//{ARRET_CAPTEUR,0,0},
@@ -170,7 +171,14 @@ void gestion_actions()
 	//char buff[33];
 	//int length;
 	if (!asser_done)
+	{
+		HAL_GPIO_WritePin(GPIOD, LED_VERTE, GPIO_PIN_SET);
 		return;
+	}
+	else
+	{
+		HAL_GPIO_WritePin(GPIOD, LED_VERTE, GPIO_PIN_RESET);
+	}
 
 	switch(milestones[cpt][0])
 	{
@@ -180,7 +188,7 @@ void gestion_actions()
 			send_val(s2a_keys[S2A_KEY_Y], milestones[cpt][1]);
 			send_fonction(s2a_keys[S2A_FCT_XY_ABSOLU]);
 			asser_done=0;
-			Delay(10);
+			Delay(500); //le temps que l'asser remette la pin à 0
 			//TODO
 			break;
 		case ALPHA :
@@ -188,7 +196,7 @@ void gestion_actions()
 			send_val(s2a_keys[S2A_KEY_DELTA], 0);
 			send_fonction(s2a_keys[S2A_FCT_ALPHA_DELTA]);
 			asser_done=0;
-			Delay(10);
+			Delay(500);
 			//TODO
 			break;
 
@@ -197,14 +205,14 @@ void gestion_actions()
 			send_val(s2a_keys[S2A_KEY_ALPHA], 0);
 			send_fonction(s2a_keys[S2A_FCT_ALPHA_DELTA]);
 			asser_done=0;
-			Delay(10);
+			Delay(500);
 			break;
 			
 		case THETA :
 			send_val(s2a_keys[S2A_KEY_THETA], milestones[cpt][1]);
 			send_fonction(s2a_keys[S2A_FCT_THETA]);
 			asser_done=0;
-			Delay(10);
+			Delay(500);
 			break;
 
 		//actions
