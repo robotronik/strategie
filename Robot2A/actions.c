@@ -247,6 +247,7 @@ void gestion_actions()
 			bras_gauche_libere_gobelet();
 			break;
 		case OUVRE_PORTE_EMPILEUR :
+			//descend_ascenseur();
 			ouvre_porte_empileur();
 			break;
 		case FERME_PORTE_EMPILEUR :
