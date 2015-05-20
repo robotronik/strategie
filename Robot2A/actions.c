@@ -40,6 +40,35 @@ static int milestones[40][3]=
 	{FIN,0,0}
 };*/
 
+static int milestones_xy[][3]= {
+	{XY,0, 600}, 		{PAUSE, DELAI, 0}, 
+	{ARRET_CAPTEUR, 0, 0}, 
+	{XY, 450, 600}, 		{PAUSE, DELAI, 0}, 
+	{XY, 450, -160}, 		{PAUSE, DELAI, 0}, 
+
+	{XY, 885, -160}, 		{PAUSE, DELAI, 0}, 
+	//{DELTA, -30, 0}, 		{PAUSE, DELAI, 0}, 
+	{CLAP_OUVRE_D, 0, 0},
+
+	// On longe les claps
+	{XY, 885, 70}, 		{PAUSE, DELAI, 0}, 
+	{CLAP_FERME_D, 0, 0}, 	{PAUSE, DELAI, 0},
+
+	{XY, 885, 420}, 		{PAUSE, DELAI, 0}, 
+	{CLAP_OUVRE_D, 0, 0},	{PAUSE, DELAI, 0},
+
+	//On reviens dans la zone de départ
+	{XY, 885, 640}, 		{PAUSE, DELAI, 0},
+
+	{XY, 385, 640}, 		{PAUSE, DELAI, 0}, 
+	{XY, 385, 40}, 		{PAUSE, DELAI, 0}, //un x aussi élévé parrait bizarre
+
+	{OUVRE_PORTE_EMPILEUR, 0, 0},
+	{DELTA, 200, 0}, 		{PAUSE, DELAI, 0},
+
+	{FIN,0,0}
+};
+
 static int milestones[][3]= {
 	//{DELTA, -25, 0},			{PAUSE, DELAI, 0},
 	//{DESCEND_PIED_EMPILEUR, 0, 0},
