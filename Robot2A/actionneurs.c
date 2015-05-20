@@ -24,7 +24,10 @@ void init_actionneurs()
     init_empileur();
     init_protection_perimetre();
     init_position_actionneurs();
-    //descend_ascenseur();
+    /*descend_ascenseur();
+    Delay(10);
+    monte_pied();*/
+
 }
 
 
@@ -32,7 +35,8 @@ void init_actionneurs()
 
 int something_is_open()
 {
-    return porte_empileur_is_open||bras_gauche_is_risen||bras_gauche_is_risen;
+    //return porte_empileur_is_open||bras_gauche_is_risen||bras_gauche_is_risen;
+    return 0;
 }
 
 e_actionneur actionneur_ouvert()
@@ -118,8 +122,8 @@ void bras_gauche_repos()
 
 int bras_gauche_position_clap()
 {
-    if(porte_empileur_is_open || bras_droit_is_risen)
-        return 1;
+    //if(porte_empileur_is_open || bras_droit_is_risen)
+    //    return 1;
     bras_gauche_is_risen=1;
     bras_gauche_set_angle(ANGLE_CLAP_BRAS_GAUCHE);
     return 0;
@@ -127,8 +131,8 @@ int bras_gauche_position_clap()
 
 int bras_gauche_position_prise_gobelet()
 {
-    if(porte_empileur_is_open || bras_droit_is_risen)
-        return 1;
+    //if(porte_empileur_is_open || bras_droit_is_risen)
+    //    return 1;
     bras_gauche_is_risen=1;
     bras_gauche_set_angle(ANGLE_GOBELET_LIBRE_BRAS_GAUCHE);
     return 0;   
@@ -136,8 +140,8 @@ int bras_gauche_position_prise_gobelet()
 
 int bras_gauche_coince_gobelet()
 {
-    if(porte_empileur_is_open || bras_droit_is_risen)
-        return 1;
+    //if(porte_empileur_is_open || bras_droit_is_risen)
+    //    return 1;
     bras_gauche_is_risen=1;
     bras_gauche_set_angle(ANGLE_GOBELET_COINCE_BRAS_GAUCHE);
     gobelet_saisi=1;
@@ -150,8 +154,8 @@ int bras_gauche_coince_gobelet()
 
 int bras_gauche_libere_gobelet()
 {
-    if(porte_empileur_is_open || bras_droit_is_risen)
-        return 1;
+    //if(porte_empileur_is_open || bras_droit_is_risen)
+    //    return 1;
     bras_gauche_is_risen=1;
     bras_gauche_set_angle(ANGLE_GOBELET_LIBRE_BRAS_GAUCHE);
     gobelet_saisi=0;
@@ -168,8 +172,8 @@ void bras_droit_repos()
 
 int bras_droit_position_clap()
 {
-    if(porte_empileur_is_open || bras_gauche_is_risen)
-        return 1;
+    //if(porte_empileur_is_open || bras_gauche_is_risen)
+    //    return 1;
     bras_droit_is_risen=1;
     bras_droit_set_angle(ANGLE_CLAP_BRAS_DROIT);
     return 0;
@@ -177,8 +181,8 @@ int bras_droit_position_clap()
 
 int bras_droit_position_prise_gobelet()
 {
-    if(porte_empileur_is_open || bras_gauche_is_risen)
-        return 1;
+    //if(porte_empileur_is_open || bras_gauche_is_risen)
+    //    return 1;
     bras_droit_is_risen=1;
     bras_droit_set_angle(ANGLE_GOBELET_LIBRE_BRAS_DROIT);
     return 0;   
@@ -186,8 +190,8 @@ int bras_droit_position_prise_gobelet()
 
 int bras_droit_coince_gobelet()
 {
-    if(porte_empileur_is_open || bras_gauche_is_risen)
-        return 1;
+    //if(porte_empileur_is_open || bras_gauche_is_risen)
+    //    return 1;
     bras_droit_is_risen=1;
     bras_droit_set_angle(ANGLE_GOBELET_COINCE_BRAS_DROIT);
     gobelet_saisi=1;
@@ -200,8 +204,8 @@ int bras_droit_coince_gobelet()
 
 int bras_droit_libere_gobelet()
 {
-    if(porte_empileur_is_open || bras_gauche_is_risen)
-        return 1;
+    //if(porte_empileur_is_open || bras_gauche_is_risen)
+    //    return 1;
     bras_droit_is_risen=1;
     bras_droit_set_angle(ANGLE_GOBELET_LIBRE_BRAS_DROIT);
     gobelet_saisi=0;

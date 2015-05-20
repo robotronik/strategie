@@ -17,6 +17,7 @@
 #include "../../stm32f407/headers/GPIO.h"
 #include "../../stm32f407/headers/PWM.h"
 #include "utilities.h"
+#include "LowLevel/capteurUS.h"
 
 //test servo
 //#include "../../mapping/PWM_pinout.h"
@@ -27,73 +28,65 @@
 
 #include "actions.h"
 
-#define LIMIT_RANCHE 2500
-
 s_PWM moteur_empileur;
 Servo_t servo_porte_empileur;
+int arret_capteur=0;
 
-static int compteur=0;
-static int value=0;
-
-void gestion_capteurs()
-{
-    compteur++;
-    if (compteur<10)
-    {
-        value=get_value_capt1();
-    }
-    if (compteur==10)
-    {
-        deinit_capteur1();
-        desactivate_sensor1();
-        init_capteur2();
-        activate_sensor2();
-    }
-    if(compteur>10)
-    {
-        value=get_value_capt2();
-    }
-    if (compteur==20)
-    {
-        deinit_capteur2();
-        desactivate_sensor2();
-        init_capteur1();
-        activate_sensor1();
-    }
-    compteur%=20;
-
-
-}
 void gestion_rupteurs()
 {
-    //TODO
+    /*
+    if(rupteur_pied_empileur_is_pushed())
+    {
+        descend_ascenseur();
+        monte_pied();
+    }
+    */
+
 }
 
 void gestion_communication()
 {
-    set_asser_done();
+    if (!read_pin(IO7_PORT, IO7_PIN))
+    {
+        set_asser_done();
+    }
+    //set_asser_done();
 }
 
 int mainStrategie() {
+    init_EOM_timer();
     init_actionneurs();
     init_RTC();
-        test_led();
+    init_sensor1();
+    activate_sensor1();
+    init_sensor2();
+    activate_sensor2();
     //demarre_alarme_90secondes();
 
     init_UART_Asser(&UART_Asser);
+    init_pin_mode(IO6_PORT, IO6_PIN, GPIO_MODE_INPUT, GPIO_PULLUP); //init du changement de couleur
+    init_pin_mode(IO7_PORT, IO7_PIN, GPIO_MODE_INPUT, GPIO_NOPULL); //pin de retour de l'asservissement
+    // Init tirette
     Delay(10);
-    inverse_couleur();
 
-    char* auie;
-            init_capteur1();
-        activate_sensor1();
+    if (read_pin(IO6_PORT, IO6_PIN)) //on regarde notre couleur
+        inverse_couleur(); //ici on change si on est en vert
+
+    init_pin_mode(IO1_PORT, IO1_PIN, GPIO_MODE_INPUT, GPIO_PULLUP);
+    while(read_pin(IO1_PORT, IO1_PIN));
+    activate_EOM_timer();
+
     while(1)
     {
-        gestion_capteurs();
+        //if (!arret_capteur)
+        //    gestion_capteurs();
         gestion_rupteurs();
         gestion_communication();
-        //test_led();
+
         gestion_actions();
+        //HAL_GPIO_TogglePin(GPIOD, LED_VERTE);
+        //Delay(300);
+
     }
 
     /*//test de l'uart asser
