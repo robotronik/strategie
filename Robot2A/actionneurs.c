@@ -24,7 +24,10 @@ void init_actionneurs()
     init_empileur();
     init_protection_perimetre();
     init_position_actionneurs();
-    //descend_ascenseur();
+    /*descend_ascenseur();
+    Delay(10);
+    monte_pied();*/
+
 }
 
 

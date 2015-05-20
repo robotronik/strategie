@@ -86,7 +86,14 @@ void gestion_capteurs()
 */
 void gestion_rupteurs()
 {
-    //TODO
+    /*
+    if(rupteur_pied_empileur_is_pushed())
+    {
+        descend_ascenseur();
+        monte_pied();
+    }
+    */
+
 }
 
 void gestion_communication()

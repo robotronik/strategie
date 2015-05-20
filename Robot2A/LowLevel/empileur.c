@@ -47,9 +47,9 @@ void init_moteur_empileur() {
 }
 
 void init_rupteur_pied() {
-	init_pin_mode(IO4_PORT, IO4_PIN, GPIO_MODE_INPUT, GPIO_PULLUP);
+	init_pin_mode(IO5_PORT, IO5_PIN, GPIO_MODE_INPUT, GPIO_PULLUP);
 }
 
 void init_rupteur_moteur() {
-	init_pin_mode(IO5_PORT, IO5_PIN, GPIO_MODE_INPUT, GPIO_PULLUP);
+	init_pin_mode(IO4_PORT, IO4_PIN, GPIO_MODE_INPUT, GPIO_PULLUP);
 }
