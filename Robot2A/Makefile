@@ -1,95 +1,85 @@
+PROJECT=strategie2A
 
-# Options prises en compte :
-#    SDL=yes       pour utiliser le simulateur
-#    DEBUG=yes     pour activer le debug
+# Default Options
+export ARCH  = STM32F407
+export ROBOT = gros
+export SDL   = no
+export DEBUG = _WARNING_
 
-# Cibles :
-#    run: lance l'executable
-#    all: créer l'executable
-#    demo: lance un ensemble de commande au robot
+export PARENT_DIR = ../../
+include $(PARENT_DIR)/common_code/common.mk
+
+# Constantes de compilation
+EXEC    = strategie_robot
+LIBSTRAT= libStrategie
+
 
 ################################################################################
-# Variables de compilation
+# Fichiers du projet
 
-include ../../stm32f407/stm32f407.mk
+FICHIERS_C = \
+	main.c \
+	actionneurs.c \
+	communication.c \
+	LowLevel/capteurIR.c \
+	LowLevel/capteurUS.c \
+	LowLevel/empileur.c \
+	LowLevel/servos.c \
+	actions.c \
 
-# Variables d'environnement
-EXEC = strategie_robot
-CARTO_HEADER = ../../cartographie/pathfinding.h
-STM32_Dir = ../../stm32f407/
-
-
-# Chemin du dépôt stm32f407
-# /!\ Doit être le chemin absolu. Pas relatif.
-PathSTM32 = ../../stm32f407/
-
-# options
-DEBUG = no
-
-################################################################################
-
-SOURCES=main.c \
-		actionneurs.c \
-		communication.c \
-		LowLevel/capteurIR.c \
-		LowLevel/capteurUS.c \
-		LowLevel/empileur.c \
-		LowLevel/servos.c \
-		actions.c \
-
-HEADERS=$(SOURCES:.c=.h)
-OBJECTS=$(SOURCES:.c=.o)
-
-SOURCEFILES=main.c $(SOURCES) $(HEADERS)
-
-
-ifeq ($(DEBUG),yes)
-	DEBUGFLAGS = -DDEBUG=1 -g
-else
-	DEBUGFLAGS = -DDEBUG=0
-endif
+FICHIERS_H = $(SOURCES:.c=.h)
+FICHIERS_O  += $(addprefix $(BUILD_DIR)/, $(FICHIERS_C:.c=.o) )
 
 ################################################################################
 
-all:
-	@make -s -C $(STM32_Dir) $@
+all: $(EXEC)
 
 ##### Envoi du binaire sur le STM32
 flash: 
 	make -C $(STM32_Dir) $@
 
-##### Débug
-debug:
-	make -C $(STM32_Dir) $@
-
-debug1:
-	make -C $(STM32_Dir) $@
-
-debug2:
-	make -C $(STM32_Dir) $@
-
-
-
 ##### Création du .a nécessaire au stm32
-libStrategie.a: $(OBJECTS)
-	@echo "	AR	$@"
-	@$(AR) -r $@  $(OBJECTS)
-	@echo "	RANLIB	$@"
-	@ranlib   $@
+.PHONY:view
 
-%.o: %.c
-	@echo "	CC	$@"
-	@$(CC) $(GCCFLAGS) $(DEBUGFLAGS) -o $@ -c $<
+libStrategie: $(BUILD_DIR)/libStrategie.a
 
-##### Nettoyage
-.PHONY: clean cleanDist cleanLib bclean mrproper
+view: $(EXEC)
+	./$^
+
+$(EXEC): $(FICHIERS_O) $(COMMON_DIR)/$(BUILD_DIR)/libCommon.a
+	@echo "	CC	$(PROJECT)|$(notdir $@)"
+	@$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
+
+$(BUILD_DIR)/libStrategie.a: $(FICHIERS_O) | $(BUILD_DIR)
+	@echo "	AR	$(PROJECT)|$(notdir $@)"
+	@$(AR) -q $@ $^
+	@echo "	RANLIB	$(PROJECT)|$(notdir $@)"
+	@$(RANLIB) $@
+
+$(BUILD_DIR)/%.o: %.c | $(BUILD_DIR)/LowLevel
+	@echo "	CC	$(PROJECT)|$(notdir $@)"
+	@$(CC) $(CFLAGS) -o $@ -c $<
+
+$(BUILD_DIR):
+	@mkdir $@ -p
+$(BUILD_DIR)/LowLevel:
+	@mkdir $@ -p
+
+$(COMMON_DIR)/$(BUILD_DIR)/libCommon.a:
+	@$(MAKE) ARCH=$(ARCH) ROBOT=$(ROBOT) SDL=$(SDL) DEBUG=$(DEBUG) -C $(COMMON_DIR) libCommon
+
+
+################################################################################
+# Cibles génériques
+
+.PHONY: clean mrproper
 
 clean:
-	rm -f $(OBJECTS)
-	rm -f libStrategie.a
+	@echo "Cleaning $(PROJECT) directory…"
+	@find $(BUILD_DIR) -name '*.o' -delete
+	@find . -name '*.a' -delete
+	@rmdir -p --ignore-fail-on-non-empty $(BUILD_DIR)/*/* 2>/dev/null || true
 
-cleanDist: clean
-	$(MAKE) -C $(STM32_Dir) clean
-
-bclean:
-	$(MAKE) -C $(STM32_Dir) $@
+mrproper: clean
+	@echo "Hard-cleaning  $(PROJECT) directory…"
+	@rm -rf $(EXEC) $(PIC_ELF) $(PIC_HEX)

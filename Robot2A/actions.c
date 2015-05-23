@@ -220,19 +220,6 @@ void pause(int ms)
 	}
 }
 
-void pause(int ms)
-{
-	//pour laisser la main pour le check des capteurs
-	//(moche car en vrai le tps est plus grand du coup)
-	Delay(1);
-	cpt_pause++;
-	if (cpt_pause==ms)
-	{
-		cpt++;
-		cpt_pause=0;
-	}
-}
-
 void gestion_actions()
 {
 	//char buff[33];
@@ -336,18 +323,11 @@ void gestion_actions()
 			pause(milestones[cpt][1]); //a voir
 			cpt--;
 			break;
-		case PAUSE :
-			pause(milestones[cpt][1]); //a voir
-			cpt--;
+		case ARRET_CAPTEUR :
+			//set_arret_capteur(1);
+			HAL_NVIC_DisableIRQ(TIM5_IRQn);
+			set_all_led();
 			break;
-
-
-			case ARRET_CAPTEUR :
-				//set_arret_capteur(1);
-				HAL_NVIC_DisableIRQ(TIM5_IRQn);
-				set_all_led();
-				break;
-
 		case FIN :
 			cpt--;
 			send_cmd(s2a_keys[S2A_CMD_STOP]);
