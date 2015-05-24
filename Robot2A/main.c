@@ -28,6 +28,12 @@
 
 #include "actions.h"
 
+//pour des tests
+#include "../../common_code/communication/s2a.h"
+#include "../../common_code/communication/text_emission.h"
+
+
+
 s_PWM moteur_empileur;
 Servo_t servo_porte_empileur;
 int arret_capteur=0;
@@ -75,7 +81,7 @@ int mainStrategie() {
     init_pin_mode(IO1_PORT, IO1_PIN, GPIO_MODE_INPUT, GPIO_PULLUP);
     while(read_pin(IO1_PORT, IO1_PIN));
     //activate_EOM_timer();
-
+    test_led();
     while(1)
     {
         //if (!arret_capteur)
