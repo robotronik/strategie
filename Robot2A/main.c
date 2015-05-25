@@ -35,10 +35,8 @@ int mainTest() {
 
     int on_a_un_chemin;
     // Benchmark de la cartographie
-    for (int i = 0; i < 50; ++i) {
-        on_a_un_chemin = pathfinding(500,1500,0,0);
-        /* code */
-    }
+    for (int i = 0; i < 20; ++i)
+        on_a_un_chemin = pathfinding(500,1500,500,1501);
 
     if (on_a_un_chemin)
         HAL_GPIO_TogglePin(GPIOD, LED_VERTE);
