@@ -26,6 +26,36 @@ void gestion_communication() {
 }
 
 int mainStrategie() {
+    //return mainStrategieRobot2A();
+    return mainTest();
+}
+
+int mainTest() {
+    pathfinding_init();
+
+    int on_a_un_chemin;
+    // Benchmark de la cartographie
+    for (int i = 0; i < 50; ++i) {
+        on_a_un_chemin = pathfinding(500,1500,0,0);
+        /* code */
+    }
+
+    if (on_a_un_chemin)
+        HAL_GPIO_TogglePin(GPIOD, LED_VERTE);
+    else
+        HAL_GPIO_TogglePin(GPIOD, LED_ORANGE);
+
+    for (int i = 0; i < return_length_of_path_found(); ++i) {
+        HAL_GPIO_TogglePin(GPIOD, LED_BLEUE);
+        Delay(500);
+        HAL_GPIO_TogglePin(GPIOD, LED_BLEUE);
+        Delay(500);
+
+    }
+}
+
+
+int mainStrategieRobot2A() {
     // Initialisation des différents machins
     init_actionneurs();
 
@@ -54,6 +84,10 @@ int mainStrategie() {
     activate_sensor2();
 
     Delay(10);
+
+    // Voilà, maintenant on peut s'amuser !
+
+
 
     while(1)
     {
