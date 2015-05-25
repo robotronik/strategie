@@ -52,13 +52,14 @@ $(EXEC): $(FICHIERS_O) $(COMMON_DIR)/$(BUILD_DIR)/libCommon.a
 
 $(BUILD_DIR)/libStrategie.a: $(FICHIERS_O)
 	@echo "	AR	$(PROJECT)|$(notdir $@)"
-	@$(AR) -q $@ $^
+	@rm -f $@
+	@$(AR) -r $@ $^
 	@echo "	RANLIB	$(PROJECT)|$(notdir $@)"
 	@$(RANLIB) $@
 
 $(BUILD_DIR)/%.o: %.c | $(BUILD_DIR)
 	@echo "	CC	$(PROJECT)|$(notdir $@)"
-	@$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 $(BUILD_DIR):
 	@mkdir -p $(BUILD_DIR)
@@ -76,9 +77,7 @@ $(COMMON_DIR)/$(BUILD_DIR)/libCommon.a:
 
 clean:
 	@echo "Cleaning $(PROJECT) directory…"
-	@find $(BUILD_DIR) -name '*.o' -delete
-	@find . -name '*.a' -delete
-	@rmdir -p --ignore-fail-on-non-empty $(BUILD_DIR)/*/* 2>/dev/null || true
+	@rm -rf build/
 
 mrproper: clean
 	@echo "Hard-cleaning  $(PROJECT) directory…"
