@@ -14,17 +14,17 @@
 //test pwm
 #include "../mapping/IO_pinout.h"
 #include "../mapping/PWM_pinout.h"
-#include "../../stm32f407/headers/GPIO.h"
-#include "../../stm32f407/headers/PWM.h"
+#include "../../hardware/stm32f407/headers/GPIO.h"
+#include "../../hardware/stm32f407/headers/PWM.h"
 #include "utilities.h"
 #include "LowLevel/capteurUS.h"
 
 //test servo
 //#include "../../mapping/PWM_pinout.h"
-#include "../../stm32f407/headers/servo.h"
+#include "../../hardware/stm32f407/headers/servo.h"
 
 //test uart
-#include "../../stm32f407/headers/UART.h"
+#include "../../hardware/stm32f407/headers/UART.h"
 
 #include "actions.h"
 
@@ -32,11 +32,16 @@ s_PWM moteur_empileur;
 Servo_t servo_porte_empileur;
 int arret_capteur=0;
 
-void gestion_rupteurs()
+
+int main(int argc, char const *argv[])
 {
-    /*
-    if(rupteur_pied_empileur_is_pushed())
-    {
+    /* code */
+    return 0;
+}
+
+
+void gestion_rupteurs() {
+    /*if(rupteur_pied_empileur_is_pushed()) {
         descend_ascenseur();
         monte_pied();
     }
