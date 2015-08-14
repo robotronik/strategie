@@ -15,6 +15,8 @@
 #include "../mapping/IO_pinout.h"
 #include "../mapping/PWM_pinout.h"
 #include "../../hardware/stm32f407/headers/GPIO.h"
+#include "../../hardware/stm32f407/headers/RTC.h"
+#include "../../hardware/stm32f407/headers/US_sensor.h"
 #include "../../hardware/stm32f407/headers/PWM.h"
 #include "utilities.h"
 #include "LowLevel/capteurUS.h"
