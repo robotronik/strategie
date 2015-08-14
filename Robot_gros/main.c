@@ -32,14 +32,6 @@ s_PWM moteur_empileur;
 Servo_t servo_porte_empileur;
 int arret_capteur=0;
 
-
-int main(int argc, char const *argv[])
-{
-    /* code */
-    return 0;
-}
-
-
 void gestion_rupteurs() {
     /*if(rupteur_pied_empileur_is_pushed()) {
         descend_ascenseur();
@@ -58,7 +50,7 @@ void gestion_communication()
     //set_asser_done();
 }
 
-int mainStrategie() {
+int main() {
     //init_EOM_timer();
     init_actionneurs();
     init_RTC();
