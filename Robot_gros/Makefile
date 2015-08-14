@@ -37,14 +37,12 @@ all: $(EXEC)
 view: $(EXEC)
 	./$^
 
-$(EXEC): $(FICHIERS_O) $(HARDW_LIB) $(COMMUNICATION_DIR)/$(BUILD_DIR)/libCommStrat.a
+$(EXEC): $(FICHIERS_O) $(HARDW_LIB)
+	@make -C $(COMMUNICATION_DIR) libCommStrat
 	@echo "	CC	$(PROJECT)|$(notdir $@)"
-	@$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
+	@$(CC) -o $@ $^ $(CFLAGS) -lCommStrat $(LDFLAGS)
 
 $(HARDW_LIB): hardware_lib
-
-$(COMMUNICATION_DIR)/$(BUILD_DIR)/libCommStrat.a:
-	make -C $(COMMUNICATION_DIR) libCommStrat
 
 $(BUILD_DIR)/libStrategie.a: $(FICHIERS_O)
 
