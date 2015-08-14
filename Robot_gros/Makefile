@@ -37,9 +37,12 @@ all: $(EXEC)
 view: $(EXEC)
 	./$^
 
-$(EXEC): $(FICHIERS_O)
+$(EXEC): $(FICHIERS_O) $(HARDW_LIB)
 	@echo "	CC	$(PROJECT)|$(notdir $@)"
-	$(CC) -o $@ $^ $(CFLAGS) $(HARDW_LIB) $(LDFLAGS)
+	@$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
+
+$(HARDW_LIB): hardware_lib
+	@
 
 $(BUILD_DIR)/libStrategie.a: $(FICHIERS_O)
 
