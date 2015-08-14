@@ -8,16 +8,6 @@
 #include "../../common_code/communication/s2a.h"
 #include "../../common_code/communication/text_emission.h"
 
-//TODO revert this before merging into MASTER
-
-void send_val(const char *val_key, int value){}
-
-void send_cmd(const char *commande_key){}
-
-void send_fonction(const char *fonction_key){}
-char *s2a_keys[S2A_SIZE];
-
-
 static int cpt=0;
 static int asser_done=1;
 static int cpt_pause=0;
