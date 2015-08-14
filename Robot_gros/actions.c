@@ -8,6 +8,16 @@
 #include "../../common_code/communication/s2a.h"
 #include "../../common_code/communication/text_emission.h"
 
+//TODO revert this before merging into MASTER
+
+void send_val(const char *val_key, int value){}
+
+void send_cmd(const char *commande_key){}
+
+void send_fonction(const char *fonction_key){}
+char *s2a_keys[S2A_SIZE];
+
+
 static int cpt=0;
 static int asser_done=1;
 static int cpt_pause=0;
@@ -45,15 +55,15 @@ static int milestones[][3]= {
 	//{DESCEND_PIED_EMPILEUR, 0, 0},
 	//{DELTA, 35, 0},			{PAUSE, DELAI, 0},
 	//{MONTE_PIED_EMPILEUR, 0, 0},
-	
 
 
-	{DELTA,600, 0}, 		{PAUSE, DELAI, 0}, 
-	{ARRET_CAPTEUR, 0, 0}, 
-	{ALPHA, -QTOUR, 0}, 	{PAUSE, DELAI, 0}, 
-	{DELTA, 450, 0}, 		{PAUSE, DELAI, 0}, 
-	{ALPHA, -QTOUR, 0}, 	{PAUSE, DELAI, 0}, 
-	{DELTA, 760, 0}, 		{PAUSE, DELAI, 0}, 
+
+	{DELTA,600, 0}, 		{PAUSE, DELAI, 0},
+	{ARRET_CAPTEUR, 0, 0},
+	{ALPHA, -QTOUR, 0}, 	{PAUSE, DELAI, 0},
+	{DELTA, 450, 0}, 		{PAUSE, DELAI, 0},
+	{ALPHA, -QTOUR, 0}, 	{PAUSE, DELAI, 0},
+	{DELTA, 760, 0}, 		{PAUSE, DELAI, 0},
 	// On se cale sur le mur
 	{DELTA,  180, 0}, 		{PAUSE, DELAI, 0},
 
@@ -67,81 +77,81 @@ static int milestones[][3]= {
 	{DELTA, -160, 0}, 		{PAUSE, DELAI, 0},
 	{DELTA, -140, 0}, 		{PAUSE, DELAI, 0},
 
-	{DELTA, 435, 0}, 		{PAUSE, DELAI, 0}, 
-	//{DELTA, -30, 0}, 		{PAUSE, DELAI, 0}, 
+	{DELTA, 435, 0}, 		{PAUSE, DELAI, 0},
+	//{DELTA, -30, 0}, 		{PAUSE, DELAI, 0},
 	{CLAP_OUVRE_D, 0, 0},
-	{ALPHA, QTOUR*0.97, 0}, 		{PAUSE, DELAI, 0}, 
+	{ALPHA, QTOUR*0.97, 0}, 		{PAUSE, DELAI, 0},
 	// On longe les claps
-	{DELTA, 230, 0}, 		{PAUSE, DELAI, 0}, 
+	{DELTA, 230, 0}, 		{PAUSE, DELAI, 0},
 	{CLAP_FERME_D, 0, 0}, 	{PAUSE, DELAI, 0},
 
-	{DELTA, 350, 0}, 		{PAUSE, DELAI, 0}, 
+	{DELTA, 350, 0}, 		{PAUSE, DELAI, 0},
 	{CLAP_OUVRE_D, 0, 0},	{PAUSE, DELAI, 0},
 
 	{DELTA, 220, 0}, 		{PAUSE, DELAI, 0},
 	{ALPHA, QTOUR, 0}, 		{PAUSE, DELAI, 0},
 
-	{DELTA, 500, 0}, 		{PAUSE, DELAI, 0}, 
+	{DELTA, 500, 0}, 		{PAUSE, DELAI, 0},
 	{ALPHA, QTOUR, 0}, 		{PAUSE, DELAI, 0},
-	{DELTA, 600, 0}, 		{PAUSE, DELAI, 0}, 
-	
+	{DELTA, 600, 0}, 		{PAUSE, DELAI, 0},
+
 	{OUVRE_PORTE_EMPILEUR, 0, 0},
 	{DELTA, 200, 0}, 		{PAUSE, DELAI, 0},
 
 /*
-	{DELTA, 150, 0}, 		{PAUSE, DELAI, 0}, 
+	{DELTA, 150, 0}, 		{PAUSE, DELAI, 0},
 	{ALPHA, -QTOUR/2, 0}, 		{PAUSE, DELAI, 0},
 	{CLAP_FERME_D, 0, 0}, 	{PAUSE, DELAI, 0},
 
-	{DELTA, 200, 0}, 		{PAUSE, DELAI, 0}, 
+	{DELTA, 200, 0}, 		{PAUSE, DELAI, 0},
 	{ALPHA, QTOUR, 0}, 		{PAUSE, DELAI, 0},
 	{DELTA, -250, 0}, 		{PAUSE, DELAI, 0},
 	{DELTA, -250, 0}, 		{PAUSE, DELAI, 0},
 
 	// On a l'arrière dans la zone rouge
 	{DESCEND_PIED_EMPILEUR, 0, 0},
-	{OUVRE_PORTE_EMPILEUR, 0, 0}, 	{PAUSE, DELAI, 0}, 
+	{OUVRE_PORTE_EMPILEUR, 0, 0}, 	{PAUSE, DELAI, 0},
 	{DELTA, 220, 0}, 		{PAUSE, DELAI, 0}, */
-	//{DELTA, 150, 0}, 		{PAUSE, DELAI, 0}, 
-	//{FERME_PORTE_EMPILEUR, 0, 0}, 	{PAUSE, DELAI, 0}, 
-	//{DELTA, -120, 0}, 		{PAUSE, DELAI, 0}, 
+	//{DELTA, 150, 0}, 		{PAUSE, DELAI, 0},
+	//{FERME_PORTE_EMPILEUR, 0, 0}, 	{PAUSE, DELAI, 0},
+	//{DELTA, -120, 0}, 		{PAUSE, DELAI, 0},
 //*/
 
-	/*{ALPHA, 1064, 0}, 	{PAUSE, DELAI, 0}, 
+	/*{ALPHA, 1064, 0}, 	{PAUSE, DELAI, 0},
 	{ALPHA, -QTOUR/2, 0}, 		{PAUSE, DELAI, 0},
 	{DELTA, 150, 0}, 		{PAUSE, DELAI, 0},
-	{DELTA, 500, 0}, 		{PAUSE, DELAI, 0}, 
+	{DELTA, 500, 0}, 		{PAUSE, DELAI, 0},
 	{ALPHA, DTOUR, 0}, 		{PAUSE, DELAI, 0}, */
-	/*{FERME_PORTE_EMPILEUR, 0, 0}, 	{PAUSE, DELAI, 0}, 
-	{DELTA, 480, 0}, 		{PAUSE, DELAI, 0}, 
-	{ALPHA, 541, 0}, 		{PAUSE, DELAI, 0}, 
-	{DELTA, 13280, 0}, 		{PAUSE, DELAI, 0}, 
-	{PREND_POP_CORN, 0, 0}, {PAUSE, DELAI, 0}, 
-	{DELTA, -200, 0}, 		{PAUSE, DELAI, 0}, 
-	{ALPHA, QTOUR, 0}, 		{PAUSE, DELAI, 0}, 
-	{DELTA, 400, 0}, 		{PAUSE, DELAI, 0}, 
-	{ALPHA, DTOUR, 0}, 		{PAUSE, DELAI, 0}, 
-	{DELTA, 400, 0}, 		{PAUSE, DELAI, 0}, 
-	{ALPHA, QTOUR, 0}, 		{PAUSE, DELAI, 0}, 
-	{DELTA, 800, 0}, 		{PAUSE, DELAI, 0}, 
-	{ALPHA, QTOUR, 0}, 		{PAUSE, DELAI, 0}, 
-	{OUVRE_PORTE_EMPILEUR, 0, 0}, 	{PAUSE, DELAI, 0}, 
-	{DELTA, 1800, 0}, 		{PAUSE, DELAI, 0}, 
-	{FERME_PORTE_EMPILEUR, 0, 0}, 	{PAUSE, DELAI, 0}, 
-	{ALPHA, -QTOUR, 0}, 	{PAUSE, DELAI, 0}, 
-	{DELTA, 400, 0}, 		{PAUSE, DELAI, 0}, 
-	{ALPHA, QTOUR, 0}, 		{PAUSE, DELAI, 0}, 
-	{DELTA, 300, 0}, 		{PAUSE, DELAI, 0}, 
-	{GOBELET_LIBERE_G, 0, 0}, {PAUSE, DELAI, 0}, 
-	{DELTA, -50, 0}, 		{PAUSE, DELAI, 0}, 
-	{CLAP_FERME_G, 0, 0}, 
-	{ALPHA, 785, 0}, 		{PAUSE, DELAI, 0}, 
-	{VIDE_POP_CORN, 0, 0},	{PAUSE, DELAI, 0}, 
-	{ALPHA,  -2356, 0}, 	{PAUSE, DELAI, 0}, 
-	{DELTA, 400, 0}, 		{PAUSE, DELAI, 0}, 
-	{ALPHA, -QTOUR, 0}, 	{PAUSE, DELAI, 0}, 
-	{DELTA, 350, 0}, 		{PAUSE, DELAI, 0}, 
-	{CLAP_OUVRE_G, 0, 0}, 	{PAUSE, DELAI, 0}, 
+	/*{FERME_PORTE_EMPILEUR, 0, 0}, 	{PAUSE, DELAI, 0},
+	{DELTA, 480, 0}, 		{PAUSE, DELAI, 0},
+	{ALPHA, 541, 0}, 		{PAUSE, DELAI, 0},
+	{DELTA, 13280, 0}, 		{PAUSE, DELAI, 0},
+	{PREND_POP_CORN, 0, 0}, {PAUSE, DELAI, 0},
+	{DELTA, -200, 0}, 		{PAUSE, DELAI, 0},
+	{ALPHA, QTOUR, 0}, 		{PAUSE, DELAI, 0},
+	{DELTA, 400, 0}, 		{PAUSE, DELAI, 0},
+	{ALPHA, DTOUR, 0}, 		{PAUSE, DELAI, 0},
+	{DELTA, 400, 0}, 		{PAUSE, DELAI, 0},
+	{ALPHA, QTOUR, 0}, 		{PAUSE, DELAI, 0},
+	{DELTA, 800, 0}, 		{PAUSE, DELAI, 0},
+	{ALPHA, QTOUR, 0}, 		{PAUSE, DELAI, 0},
+	{OUVRE_PORTE_EMPILEUR, 0, 0}, 	{PAUSE, DELAI, 0},
+	{DELTA, 1800, 0}, 		{PAUSE, DELAI, 0},
+	{FERME_PORTE_EMPILEUR, 0, 0}, 	{PAUSE, DELAI, 0},
+	{ALPHA, -QTOUR, 0}, 	{PAUSE, DELAI, 0},
+	{DELTA, 400, 0}, 		{PAUSE, DELAI, 0},
+	{ALPHA, QTOUR, 0}, 		{PAUSE, DELAI, 0},
+	{DELTA, 300, 0}, 		{PAUSE, DELAI, 0},
+	{GOBELET_LIBERE_G, 0, 0}, {PAUSE, DELAI, 0},
+	{DELTA, -50, 0}, 		{PAUSE, DELAI, 0},
+	{CLAP_FERME_G, 0, 0},
+	{ALPHA, 785, 0}, 		{PAUSE, DELAI, 0},
+	{VIDE_POP_CORN, 0, 0},	{PAUSE, DELAI, 0},
+	{ALPHA,  -2356, 0}, 	{PAUSE, DELAI, 0},
+	{DELTA, 400, 0}, 		{PAUSE, DELAI, 0},
+	{ALPHA, -QTOUR, 0}, 	{PAUSE, DELAI, 0},
+	{DELTA, 350, 0}, 		{PAUSE, DELAI, 0},
+	{CLAP_OUVRE_G, 0, 0}, 	{PAUSE, DELAI, 0},
 	{DELTA, 200, 0}, 		{PAUSE, DELAI, 0}, */
 	{FIN,0,0}
 };
@@ -150,15 +160,15 @@ static int milestones_vert[][3]= {
 	//{DESCEND_PIED_EMPILEUR, 0, 0},
 	//{DELTA, 35, 0},			{PAUSE, DELAI, 0},
 	//{MONTE_PIED_EMPILEUR, 0, 0},
-	
 
 
-	{DELTA, 600, 0}, 		{PAUSE, DELAI, 0}, 
-	{ARRET_CAPTEUR, 0, 0}, 
-	{ALPHA, QTOUR, 0}, 	{PAUSE, DELAI, 0}, 
-	{DELTA, 470, 0}, 		{PAUSE, DELAI, 0}, 
-	{ALPHA, QTOUR, 0}, 	{PAUSE, DELAI, 0}, 
-	{DELTA, 740, 0}, 		{PAUSE, DELAI, 0}, 
+
+	{DELTA, 600, 0}, 		{PAUSE, DELAI, 0},
+	{ARRET_CAPTEUR, 0, 0},
+	{ALPHA, QTOUR, 0}, 	{PAUSE, DELAI, 0},
+	{DELTA, 470, 0}, 		{PAUSE, DELAI, 0},
+	{ALPHA, QTOUR, 0}, 	{PAUSE, DELAI, 0},
+	{DELTA, 740, 0}, 		{PAUSE, DELAI, 0},
 	// On se cale sur le mur
 	{DELTA,  180, 0}, 		{PAUSE, DELAI, 0},
 
@@ -172,35 +182,35 @@ static int milestones_vert[][3]= {
 	{DELTA, -160, 0}, 		{PAUSE, DELAI, 0},
 	{DELTA, -140, 0}, 		{PAUSE, DELAI, 0},
 
-	{DELTA, 443, 0}, 		{PAUSE, DELAI, 0}, 
-	//{DELTA, -30, 0}, 		{PAUSE, DELAI, 0}, 
+	{DELTA, 443, 0}, 		{PAUSE, DELAI, 0},
+	//{DELTA, -30, 0}, 		{PAUSE, DELAI, 0},
 	{CLAP_OUVRE_G, 0, 0},
-	{ALPHA, -QTOUR, 0}, 		{PAUSE, DELAI, 0}, 
+	{ALPHA, -QTOUR, 0}, 		{PAUSE, DELAI, 0},
 	// On longe les claps
-	{DELTA, 260, 0}, 		{PAUSE, DELAI, 0}, 
+	{DELTA, 260, 0}, 		{PAUSE, DELAI, 0},
 	{CLAP_FERME_G, 0, 0}, 	{PAUSE, DELAI, 0},
 
-	{DELTA, 320, 0}, 		{PAUSE, DELAI, 0}, 
+	{DELTA, 320, 0}, 		{PAUSE, DELAI, 0},
 	{CLAP_OUVRE_G, 0, 0},	{PAUSE, DELAI, 0},
 
 	{DELTA, 220, 0}, 		{PAUSE, DELAI, 0},
 	{ALPHA, -QTOUR/2, 0}, 		{PAUSE, DELAI, 0},
-	{DELTA, 150, 0}, 		{PAUSE, DELAI, 0}, 
+	{DELTA, 150, 0}, 		{PAUSE, DELAI, 0},
 	{ALPHA, QTOUR/2, 0}, 		{PAUSE, DELAI, 0},
 	{CLAP_FERME_G, 0, 0}, 	{PAUSE, DELAI, 0},
 
-	{DELTA, 200, 0}, 		{PAUSE, DELAI, 0}, 
+	{DELTA, 200, 0}, 		{PAUSE, DELAI, 0},
 	{ALPHA, -QTOUR, 0}, 		{PAUSE, DELAI, 0},
 	{DELTA, -250, 0}, 		{PAUSE, DELAI, 0},
 	{DELTA, -250, 0}, 		{PAUSE, DELAI, 0},
 
 	// On a l'arrière dans la zone rouge
 	{DESCEND_PIED_EMPILEUR, 0, 0},
-	{OUVRE_PORTE_EMPILEUR, 0, 0}, 	{PAUSE, DELAI, 0}, 
-	{DELTA, 220, 0}, 		{PAUSE, DELAI, 0}, 
-	//{DELTA, 150, 0}, 		{PAUSE, DELAI, 0}, 
-	//{FERME_PORTE_EMPILEUR, 0, 0}, 	{PAUSE, DELAI, 0}, 
-	//{DELTA, -120, 0}, 		{PAUSE, DELAI, 0}, 
+	{OUVRE_PORTE_EMPILEUR, 0, 0}, 	{PAUSE, DELAI, 0},
+	{DELTA, 220, 0}, 		{PAUSE, DELAI, 0},
+	//{DELTA, 150, 0}, 		{PAUSE, DELAI, 0},
+	//{FERME_PORTE_EMPILEUR, 0, 0}, 	{PAUSE, DELAI, 0},
+	//{DELTA, -120, 0}, 		{PAUSE, DELAI, 0},
 //*/
 
 	{FIN,0,0}
@@ -261,7 +271,7 @@ void gestion_actions()
 			asser_done=0;
 			Delay(500);
 			break;
-			
+
 		case THETA :
 			send_val(s2a_keys[S2A_KEY_THETA], milestones[cpt][1]);
 			send_fonction(s2a_keys[S2A_FCT_THETA]);
