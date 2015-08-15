@@ -39,8 +39,9 @@ view: $(EXEC)
 
 $(EXEC): $(FICHIERS_O) $(HARDW_LIB)
 	@make -C $(COMMUNICATION_DIR) libCommStrat
+	@make -C $(CARTO_DIR) libCartographie
 	@echo "	CC	$(PROJECT)|$(notdir $@)"
-	@$(CC) -o $@ $^ $(CFLAGS) -lCommStrat $(LDFLAGS)
+	@$(CC) -o $@ $^ $(CFLAGS) -lCommStrat -lCartographie $(LDFLAGS)
 
 $(HARDW_LIB): hardware_lib
 
