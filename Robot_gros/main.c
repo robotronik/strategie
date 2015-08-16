@@ -6,8 +6,24 @@
 #include "actionneurs.h"
 #include "LowLevel/empileur.h"
 
-// Cartographie
-#include "../../cartographie/cartographie.h"
+//test pwm
+#include "../mapping/IO_pinout.h"
+#include "../mapping/PWM_pinout.h"
+#include "../../hardware/stm32f407/headers/GPIO.h"
+#include "../../hardware/stm32f407/headers/RTC.h"
+#include "../../hardware/stm32f407/headers/US_sensor.h"
+#include "../../hardware/stm32f407/headers/PWM.h"
+#include "utilities.h"
+#include "LowLevel/capteurUS.h"
+
+//test servo
+//#include "../../mapping/PWM_pinout.h"
+#include "../../hardware/stm32f407/headers/servo.h"
+
+//test uart
+#include "../../hardware/stm32f407/headers/UART.h"
+
+#include "actions.h"
 
 // In stm32f407 repository
 #include "UART.h"
@@ -25,7 +41,7 @@ void gestion_communication() {
         set_asser_done();
 }
 
-int mainStrategie() {
+int main() {
     //return mainStrategieRobot2A();
     return mainTest();
 }
@@ -55,6 +71,7 @@ int mainTest() {
 
 int mainStrategieRobot2A() {
     // Initialisation des différents machins
+    //init_EOM_timer();
     init_actionneurs();
 
     init_UART_Asser(&UART_Asser);

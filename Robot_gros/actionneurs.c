@@ -135,7 +135,7 @@ int bras_gauche_position_prise_gobelet()
     //    return 1;
     bras_gauche_is_risen=1;
     bras_gauche_set_angle(ANGLE_GOBELET_LIBRE_BRAS_GAUCHE);
-    return 0;   
+    return 0;
 }
 
 int bras_gauche_coince_gobelet()
@@ -149,7 +149,7 @@ int bras_gauche_coince_gobelet()
     bras_gauche_set_angle(ANGLE_GOBELET_LIBRE_BRAS_GAUCHE);
     wait();
     bras_gauche_set_angle(ANGLE_GOBELET_COINCE_BRAS_GAUCHE);*/
-    return 0;   
+    return 0;
 }
 
 int bras_gauche_libere_gobelet()
@@ -159,7 +159,7 @@ int bras_gauche_libere_gobelet()
     bras_gauche_is_risen=1;
     bras_gauche_set_angle(ANGLE_GOBELET_LIBRE_BRAS_GAUCHE);
     gobelet_saisi=0;
-    return 0; 
+    return 0;
 }
 
 //============================== BRAS DROIT =================================//
@@ -185,7 +185,7 @@ int bras_droit_position_prise_gobelet()
     //    return 1;
     bras_droit_is_risen=1;
     bras_droit_set_angle(ANGLE_GOBELET_LIBRE_BRAS_DROIT);
-    return 0;   
+    return 0;
 }
 
 int bras_droit_coince_gobelet()
@@ -199,7 +199,7 @@ int bras_droit_coince_gobelet()
     bras_droit_set_angle(ANGLE_GOBELET_LIBRE_BRAS_DROIT);
     wait();
     bras_droit_set_angle(ANGLE_GOBELET_COINCE_BRAS_DROIT);*/
-    return 0;   
+    return 0;
 }
 
 int bras_droit_libere_gobelet()
@@ -209,7 +209,7 @@ int bras_droit_libere_gobelet()
     bras_droit_is_risen=1;
     bras_droit_set_angle(ANGLE_GOBELET_LIBRE_BRAS_DROIT);
     gobelet_saisi=0;
-    return 0; 
+    return 0;
 }
 
 //================================ MOULIN ===================================//
@@ -247,9 +247,9 @@ void libere_pop_corn()
 
 void init_protection_perimetre()
 {
-    int porte_empileur_is_open=0;
-    int bras_droit_is_risen=0;
-    int bras_gauche_is_risen=0;
+    porte_empileur_is_open=0;
+    bras_droit_is_risen=0;
+    bras_gauche_is_risen=0;
 }
 
 void init_position_actionneurs()
