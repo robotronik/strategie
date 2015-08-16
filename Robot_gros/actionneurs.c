@@ -4,7 +4,6 @@
 #include "Calibration/reglages_moulin.h"
 #include "LowLevel/empileur.h"
 #include "LowLevel/servos.h"
-#include "utilities.h"
 
 void init_protection_perimetre();
 void init_position_actionneurs();

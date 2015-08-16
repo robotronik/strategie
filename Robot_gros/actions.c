@@ -1,10 +1,7 @@
 #include "actions.h"
 #include "actionneurs.h"
-#include "../../stm32f407/headers/UART.h"
-#include "utilities.h"
+#include "stm32f407/headers/UART.h"
 #include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include "../../common_code/communication/s2a.h"
 #include "../../common_code/communication/text_emission.h"
 

@@ -1,33 +1,24 @@
 // Mapping. Useful for direct pinout access
+// TODO remove
 #include "../mapping/IO_pinout.h"
+#include "../mapping/PWM_pinout.h"
 
 // Actions, etc
 #include "actions.h"
 #include "actionneurs.h"
+#include "LowLevel/capteurUS.h"
 #include "LowLevel/empileur.h"
 
-//test pwm
-#include "../mapping/IO_pinout.h"
-#include "../mapping/PWM_pinout.h"
-#include "../../hardware/stm32f407/headers/GPIO.h"
-#include "../../hardware/stm32f407/headers/RTC.h"
-#include "../../hardware/stm32f407/headers/US_sensor.h"
-#include "../../hardware/stm32f407/headers/PWM.h"
-#include "utilities.h"
-#include "LowLevel/capteurUS.h"
-
-//test servo
-//#include "../../mapping/PWM_pinout.h"
-#include "../../hardware/stm32f407/headers/servo.h"
-
-//test uart
-#include "../../hardware/stm32f407/headers/UART.h"
-
-#include "actions.h"
+// Pathfinding
+#include "../../cartographie/cartographie.h"
 
 // In stm32f407 repository
-#include "UART.h"
-#include "GPIO.h"
+// TODO remove
+#include "stm32f407/headers/GPIO.h"
+#include "stm32f407/headers/RTC.h"
+#include "stm32f407/headers/UART.h"
+#include "stm32f407/headers/US_sensor.h"
+
 
 void gestion_rupteurs() {
     /*if(rupteur_pied_empileur_is_pushed()) {
@@ -39,11 +30,6 @@ void gestion_rupteurs() {
 void gestion_communication() {
     if (!read_pin(IO7_PORT, IO7_PIN))
         set_asser_done();
-}
-
-int main() {
-    //return mainStrategieRobot2A();
-    return mainTest();
 }
 
 int mainTest() {
@@ -66,6 +52,7 @@ int mainTest() {
         Delay(500);
 
     }
+    return 0;
 }
 
 
@@ -113,4 +100,9 @@ int mainStrategieRobot2A() {
     }
 
     return 0;
+}
+
+int main() {
+    //return mainStrategieRobot2A();
+    return mainTest();
 }

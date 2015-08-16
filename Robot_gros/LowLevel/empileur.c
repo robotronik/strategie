@@ -1,8 +1,7 @@
 #include "../../mapping/IO_pinout.h"
 #include "../../mapping/PWM_pinout.h"
-#include "../../../hardware/stm32f407/headers/GPIO.h"
-#include "../../../hardware/stm32f407/headers/PWM.h"
-#include "utilities.h"
+#include "stm32f407/headers/GPIO.h"
+#include "stm32f407/headers/PWM.h"
 
 // Low-level pour la gestion du moteur de l'empileur
 
