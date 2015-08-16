@@ -12,6 +12,9 @@
 // Pathfinding
 #include "../../cartographie/cartographie.h"
 
+// Harware
+#include "hardware_common.h"
+
 // In stm32f407 repository
 // TODO remove
 #include "stm32f407/headers/GPIO.h"
@@ -47,9 +50,9 @@ int mainTest() {
 
     for (int i = 0; i < return_length_of_path_found(); ++i) {
         HAL_GPIO_TogglePin(GPIOD, LED_BLEUE);
-        Delay(500);
+        delay_ms(500);
         HAL_GPIO_TogglePin(GPIOD, LED_BLEUE);
-        Delay(500);
+        delay_ms(500);
 
     }
     return 0;
@@ -85,7 +88,7 @@ int mainStrategieRobot2A() {
     activate_sensor1();
     activate_sensor2();
 
-    Delay(10);
+    delay_ms(10);
 
     // Voilà, maintenant on peut s'amuser !
 

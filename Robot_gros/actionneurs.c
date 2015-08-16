@@ -1,3 +1,5 @@
+#include "hardware_common.h"
+
 #include "actionneurs.h"
 #include "Calibration/reglages_servos.h"
 #include "Calibration/reglages_ascenseur.h"
@@ -24,7 +26,7 @@ void init_actionneurs()
     init_protection_perimetre();
     init_position_actionneurs();
     /*descend_ascenseur();
-    Delay(10);
+    delay_ms(10);
     monte_pied();*/
 
 }
@@ -84,10 +86,10 @@ void monte_pied()
 {
     set_PWM_moteur_empileur(PWM_MOTEUR,DIR_MONTEE);
     if(ascenseur_en_position_balle) {
-        Delay(TPS_MONTEE_PIED-TPS_MONTEE_BALLE);
+        delay_ms(TPS_MONTEE_PIED-TPS_MONTEE_BALLE);
     }
     else {
-        Delay(TPS_MONTEE_PIED);
+        delay_ms(TPS_MONTEE_PIED);
     }
     stop_ascenseur();
     ascenseur_en_position_balle=0;
@@ -97,7 +99,7 @@ void ascenseur_position_prise_balle()
 {
     descend_ascenseur();
     set_PWM_moteur_empileur(PWM_MOTEUR,DIR_MONTEE);
-    Delay(TPS_MONTEE_BALLE);
+    delay_ms(TPS_MONTEE_BALLE);
     stop_ascenseur();
     ascenseur_en_position_balle=1;
 
@@ -235,7 +237,7 @@ void libere_pop_corn()
     for(i=ANGLE_REPOS_MOULIN;i>ANGLE_VIDE_POP_CORN;i--)
     {
         attrape_popcorns_set_angle(i);
-        Delay(SLOW_VIDE_POP_CORN);
+        delay_ms(SLOW_VIDE_POP_CORN);
     }
     attrape_popcorns_set_angle(ANGLE_VIDE_POP_CORN);
     //wait éventuel

@@ -1,3 +1,5 @@
+#include "hardware_common.h"
+
 #include "actions.h"
 #include "actionneurs.h"
 #include "stm32f407/headers/UART.h"
@@ -103,7 +105,7 @@ void pause(int ms)
 {
 	//pour laisser la main pour le check des capteurs
 	//(moche car en vrai le tps est plus grand du coup)
-	Delay(1);
+	delay_ms(1);
 	cpt_pause++;
 	if (cpt_pause==ms)
 	{
@@ -134,7 +136,7 @@ void gestion_actions()
 			send_val(s2a_keys[S2A_KEY_Y], milestones[cpt][2]);
 			send_fonction(s2a_keys[S2A_FCT_XY_ABSOLU]);
 			asser_done=0;
-			Delay(500); //le temps que l'asser remette la pin à 0
+			delay_ms(500); //le temps que l'asser remette la pin à 0
 			//TODO
 			break;
 		case ALPHA :
@@ -142,7 +144,7 @@ void gestion_actions()
 			send_val(s2a_keys[S2A_KEY_DELTA], 0);
 			send_fonction(s2a_keys[S2A_FCT_ALPHA_DELTA]);
 			asser_done=0;
-			Delay(500);
+			delay_ms(500);
 			//TODO
 			break;
 
@@ -151,14 +153,14 @@ void gestion_actions()
 			send_val(s2a_keys[S2A_KEY_ALPHA], 0);
 			send_fonction(s2a_keys[S2A_FCT_ALPHA_DELTA]);
 			asser_done=0;
-			Delay(500);
+			delay_ms(500);
 			break;
 
 		case THETA :
 			send_val(s2a_keys[S2A_KEY_THETA], milestones[cpt][1]);
 			send_fonction(s2a_keys[S2A_FCT_THETA]);
 			asser_done=0;
-			Delay(500);
+			delay_ms(500);
 			break;
 
 		//actions
@@ -223,7 +225,7 @@ void gestion_actions()
 		case FIN :
 			cpt--;
 			send_cmd(s2a_keys[S2A_CMD_STOP]);
-			Delay(3600000); //on attend une heure parce on sait jamais ;)
+			delay_ms(3600000); //on attend une heure parce on sait jamais ;)
 			break;
 
 	}
