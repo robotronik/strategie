@@ -4,7 +4,7 @@ default: all
 export ARCH  ?= stm32f407
 export ROBOT ?= gros
 export SDL   ?= no
-export DEBUG ?= _WARNING_
+export DEBUG ?= 0
 
 PARENT_DIR = ../../
 
