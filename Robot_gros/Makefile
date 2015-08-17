@@ -8,10 +8,9 @@ export DEBUG ?= 0
 
 PARENT_DIR = ../../
 
-
 # Constantes de compilation
 EXEC    = strategie_robot
-HEX 	= strategie_robot.hex
+HEX 	= $(EXEC).hex
 
 include $(PARENT_DIR)/hardware/common.mk
 ################################################################################
@@ -19,26 +18,29 @@ include $(PARENT_DIR)/hardware/common.mk
 
 FICHIERS_C = \
 	main.c \
+	actions.c \
 	actionneurs.c \
 	communication.c \
 	LowLevel/capteurIR.c \
 	LowLevel/capteurUS.c \
 	LowLevel/empileur.c \
 	LowLevel/servos.c \
-	actions.c \
 
-FICHIERS_H = $(SOURCES:.c=.h)
 FICHIERS_O  += $(addprefix $(BUILD_DIR)/, $(FICHIERS_C:.c=.o) )
 
 ################################################################################
+.PHONY: all view
 
 all: $(EXEC)
 
-.PHONY:view
 view: $(EXEC)
 	./$^
 
 $(HEX): $(EXEC)
+
+# The dependency for the hardware lib
+$(HARDW_LIB): hardware_lib
+
 
 $(EXEC): $(FICHIERS_O) $(HARDW_LIB)
 	@make -C $(COMMUNICATION_DIR) libCommStrat
@@ -46,13 +48,9 @@ $(EXEC): $(FICHIERS_O) $(HARDW_LIB)
 	@echo "	CC	$(PROJECT)|$(notdir $@)"
 	@$(CC) -o $@ $^ $(CFLAGS) -lCommStrat -lCartographie $(LDFLAGS)
 
-$(HARDW_LIB): hardware_lib
-
-$(BUILD_DIR)/libStrategie.a: $(FICHIERS_O)
 
 $(BUILD_DIR):
 	@mkdir -p $(BUILD_DIR)
-	@mkdir -p $(BUILD_DIR)/Calibration
 	@mkdir -p $(BUILD_DIR)/LowLevel
 
 ################################################################################
@@ -61,4 +59,3 @@ $(BUILD_DIR):
 mrproper: clean
 	@echo "Hard-cleaning  $(PROJECT) directory…"
 	@rm -rf $(EXEC) $(HEX)
-
