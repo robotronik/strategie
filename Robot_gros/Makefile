@@ -8,11 +8,12 @@ export DEBUG ?= _WARNING_
 
 PARENT_DIR = ../../
 
-include $(PARENT_DIR)/hardware/common.mk
 
 # Constantes de compilation
 EXEC    = strategie_robot
+HEX 	= strategie_robot.hex
 
+include $(PARENT_DIR)/hardware/common.mk
 ################################################################################
 # Fichiers du projet
 
@@ -37,6 +38,8 @@ all: $(EXEC)
 view: $(EXEC)
 	./$^
 
+$(HEX): $(EXEC)
+
 $(EXEC): $(FICHIERS_O) $(HARDW_LIB)
 	@make -C $(COMMUNICATION_DIR) libCommStrat
 	@make -C $(CARTO_DIR) libCartographie
@@ -55,7 +58,7 @@ $(BUILD_DIR):
 ################################################################################
 # Cibles génériques
 
-mrproper: clean-all
+mrproper: clean
 	@echo "Hard-cleaning  $(PROJECT) directory…"
-	@rm -rf $(EXEC) $(PIC_ELF) $(PIC_HEX)
+	@rm -rf $(EXEC) $(HEX)
 
