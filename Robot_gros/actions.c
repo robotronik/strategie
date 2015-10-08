@@ -14,32 +14,62 @@ static int cpt_pause=0;
 #define QTOUR 1571
 #define DTOUR 3142
 
-#define DELAI 1500
-/*
-static int milestones[40][3]=
-{
-	//{DELTA,0,0},
-	{DELTA,500,0},
-	//{PAUSE,2000,0},
-	//{ARRET_CAPTEUR,0,0},
-	{THETA,-1571,0},
-	//{PAUSE,2000,0},
-	{DELTA,740,0},
-	//{PAUSE,2000,0},
-	{THETA,0,0},
-	//{PAUSE,2000,0},
-	{CLAP_OUVRE_D,0,0},
-	//{PAUSE,1000,0},
-	{DELTA,250,0},
-	//{PAUSE,2000,0},
-	{THETA,1571,0},
-	//{PAUSE,2000,0},
-	{CLAP_FERME_D,0,0},
-	//{PAUSE,1000,0},
-	{FIN,0,0}
-};*/
+#define DELAI 500
 
 static int milestones[][3]= {
+	{ARRET_CAPTEUR, 0, 0},
+	{VIDE_POP_CORN, 0, 0},
+
+	{ALPHA, -QTOUR, 0}, 	{PAUSE, DELAI, 0},
+	{ALPHA, -QTOUR, 0}, 	{PAUSE, DELAI, 0},
+
+	{PREND_POP_CORN, 0, 0},
+	{CLAP_OUVRE_G, 0, 0},
+	{OUVRE_PORTE_EMPILEUR, 0, 0},
+	{CLAP_OUVRE_D, 0, 0}, 	{PAUSE, DELAI, 0},
+	{VIDE_POP_CORN, 0, 0},
+	{CLAP_FERME_G, 0, 0},
+	{FERME_PORTE_EMPILEUR, 0, 0},
+	{CLAP_FERME_G, 0, 0}, 	{PAUSE, DELAI, 0},
+
+	{PREND_POP_CORN, 0, 0},
+	{CLAP_OUVRE_G, 0, 0},
+	{OUVRE_PORTE_EMPILEUR, 0, 0},
+	{CLAP_OUVRE_D, 0, 0}, 	{PAUSE, DELAI, 0},
+	{VIDE_POP_CORN, 0, 0},
+	{CLAP_FERME_G, 0, 0},
+	{FERME_PORTE_EMPILEUR, 0, 0},
+	{CLAP_FERME_G, 0, 0}, 	{PAUSE, DELAI, 0},
+
+	{PREND_POP_CORN, 0, 0},
+	{CLAP_OUVRE_G, 0, 0},
+	{OUVRE_PORTE_EMPILEUR, 0, 0},
+	{CLAP_OUVRE_D, 0, 0}, 	{PAUSE, DELAI, 0},
+	{VIDE_POP_CORN, 0, 0},
+	{CLAP_FERME_G, 0, 0},
+	{FERME_PORTE_EMPILEUR, 0, 0},
+	{CLAP_FERME_G, 0, 0}, 	{PAUSE, DELAI, 0},
+
+	{PREND_POP_CORN, 0, 0},
+	{CLAP_OUVRE_G, 0, 0},
+	{OUVRE_PORTE_EMPILEUR, 0, 0},
+	{CLAP_OUVRE_D, 0, 0}, 	{PAUSE, DELAI, 0},
+	{VIDE_POP_CORN, 0, 0},
+	{CLAP_FERME_G, 0, 0},
+	{FERME_PORTE_EMPILEUR, 0, 0},
+	{CLAP_FERME_G, 0, 0}, 	{PAUSE, DELAI, 0},
+
+	{ALPHA, 8*QTOUR, 0}, 	{PAUSE, 2*DELAI, 0},
+	{ALPHA, -6*QTOUR, 0}, 	{PAUSE, 2*DELAI, 0},
+
+	{CLAP_FERME_G, 0, 0}, 	{PAUSE, DELAI, 0},
+
+	{OUVRE_PORTE_EMPILEUR, 0, 0}, 	{PAUSE, DELAI, 0},
+
+	{FIN,0,0}
+};
+
+static int milestones_old[][3]= {
 	//{DELTA, -25, 0},			{PAUSE, DELAI, 0},
 	//{DESCEND_PIED_EMPILEUR, 0, 0},
 	//{DELTA, 35, 0},			{PAUSE, DELAI, 0},

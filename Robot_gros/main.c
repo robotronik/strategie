@@ -104,8 +104,18 @@ int mainStrategieRobot2A() {
     return 0;
 }
 
+
+int mainPresentationAssos() {
+    init_hardware();
+
+}
+
+
 int main() {
     init_hardware();
-    //return mainStrategieRobot2A();
-    return mainTest();
+    mainStrategieRobot2A();
+    //mainTest();
+    //while (1)
+    //    test_led();
+    return 0;
 }
