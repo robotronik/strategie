@@ -10,7 +10,6 @@ PARENT_DIR = ../../
 
 # Constantes de compilation
 EXEC    = strategie_robot
-HEX 	= $(EXEC).hex
 
 include $(PARENT_DIR)/hardware/common.mk
 ################################################################################
@@ -31,26 +30,14 @@ FICHIERS_O  += $(addprefix $(BUILD_DIR)/, $(FICHIERS_C:.c=.o) )
 ################################################################################
 .PHONY: all view
 
-all: $(EXEC)
+all: $(BUILD_DIR)/$(EXEC)
 
-view: $(EXEC)
-	./$^
-
-$(HEX): $(EXEC)
-
-
-$(EXEC): $(FICHIERS_O) libHardware libCommStrat #libCarto
+$(BUILD_DIR)/$(EXEC): $(FICHIERS_O) libHardware libCommStrat libCarto
 	@echo "	CC	$(PROJECT)|$(notdir $@)"
-	@$(CC) -o $@ $(FICHIERS_O) $(CFLAGS) -lHardware -lCommStrat $(LDFLAGS)
+	@$(CC) -o $@ $(FICHIERS_O) $(CFLAGS) -lHardware -lCommStrat -lCarto $(LDFLAGS)
 
 
 $(BUILD_DIR):
 	@mkdir -p $(BUILD_DIR)
 	@mkdir -p $(BUILD_DIR)/LowLevel
 
-################################################################################
-# Cibles génériques
-
-mrproper: clean
-	@echo "Hard-cleaning  $(PROJECT) directory…"
-	@rm -rf $(EXEC) $(HEX)
