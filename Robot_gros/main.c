@@ -36,7 +36,7 @@ void gestion_communication() {
 }
 
 int mainTest() {
-    pathfinding_init();
+    /*pathfinding_init();
 
     int on_a_un_chemin;
     // Benchmark de la cartographie
@@ -53,7 +53,7 @@ int mainTest() {
         delay_ms(500);
         HAL_GPIO_TogglePin(GPIOD, LED_BLEUE);
         delay_ms(500);
-    }
+    }*/
     return 0;
 }
 
@@ -106,6 +106,6 @@ int mainStrategieRobot2A() {
 
 int main() {
     init_hardware();
-    //return mainStrategieRobot2A();
-    return mainTest();
+    return mainStrategieRobot2A();
+    //return mainTest();
 }

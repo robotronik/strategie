@@ -38,15 +38,10 @@ view: $(EXEC)
 
 $(HEX): $(EXEC)
 
-# The dependency for the hardware lib
-$(HARDW_LIB): hardware_lib
 
-
-$(EXEC): $(FICHIERS_O) $(HARDW_LIB)
-	@make -C $(COMMUNICATION_DIR) libCommStrat
-	@make -C $(CARTO_DIR) libCartographie
+$(EXEC): $(FICHIERS_O) libHardware libCommStrat #libCarto
 	@echo "	CC	$(PROJECT)|$(notdir $@)"
-	@$(CC) -o $@ $^ $(CFLAGS) -lCommStrat -lCartographie $(LDFLAGS)
+	@$(CC) -o $@ $(FICHIERS_O) $(CFLAGS) -lHardware -lCommStrat $(LDFLAGS)
 
 
 $(BUILD_DIR):
