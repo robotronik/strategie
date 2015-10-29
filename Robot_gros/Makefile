@@ -16,7 +16,6 @@ include $(PARENT_DIR)/hardware/common.mk
 # Fichiers du projet
 
 FICHIERS_C = \
-	main.c \
 	actions.c \
 	actionneurs.c \
 	communication.c \
@@ -30,11 +29,16 @@ FICHIERS_O  += $(addprefix $(BUILD_DIR)/, $(FICHIERS_C:.c=.o) )
 ################################################################################
 .PHONY: all view
 
+_libStrat: $(BUILD_DIR)/libStrat.a
+
+$(BUILD_DIR)/libStrat.a: $(FICHIERS_O)
+
+
 all: $(BUILD_DIR)/$(EXEC)
 
-$(BUILD_DIR)/$(EXEC): $(FICHIERS_O) libHardware libCommStrat libCarto
+$(BUILD_DIR)/$(EXEC): $(BUILD_DIR)/main.o libStrat libHardware libCommStrat libCarto
 	@echo "	CC	$(PROJECT)|$(notdir $@)"
-	@$(CC) -o $@ $(FICHIERS_O) $(CFLAGS) -lHardware -lCommStrat -lCarto $(LDFLAGS)
+	@$(CC) -o $@ $(BUILD_DIR)/main.o $(BUILD_DIR)/libStrat.a $(CFLAGS) -lHardware -lCommStrat -lCarto $(LDFLAGS)
 
 
 $(BUILD_DIR):
