@@ -1,8 +1,7 @@
 #include "hardware_common.h"
-
+#include "hardware/common.h"
 #include "actions.h"
 #include "actionneurs.h"
-#include "stm32f407/headers/UART.h"
 #include <string.h>
 #include "../../common_code/communication/s2a.h"
 #include "../../common_code/communication/text_emission.h"
@@ -120,12 +119,12 @@ void gestion_actions()
 	//int length;
 	if (!asser_done)
 	{
-		HAL_GPIO_WritePin(GPIOD, LED_VERTE, GPIO_PIN_SET);
+		led_verte_off();
 		return;
 	}
 	else
 	{
-		HAL_GPIO_WritePin(GPIOD, LED_VERTE, GPIO_PIN_RESET);
+		led_verte_on();
 	}
 
 	switch(milestones[cpt][0])
@@ -219,7 +218,7 @@ void gestion_actions()
 			break;
 		case ARRET_CAPTEUR :
 			//set_arret_capteur(1);
-			HAL_NVIC_DisableIRQ(TIM5_IRQn);
+			arret_capteurs();
 			set_all_led();
 			break;
 		case FIN :

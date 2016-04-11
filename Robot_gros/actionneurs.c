@@ -4,8 +4,8 @@
 #include "Calibration/reglages_servos.h"
 #include "Calibration/reglages_ascenseur.h"
 #include "Calibration/reglages_moulin.h"
-#include "LowLevel/empileur.h"
-#include "LowLevel/servos.h"
+#include "hardware/empileur.h"
+#include "hardware/servos.h"
 
 void init_protection_perimetre();
 void init_position_actionneurs();

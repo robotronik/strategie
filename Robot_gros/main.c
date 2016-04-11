@@ -1,26 +1,14 @@
-// Mapping. Useful for direct pinout access
-// TODO remove
-#include "../mapping/IO_pinout.h"
-#include "../mapping/PWM_pinout.h"
-
-// Actions, etc
-#include "actions.h"
-#include "actionneurs.h"
-#include "LowLevel/capteurUS.h"
-#include "LowLevel/empileur.h"
 
 // Pathfinding
 #include "../../cartographie/cartographie.h"
 
-// Harware
-#include "hardware_common.h"
+// Actions, etc
+#include "actions.h"
+#include "actionneurs.h"
+#include "hardware/common.h"
+#include "hardware/capteurUS.h"
+#include "hardware/empileur.h"
 
-// In stm32f407 repository
-// TODO remove
-#include "stm32f407/headers/GPIO.h"
-#include "stm32f407/headers/RTC.h"
-#include "stm32f407/headers/UART.h"
-#include "stm32f407/headers/US_sensor.h"
 
 
 void gestion_rupteurs() {
@@ -31,7 +19,7 @@ void gestion_rupteurs() {
 }
 
 void gestion_communication() {
-    if (!read_pin(IO7_PORT, IO7_PIN))
+    if (read_asser_done())
         set_asser_done();
 }
 
@@ -60,32 +48,22 @@ int mainTest() {
 
 int mainStrategieRobot2A() {
     // Initialisation des différents machins
-    //init_EOM_timer();
+    init_hardware();
+
     init_actionneurs();
 
-    init_UART_Asser(&UART_Asser);
-    //init_EOM_timer();
 
-    init_pin_mode(IO1_PORT, IO1_PIN, GPIO_MODE_INPUT, GPIO_PULLUP); // Tirette
-    init_pin_mode(IO6_PORT, IO6_PIN, GPIO_MODE_INPUT, GPIO_PULLUP); // Choix de couleur
-    init_pin_mode(IO7_PORT, IO7_PIN, GPIO_MODE_INPUT, GPIO_NOPULL); //pin de retour de l'asservissement
-
-    init_sensor1();
-    init_sensor2();
-
-    init_RTC();
-
-    if (read_pin(IO6_PORT, IO6_PIN)) //on regarde notre couleur
+    if (read_color_button()) //on regarde notre couleur
         inverse_couleur(); //ici on change si on est en vert
 
-    while(read_pin(IO1_PORT, IO1_PIN)); // On attend la tirette
+    while(read_tirette()); // On attend la tirette
 
     // On met en route le timer 90 secondes
     //activate_EOM_timer();
     test_led();
 
-    activate_sensor1();
-    activate_sensor2();
+    active_capteurUS_1();
+    active_capteurUS_2();
 
     delay_ms(10);
 

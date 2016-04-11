@@ -19,10 +19,14 @@ FICHIERS_C = \
 	actions.c \
 	actionneurs.c \
 	communication.c \
-	LowLevel/capteurIR.c \
-	LowLevel/capteurUS.c \
-	LowLevel/empileur.c \
-	LowLevel/servos.c \
+	hardware/$(ARCH)/common.c \
+	hardware/$(ARCH)/capteurIR.c \
+	hardware/$(ARCH)/capteurUS.c \
+	hardware/$(ARCH)/empileur.c \
+	hardware/$(ARCH)/servos.c \
+
+CFLAGS +=	-Ihardware/$(ARCH)/ \
+			-Ihardware/
 
 FICHIERS_O  += $(addprefix $(BUILD_DIR)/, $(FICHIERS_C:.c=.o) )
 
@@ -44,4 +48,5 @@ $(BUILD_DIR)/$(EXEC): $(BUILD_DIR)/main.o libStrat libHardware libCommStrat libC
 $(BUILD_DIR):
 	@mkdir -p $(BUILD_DIR)
 	@mkdir -p $(BUILD_DIR)/LowLevel
+	@mkdir -p $(BUILD_DIR)/hardware/$(ARCH)
 
