@@ -42,7 +42,7 @@ all: $(BUILD_DIR)/$(EXEC)
 
 $(BUILD_DIR)/$(EXEC): $(BUILD_DIR)/main.o libStrat libHardware libCommStrat libCarto
 	@echo "	CC	$(PROJECT)|$(notdir $@)"
-	@$(CC) -o $@ $(BUILD_DIR)/main.o $(BUILD_DIR)/libStrat.a $(CFLAGS) -lHardware -lCommStrat -lCarto $(LDFLAGS)
+	@$(CC) -o $@ $(BUILD_DIR)/main.o $(BUILD_DIR)/libStrat.a $(CFLAGS) -lCommStrat -lCarto -lHardware $(LDFLAGS)
 
 
 $(BUILD_DIR):
