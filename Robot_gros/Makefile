@@ -11,7 +11,7 @@ PARENT_DIR = ../../
 # Constantes de compilation
 EXEC    = strategie_robot
 
-include $(PARENT_DIR)/hardware/common.mk
+include $(PARENT_DIR)/hardware/common.rules
 ################################################################################
 # Fichiers du projet
 
@@ -33,11 +33,12 @@ FICHIERS_O  += $(addprefix $(BUILD_DIR)/, $(FICHIERS_C:.c=.o) )
 ################################################################################
 .PHONY: all view
 
+# Règles de compilation de la "librairie stratégie"
 _libStrat: $(BUILD_DIR)/libStrat.a
 
 $(BUILD_DIR)/libStrat.a: $(FICHIERS_O)
 
-
+# Règles de compilation de l'exécutable stratégie
 all: $(BUILD_DIR)/$(EXEC)
 
 $(BUILD_DIR)/$(EXEC): $(BUILD_DIR)/main.o libStrat libHardware libCommStrat libCarto
