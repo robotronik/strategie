@@ -41,9 +41,9 @@ $(BUILD_DIR)/libStrat.a: $(FICHIERS_O)
 # Règles de compilation de l'exécutable stratégie
 all: $(BUILD_DIR)/$(EXEC)
 
-$(BUILD_DIR)/$(EXEC): $(BUILD_DIR)/main.o libStrat libHardware libCommStrat libCarto
+$(BUILD_DIR)/$(EXEC): $(BUILD_DIR)/main.o libStrat libHardware libComm libCarto
 	@echo "	CC	$(PROJECT)|$(notdir $@)"
-	@$(CC) -o $@ $(BUILD_DIR)/main.o $(BUILD_DIR)/libStrat.a $(CFLAGS) -lCommStrat -lCarto -lHardware $(LDFLAGS)
+	@$(CC) -o $@ $(BUILD_DIR)/main.o $(BUILD_DIR)/libStrat.a $(CFLAGS) -lComm -lCarto -lHardware $(LDFLAGS)
 
 
 $(BUILD_DIR):

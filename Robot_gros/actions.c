@@ -3,8 +3,10 @@
 #include "actions.h"
 #include "actionneurs.h"
 #include <string.h>
-#include "../../common_code/communication/s2a.h"
-#include "../../common_code/communication/text_emission.h"
+#include "../../common_code/communication/keys.h"
+#include "../../common_code/communication/emission.h"
+
+char buffer[40];
 
 static int cpt=0;
 static int asser_done=1;
@@ -131,33 +133,44 @@ void gestion_actions()
 	{
 		//déplacement
 		case XY :
-			send_val(s2a_keys[S2A_KEY_X], milestones[cpt][1]);
-			send_val(s2a_keys[S2A_KEY_Y], milestones[cpt][2]);
-			send_fonction(s2a_keys[S2A_FCT_XY_ABSOLU]);
+			send_val(buffer, keys[VAL_X], milestones[cpt][1]);
+			UART_send_message(buffer, 40);
+			send_val(buffer, keys[VAL_Y], milestones[cpt][2]);
+			UART_send_message(buffer, 40);
+			send_cmd(buffer, keys[FCT_XY_ABSOLU]);
+			UART_send_message(buffer, 40);
 			asser_done=0;
 			delay_ms(500); //le temps que l'asser remette la pin à 0
 			//TODO
 			break;
 		case ALPHA :
-			send_val(s2a_keys[S2A_KEY_ALPHA], milestones[cpt][1]);
-			send_val(s2a_keys[S2A_KEY_DELTA], 0);
-			send_fonction(s2a_keys[S2A_FCT_ALPHA_DELTA]);
+			send_val(buffer, keys[VAL_ALPHA], milestones[cpt][1]);
+			UART_send_message(buffer, 40);
+			send_val(buffer, keys[VAL_DELTA], 0);
+			UART_send_message(buffer, 40);
+			send_cmd(buffer, keys[FCT_ALPHA_DELTA]);
+			UART_send_message(buffer, 40);
 			asser_done=0;
 			delay_ms(500);
 			//TODO
 			break;
 
 		case DELTA :
-			send_val(s2a_keys[S2A_KEY_DELTA], milestones[cpt][1]);
-			send_val(s2a_keys[S2A_KEY_ALPHA], 0);
-			send_fonction(s2a_keys[S2A_FCT_ALPHA_DELTA]);
+			send_val(buffer, keys[VAL_DELTA], milestones[cpt][1]);
+			UART_send_message(buffer, 40);
+			send_val(buffer, keys[VAL_ALPHA], 0);
+			UART_send_message(buffer, 40);
+			send_cmd(buffer, keys[FCT_ALPHA_DELTA]);
+			UART_send_message(buffer, 40);
 			asser_done=0;
 			delay_ms(500);
 			break;
 
 		case THETA :
-			send_val(s2a_keys[S2A_KEY_THETA], milestones[cpt][1]);
-			send_fonction(s2a_keys[S2A_FCT_THETA]);
+			send_val(buffer, keys[VAL_THETA], milestones[cpt][1]);
+			UART_send_message(buffer, 40);
+			send_cmd(buffer, keys[FCT_THETA]);
+			UART_send_message(buffer, 40);
 			asser_done=0;
 			delay_ms(500);
 			break;
@@ -223,8 +236,9 @@ void gestion_actions()
 			break;
 		case FIN :
 			cpt--;
-			send_cmd(s2a_keys[S2A_CMD_STOP]);
-			delay_ms(3600000); //on attend une heure parce on sait jamais ;)
+			send_cmd(buffer, keys[CMD_STOP]);
+			UART_send_message(buffer, 40);
+			//delay_ms(3600000); //on attend une heure parce on sait jamais ;)
 			break;
 
 	}
