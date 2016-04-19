@@ -5,6 +5,7 @@
 // Actions, etc
 #include "actions.h"
 #include "actionneurs.h"
+#include "reception_communication.h"
 #include "hardware/common.h"
 #include "hardware/capteurUS.h"
 #include "hardware/empileur.h"
@@ -49,6 +50,8 @@ int mainTest() {
 int mainStrategieRobot2A() {
     // Initialisation des différents machins
     init_hardware();
+
+    init_reception(callbacks);
 
     init_actionneurs();
 
