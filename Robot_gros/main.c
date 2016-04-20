@@ -51,7 +51,7 @@ int mainStrategieRobot2A() {
     // Initialisation des différents machins
     init_hardware();
 
-    init_reception(callbacks);
+    init_reception_communication();
 
     init_actionneurs();
 

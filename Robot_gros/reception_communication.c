@@ -4,6 +4,19 @@
 #include "../../hardware/debug.h"
 
 
+
+
+
+Reception_object values;
+
+void init_reception_communication(){
+    init_reception(&values, callbacks);
+}
+
+void reception_communication(char c) {
+    lecture_message((char) c, &values);
+}
+
 char buffer[40];
 
 int received_theta,
@@ -11,15 +24,15 @@ int received_theta,
     received_y;
 
 int reception_set_x() {
-    received_x = get_received_value();
+    received_x = values.received_value;
     return 0;
 }
 int reception_set_y() {
-    received_y = get_received_value();
+    received_y = values.received_value;
     return 0;
 }
 int reception_set_theta() {
-    received_theta = get_received_value();
+    received_theta = values.received_value;
     return 0;
 }
 
