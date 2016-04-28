@@ -1,7 +1,12 @@
 #include "specific.h"
 
+#include "leds.h"
+#include "alarms_and_delay.h"
 
 void init_hardware() {
+    clock_setup();
+
+
     rcc_periph_clock_enable(RCC_GPIOA);
     rcc_periph_clock_enable(RCC_GPIOB);
     rcc_periph_clock_enable(RCC_GPIOC);
@@ -12,9 +17,8 @@ void init_hardware() {
     gpio_mode_setup(GPIOE, GPIO_MODE_INPUT, GPIO_PUPD_PULLUP, GPIO9); // Choix de couleur
     gpio_mode_setup(GPIOE, GPIO_MODE_INPUT, GPIO_PUPD_NONE,   GPIO10); //pin de retour de l'asservissement
 
-    /* Set GPIO12-15 (in GPIO port D) to 'output push-pull' for leds. */
-    gpio_mode_setup(GPIOD, GPIO_MODE_OUTPUT,
-            GPIO_PUPD_NONE, GPIO12 | GPIO13 | GPIO14 | GPIO15);
+    init_alarms_and_delay();
+    init_leds();
 
     //init_UART_Asser(&UART_Asser);
     //init_EOM_timer();
@@ -47,23 +51,4 @@ void active_capteurUS_2() {
 
 void arret_capteurs() {
   //  HAL_NVIC_DisableIRQ(TIM5_IRQn);
-}
-
-void led_verte_on() {
-    gpio_set(GPIOD, GPIO12 | GPIO14);
-}
-void led_verte_off() {
-    gpio_clear(GPIOD, GPIO12 | GPIO14);
-
-}
-
-void set_all_led() {
-
-}
-void test_led() {
-
-}
-
-void delay_ms() {
-
 }
