@@ -1,7 +1,10 @@
 #ifndef SERVOS_H
 #define SERVOS_H
 
+#include <stdint.h>
+
 void init_all_servo();
+void send_servo(char * buff, uint8_t buff_len);
 
 
 void bras_gauche_set_angle(int angle);
