@@ -13,7 +13,7 @@ void init_uart_asser() {
     rcc_periph_clock_enable(RCC_GPIOA);
 
     // On utilise PD5 pour Tx, aucune pour Rx.
-    gpio_mode_setup(GPIOB,
+    gpio_mode_setup(GPIOA,
         GPIO_MODE_AF,
         GPIO_PUPD_NONE,
         GPIO9 | GPIO10);
@@ -42,3 +42,32 @@ void UART_send_message(char * buff, uint8_t buff_len) {
     console_puts(UART_ASSER, buff, buff_len);
 }
 
+#define RxBufferSize   128     // Arbitrary buffer size
+char RxBuffer[RxBufferSize];
+volatile int RxBufferWrite;      // Next place to store
+volatile int RxBufferRead;      // Next place to read
+
+void usart1_isr(void) {
+    uint32_t    reg;
+    int         i;
+    do {
+        reg = USART_SR(UART_ASSER);
+        if (reg & USART_SR_RXNE) {
+            RxBuffer[RxBufferWrite] = USART_DR(UART_ASSER);
+            // Check for "overrun"
+            i = (RxBufferWrite + 1) % RxBufferSize;
+            if (i != RxBufferRead) {
+                RxBufferWrite = i;
+            }
+        }
+    } while ((reg & USART_SR_RXNE) != 0); // can read back-to-back interrupts
+}
+
+int UART_getc(unsigned char *c) {
+    if (RxBufferRead != RxBufferWrite) {
+        c = RxBuffer[RxBufferRead];
+        RxBufferRead = (RxBufferRead + 1) % RxBufferSize;
+        return true;
+    }
+    return false;
+}
