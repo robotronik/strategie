@@ -1,6 +1,7 @@
 #include <specific.h>
 
-#define UART_SERVOS USART2
+#define UART_SERVOS     USART2
+#define RCC_UART_SERVOS RCC_USART2
 
 void init_all_servo() {
     // MUST enable the GPIO clock in ADDITION to the USART clock
@@ -21,7 +22,7 @@ void init_all_servo() {
     // attached inside the chip to the APB1 bus. Different peripherals
     // attach to different buses, and even some UARTS are attached to
     // APB1 and some to APB2, again the data sheet is useful here.
-    rcc_periph_clock_enable(RCC_USART2);
+    rcc_periph_clock_enable(RCC_UART_SERVOS);
 
     // Set up USART/UART parameters using the libopencm3 helper functions
     usart_set_baudrate(UART_SERVOS, 1000000);
@@ -39,23 +40,9 @@ void init_all_servo() {
     usart_enable_rx_interrupt(UART_SERVOS);
 }
 
-
-
-static void console_putc(char c) {
-    uint32_t    reg;
-    do {
-        reg = USART_SR(UART_SERVOS);
-    } while ((reg & USART_SR_TXE) == 0);
-    USART_DR(UART_SERVOS) = (uint16_t) c & 0xff;
-}
-
 void send_servo(char * buff, uint8_t buff_len) {
-    for (int i = 0; i < buff_len; ++i) {
-        console_putc(*buff);
-        buff++;
-    }
+    console_puts(UART_SERVOS, buff, buff_len);
 }
-
 
 void bras_gauche_set_angle(int angle) {
 }
