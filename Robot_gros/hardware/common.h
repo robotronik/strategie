@@ -1,5 +1,3 @@
-#include <hardware_common.h>
-
 void init_hardware();
 
 

@@ -11,9 +11,11 @@ void stop_moteur_empileur()
 }
 
 int rupteur_moteur_empileur_is_pushed() {
+    return 0;
 }
 
 int rupteur_pied_empileur_is_pushed() {
+    return 0;
 }
 
 void init_moteur_empileur() {

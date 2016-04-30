@@ -1,12 +1,10 @@
-#include "hardware_common.h"
-
 #include "actionneurs.h"
 #include "Calibration/reglages_servos.h"
 #include "Calibration/reglages_ascenseur.h"
 #include "Calibration/reglages_moulin.h"
 #include "hardware/empileur.h"
 #include "hardware/servos.h"
-
+#include <alarms_and_delay.h>
 void init_protection_perimetre();
 void init_position_actionneurs();
 

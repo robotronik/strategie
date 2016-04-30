@@ -1,7 +1,7 @@
 // Fonctions de l'asservissement
 
 #include "reception_communication.h"
-#include "../../hardware/debug.h"
+#include <debug.h>
 
 
 
@@ -23,29 +23,23 @@ int received_theta,
     received_x,
     received_y;
 
-int reception_set_x() {
+void reception_set_x() {
     received_x = values.received_value;
-    return 0;
 }
-int reception_set_y() {
+void reception_set_y() {
     received_y = values.received_value;
-    return 0;
 }
-int reception_set_theta() {
+void reception_set_theta() {
     received_theta = values.received_value;
-    return 0;
 }
 
 
-int reception_done() {
-    return 0;
+void reception_done() {
 }
 
-int reception_send_pos() {
-    return 0;
+void reception_send_pos() {
 }
-int reception_quit() {
-    return 0;
+void reception_quit() {
 }
 
 

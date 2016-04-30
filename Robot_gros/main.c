@@ -3,6 +3,8 @@
 #include "../../cartographie/cartographie.h"
 
 // Actions, etc
+#include <UART.h>
+#include <alarms_and_delay.h>
 #include "actions.h"
 #include "actionneurs.h"
 #include "reception_communication.h"

@@ -1,17 +1,11 @@
 #include "specific.h"
 
+#include <setup.h>
 #include "leds.h"
 #include "alarms_and_delay.h"
 
 void init_hardware() {
     clock_setup();
-
-
-    rcc_periph_clock_enable(RCC_GPIOA);
-    rcc_periph_clock_enable(RCC_GPIOB);
-    rcc_periph_clock_enable(RCC_GPIOC);
-    rcc_periph_clock_enable(RCC_GPIOD);
-    rcc_periph_clock_enable(RCC_GPIOE);
 
     gpio_mode_setup(GPIOE, GPIO_MODE_INPUT, GPIO_PUPD_PULLUP, GPIO4); // Tirette
     gpio_mode_setup(GPIOE, GPIO_MODE_INPUT, GPIO_PUPD_PULLUP, GPIO9); // Choix de couleur
@@ -19,6 +13,9 @@ void init_hardware() {
 
     init_alarms_and_delay();
     init_leds();
+    //init_RTC();
+
+    //init_pwm_timer(TIM4, 1000);
 
     //init_UART_Asser(&UART_Asser);
     //init_EOM_timer();
