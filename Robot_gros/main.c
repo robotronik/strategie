@@ -45,6 +45,7 @@ int mainTest() {
     }
     */
 
+/*
     // UART test pour les servos
     init_all_servo();
 
@@ -78,6 +79,14 @@ int mainTest() {
     set_speed_servo(&my_servo1, 123, 1);
 
     test_led();
+*/
+
+
+    // Test UART Asser
+    init_uart_asser();
+    test_led();
+    //while(1)
+    UART_send_message("auieauie", 8);
 
 
     /*pathfinding_init();

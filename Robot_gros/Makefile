@@ -22,6 +22,7 @@ FICHIERS_C = \
 	reception_communication.c \
 	hardware/xl_320.c \
 	hardware/$(ARCH)/common.c \
+	hardware/$(ARCH)/uart_asser.c \
 	hardware/$(ARCH)/capteurIR.c \
 	hardware/$(ARCH)/capteurUS.c \
 	hardware/$(ARCH)/empileur.c \
