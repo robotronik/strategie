@@ -20,6 +20,7 @@ FICHIERS_C = \
 	actionneurs.c \
 	communication.c \
 	reception_communication.c \
+	hardware/xl_320.c \
 	hardware/$(ARCH)/common.c \
 	hardware/$(ARCH)/capteurIR.c \
 	hardware/$(ARCH)/capteurUS.c \
