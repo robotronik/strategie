@@ -80,7 +80,7 @@ int mainTest() {
 
     test_led();
 */
-
+/*
 
     // Test UART Asser
     init_uart_asser();
@@ -88,6 +88,15 @@ int mainTest() {
     //while(1)
     UART_send_message("auieauie", 8);
 
+*/
+
+/*
+    // Test Capteurs
+    init_capteurs_US();
+    while(1) {
+        test_uart_capteur1();
+    }
+*/
 
     /*pathfinding_init();
 
