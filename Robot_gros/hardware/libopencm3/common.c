@@ -7,6 +7,7 @@
 void init_hardware() {
     clock_setup();
 
+    gpio_mode_setup(GPIOA, GPIO_MODE_INPUT, GPIO_PUPD_PULLDOWN, GPIO0); // Bouton User
     gpio_mode_setup(GPIOE, GPIO_MODE_INPUT, GPIO_PUPD_PULLUP, GPIO4); // Tirette
     gpio_mode_setup(GPIOE, GPIO_MODE_INPUT, GPIO_PUPD_PULLUP, GPIO9); // Choix de couleur
     gpio_mode_setup(GPIOE, GPIO_MODE_INPUT, GPIO_PUPD_NONE,   GPIO10); //pin de retour de l'asservissement
@@ -25,6 +26,9 @@ void init_hardware() {
     //init_sensor2();
 }
 
+int read_user_button() {
+    return gpio_get(GPIOA, GPIO0);
+}
 
 int read_tirette() {
     return gpio_get(GPIOE, GPIO4);
