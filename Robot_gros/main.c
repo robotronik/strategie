@@ -90,13 +90,19 @@ int mainTest() {
 
 */
 
-/*
+
     // Test Capteurs
     init_capteurs_US();
     while(1) {
+        if (capteurUS1_get_distance() < 200)
+            set_all_led();
+        if (read_user_button())
+            clear_all_led();
+        //else
+        //    clear_all_led();
         test_uart_capteur1();
     }
-*/
+
 
     /*pathfinding_init();
 
