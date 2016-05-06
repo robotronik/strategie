@@ -1,7 +1,7 @@
 PROJECT=strategie2A
 default: all
 # Default Options
-export ARCH  ?= stm32f407
+export ARCH  ?= libopencm3
 export ROBOT ?= gros
 export SDL   ?= no
 export DEBUG ?= 0
@@ -23,9 +23,7 @@ FICHIERS_C = \
 	hardware/xl_320.c \
 	hardware/$(ARCH)/common.c \
 	hardware/$(ARCH)/uart_asser.c \
-	hardware/$(ARCH)/capteurIR.c \
 	hardware/$(ARCH)/capteurUS.c \
-	hardware/$(ARCH)/empileur.c \
 	hardware/$(ARCH)/servos.c \
 
 CFLAGS +=	-Ihardware/$(ARCH)/ \

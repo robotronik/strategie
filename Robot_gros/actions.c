@@ -177,70 +177,7 @@ void gestion_actions()
 			break;
 
 		//actions
-		case CLAP_OUVRE_D :
-			bras_droit_position_clap();
-			break;
-		case CLAP_FERME_D :
-			bras_droit_repos();
-			break;
-		case CLAP_OUVRE_G :
-			bras_gauche_position_clap();
-			break;
-		case CLAP_FERME_G :
-			bras_gauche_repos();
-			break;
-		case GOBELET_OUVRE_D :
-			bras_droit_position_prise_gobelet();
-			break;
-		case GOBELET_COINCE_D :
-			bras_droit_coince_gobelet();
-			break;
-		case GOBELET_LIBERE_D :
-			bras_droit_libere_gobelet();
-			break;
-		case GOBELET_OUVRE_G :
-			bras_gauche_position_prise_gobelet();
-			break;
-		case GOBELET_COINCE_G :
-			bras_gauche_coince_gobelet();
-			break;
-		case GOBELET_LIBERE_G :
-			bras_gauche_libere_gobelet();
-			break;
-		case OUVRE_PORTE_EMPILEUR :
-			//descend_ascenseur();
-			ouvre_porte_empileur();
-			break;
-		case FERME_PORTE_EMPILEUR :
-			ferme_porte_empileur();
-			break;
-		case DESCEND_PIED_EMPILEUR :
-		    descend_ascenseur();
-		    break;
-	    case MONTE_PIED_EMPILEUR :
-    	    monte_pied();
-    	    break;
-		case PREND_POP_CORN :
-			prend_pop_corn();
-			break;
-		case VIDE_POP_CORN :
-			libere_pop_corn();
-			break;
-		case PAUSE :
-			pause(milestones[cpt][1]); //a voir
-			cpt--;
-			break;
-		case ARRET_CAPTEUR :
-			//set_arret_capteur(1);
-			arret_capteurs();
-			set_all_led();
-			break;
-		case FIN :
-			cpt--;
-			send_cmd(buffer, keys[CMD_STOP]);
-			UART_send_message(buffer, 40);
-			//delay_ms(3600000); //on attend une heure parce on sait jamais ;)
-			break;
+	        
 
 	}
 	cpt++;
@@ -273,56 +210,7 @@ void inverse_couleur()
 				//on inverse le sens de rotation
 				milestones[i][1]=-milestones[i][1];
 				break;
-			//surement moyen de faire ça plus propre
-			case CLAP_OUVRE_D :
-				milestones[i][0]=CLAP_OUVRE_G;
-				break;
-			case CLAP_FERME_D :
-				milestones[i][0]=CLAP_FERME_G;
-				break;
-			case CLAP_OUVRE_G :
-				milestones[i][0]=CLAP_OUVRE_D;
-				break;
-			case CLAP_FERME_G :
-				milestones[i][0]=CLAP_FERME_D;
-				break;
-			case GOBELET_OUVRE_D :
-				milestones[i][0]=GOBELET_OUVRE_G;
-				break;
-			case GOBELET_COINCE_D :
-				milestones[i][0]=GOBELET_COINCE_G;
-				break;
-			case GOBELET_LIBERE_D :
-				milestones[i][0]=GOBELET_LIBERE_G;
-				break;
-			case GOBELET_OUVRE_G :
-				milestones[i][0]=GOBELET_OUVRE_D;
-				break;
-			case GOBELET_COINCE_G :
-				milestones[i][0]=GOBELET_COINCE_D;
-				break;
-			case GOBELET_LIBERE_G :
-				milestones[i][0]=GOBELET_LIBERE_D;
-				break;
-
-			//rien à faire pour le reste
-			case OUVRE_PORTE_EMPILEUR :
-				break;
-			case FERME_PORTE_EMPILEUR :
-				break;
-			case PREND_POP_CORN :
-				break;
-			case VIDE_POP_CORN :
-				break;
-
-			case DEMARRE_CAPTEUR:
-				break;
-
-			case ARRET_CAPTEUR :
-				break;
-
-			case FIN :
-				break;
+			
 		}
 		i++;
 	}
