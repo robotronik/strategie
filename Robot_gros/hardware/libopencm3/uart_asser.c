@@ -1,41 +1,33 @@
 #include <specific.h>
 
-#define UART_ASSER      USART1
-#define RCC_UART_ASSER  RCC_USART1
+#define UART_ASSER UART7
 
 void init_uart_asser() {
-    // This then enables the clock to the USART1 peripheral which is
-    // attached inside the chip to the APB1 bus. Different peripherals
-    // attach to different buses, and even some UARTS are attached to
-    // APB1 and some to APB2, again the data sheet is useful here.
-    rcc_periph_clock_enable(RCC_UART_ASSER);
-    // MUST enable the GPIO clock in ADDITION to the USART clock
-    rcc_periph_clock_enable(RCC_GPIOA);
-
-    // On utilise PD5 pour Tx, aucune pour Rx.
-    gpio_mode_setup(GPIOA,
-        GPIO_MODE_AF,
-        GPIO_PUPD_NONE,
-        GPIO9 | GPIO10);
-
-    // Actual Alternate function number (in this case 7) is part
-    // depenedent, CHECK THE DATA SHEET for the right number to use.
-    gpio_set_af(GPIOA, GPIO_AF7, GPIO9 | GPIO10);
+    rcc_periph_clock_enable(RCC_UART7);
 
     // Set up USART/UART parameters using the libopencm3 helper functions
-    usart_set_baudrate(UART_ASSER, 115200);
-    usart_set_databits(UART_ASSER, 8);
-    usart_set_stopbits(UART_ASSER, USART_STOPBITS_1);
-    usart_set_mode(UART_ASSER, USART_MODE_TX_RX);
-    usart_set_parity(UART_ASSER, USART_PARITY_NONE);
-    usart_set_flow_control(UART_ASSER, USART_FLOWCONTROL_NONE);
-    usart_enable(UART_ASSER);
+    usart_set_baudrate      (UART7, 115200);
+    usart_set_databits      (UART7, 8);
+    usart_set_stopbits      (UART7, USART_STOPBITS_1);
+
+    usart_set_mode          (UART7, USART_MODE_TX);
+//    usart_set_mode(UART_ASSER, USART_MODE_TX_RX);
+
+    usart_set_parity        (UART7, USART_PARITY_NONE);
+    usart_set_flow_control  (UART8, USART_FLOWCONTROL_NONE);
+
+    //USART_CR2(uart) |= (1 << 18);
+    //usart_enable_data_inversion(uart);
+    usart_enable            (UART7);
 
     // Enable interrupts from the USART
-    nvic_enable_irq(NVIC_USART2_IRQ);
+    nvic_enable_irq(NVIC_UART7_IRQ);
+    usart_enable_rx_interrupt(UART7);
 
-    // Specifically enable recieve interrupts
-    usart_enable_rx_interrupt(UART_ASSER);
+    rcc_periph_clock_enable(RCC_GPIOF);
+    gpio_mode_setup(GPIOF, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO6);
+    gpio_mode_setup(GPIOF, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO7);
+    gpio_set_af(GPIOF, GPIO_AF8, GPIO6 | GPIO7);
 }
 
 void UART_send_message(char * buff, uint8_t buff_len) {
@@ -47,7 +39,7 @@ char RxBuffer[RxBufferSize];
 volatile int RxBufferWrite;      // Next place to store
 volatile int RxBufferRead;      // Next place to read
 
-void usart1_isr(void) {
+void uart7_isr(void) {
     uint32_t    reg;
     int         i;
     do {
