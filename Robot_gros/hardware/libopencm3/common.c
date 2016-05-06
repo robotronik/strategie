@@ -1,8 +1,8 @@
 #include <specific.h>
-
 #include <setup.h>
 #include "leds.h"
 #include "alarms_and_delay.h"
+#include "common.h"
 
 void init_hardware() {
     clock_setup();
@@ -57,7 +57,7 @@ void arret_capteurs() {
 
 void init_leds_debug(){
   rcc_periph_clock_enable(RCC_GPIOE);
-  
+
   gpio_mode_setup(GPIOE, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO3 | GPIO4 | GPIO5 | GPIO6);
 }
 
