@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <string.h>
 // Pathfinding
 #include "../../cartographie/cartographie.h"
 
@@ -14,6 +15,8 @@
 
 #include "hardware/xl_320.h"
 #include "hardware/servos.h"
+
+extern capteurUSBuffer capteur_front,  capteur_bottom;
 
 
 int called_test_led = 0;
@@ -92,14 +95,30 @@ int mainTest() {
 
     // Test Capteurs
     init_capteurs_US();
-    while(1) {
-        if (capteurUS1_get_distance() < 200)
-            set_all_led();
-        if (read_user_button())
-            clear_all_led();
-        //else
-        //    clear_all_led();
-        test_uart_capteur1();
+
+    init_uart_asser();
+    //init_serial_test_capteurs();
+
+    while(1){
+        if(capteur_front.value > 8){
+            set_ledVerte();
+        }
+        else{
+            clear_ledVerte();
+        }
+        //send_to_pc(&capteur_front, 'f');
+
+        if(capteur_bottom.value > 8){
+            set_ledOrange();
+        }
+        else{
+            clear_ledOrange();
+        }
+        //send_to_pc(&capteur_bottom, 'b');
+
+        delay_ms(50);
+        UART_send_message("qsdf", 4);
+        //send_to_pc_end();
     }
 
 
