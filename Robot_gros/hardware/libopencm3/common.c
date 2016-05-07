@@ -100,3 +100,19 @@ void clear_ledVerte(){
 void clear_ledRouge(){
   gpio_clear(GPIOE, GPIO4);
 }
+
+void toggle_ledBleue(){
+  gpio_toggle(GPIOE, GPIO3);
+}
+
+void toggle_ledOrange(){
+  gpio_toggle(GPIOE, GPIO5);
+}
+
+void toggle_ledVerte(){
+  gpio_toggle(GPIOE, GPIO6);
+}
+
+void toggle_ledRouge(){
+  gpio_toggle(GPIOE, GPIO4);
+}
