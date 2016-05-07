@@ -115,7 +115,7 @@ void uart8_isr(void) {
     }
 }
 
-/*
+
 
 
 // Attention, envoie sur le canal UART de l'asser ! uniquement en débug
@@ -136,4 +136,3 @@ void send_to_pc_end() {
     buffer[0] = '\r';
     console_puts(UART7, buffer, 1);
 }
-*/
