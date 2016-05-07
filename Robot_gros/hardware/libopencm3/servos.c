@@ -3,14 +3,14 @@
 #define UART_SERVOS     USART2
 #define RCC_UART_SERVOS RCC_USART2
 
-void init_all_servo() {
+void init_uart_servos() {
     // MUST enable the GPIO clock in ADDITION to the USART clock
     rcc_periph_clock_enable(RCC_GPIOD);
 
     // On utilise PD5 pour Tx, aucune pour Rx.
     gpio_mode_setup(GPIOD,
         GPIO_MODE_AF,
-        GPIO_PUPD_NONE,
+        GPIO_PUPD_PULLUP,
         GPIO5);
 
     // Actual Alternate function number (in this case 2) is part
@@ -25,7 +25,7 @@ void init_all_servo() {
     rcc_periph_clock_enable(RCC_UART_SERVOS);
 
     // Set up USART/UART parameters using the libopencm3 helper functions
-    usart_set_baudrate(UART_SERVOS, 1000000);
+    usart_set_baudrate(UART_SERVOS, 9600);
     usart_set_databits(UART_SERVOS, 8);
     usart_set_stopbits(UART_SERVOS, USART_STOPBITS_1);
     usart_set_mode(UART_SERVOS, USART_MODE_TX);
@@ -38,10 +38,14 @@ void init_all_servo() {
 
     // Specifically enable recieve interrupts
     usart_enable_rx_interrupt(UART_SERVOS);
+
+    // Pour que les servos aient le temps de s'initialiser
+    delay_ms(550);
 }
 
 void send_servo(char * buff, uint8_t buff_len) {
     console_puts(UART_SERVOS, buff, buff_len);
+    delay_ms(30);
 }
 
 void bras_gauche_set_angle(int angle) {
