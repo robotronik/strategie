@@ -150,26 +150,40 @@ void gestion_rupteurs() {
     }*/
 }
 
+int asser_locked = 0;
 void gestion_capteursUS() {
-    if (capteur_front.value  < 8
-     || capteur_bottom.value < 8
+    if (capteur_front.value  < 10
+     || capteur_bottom.value < 10
         ) {
-        char buffer[40];
-        send_cmd(buffer, keys[CMD_STOP]); //ajouter anti-spam (ici on envoie sans arret)
-        UART_send_message(buffer, strlen(buffer));
+        set_ledOrange();
+        if (asser_locked == 0) {
+            asser_locked = 1;   // Anti-spam
+            char buffer[40];
+            send_cmd(buffer, keys[CMD_LOCK]); //ajouter anti-spam (ici on envoie sans arret)
+            UART_send_message(buffer, strlen(buffer));
+        }
+    } else {
+        clear_ledOrange();
+        if (asser_locked == 1) {
+            asser_locked = 0;   // Anti-spam
+            char buffer[40];
+            send_cmd(buffer, keys[CMD_UNLOCK]); //ajouter anti-spam (ici on envoie sans arret)
+            UART_send_message(buffer, strlen(buffer));
+        }
     }
 }
 
 
-void gestion_communication() {
-    if (read_asser_done())
-        set_asser_done();
-}
-
+// Callbacks d'alarme
 
 int back = 0;
 void send_backward(){
     back = 1;
+}
+
+int match_fini = 0;
+void alarme_fin_match() {
+    match_fini = 1;
 }
 
 int mainStrategieRobot2A() {
@@ -178,62 +192,79 @@ int mainStrategieRobot2A() {
     init_capteurs_US();
     init_reception_communication();
     init_uart_asser();
+    init_uart_servos();
 
-    //init_actionneurs();
-    //init_serial_test_capteurs();
+    init_servos();
 
-
-    if (read_color_button()) //on regarde notre couleur
-        inverse_couleur(); //ici on change si on est en vert
+    // à décomenter si on est en vert
+    // inverse_couleur(); //ici on change si on est en vert
 
     while(read_tirette()); // On attend la tirette
-    set_ledVerte();
-    delay_ms(10);
-
     // Voilà, maintenant on peut s'amuser !
 
-    // Mouvement robot
-
-char buffer[1000];
-send_val(buffer, keys[VAL_DELTA], 800);
-UART_send_message(buffer, strlen(buffer));
-send_val(buffer, keys[VAL_ALPHA], 0);
-UART_send_message(buffer, strlen(buffer));
-send_cmd(buffer, keys[FCT_ALPHA_DELTA]);
-UART_send_message(buffer, strlen(buffer));
-int asser_done=0;
-
+    // add_alarm(85000, alarme_fin_match, false);
     add_alarm(10000, send_backward, false);
 
+    // Mouvement robot
+    char buffer[1000];
+
+
+    // Ça, c'est pour être sûr que le bus uart est réinitialisé du côté
+    // de l'asservissement, pour que la lecture se fasse bien
+    UART_send_message("\n", 1);
+
+
+
+    set_position_portes(0);
+
+
+    // send_val(buffer, keys[VAL_DELTA], 800);
+    // UART_send_message(buffer, strlen(buffer));
+
+    // send_val(buffer, keys[VAL_ALPHA], 0);
+    // UART_send_message(buffer, strlen(buffer));
+
+    // send_cmd(buffer, keys[FCT_ALPHA_DELTA]);
+    // UART_send_message(buffer, strlen(buffer));
+    // delay_ms(1000);
+
+    // int asser_done=0;
+
+    clear_ledBleue();
+    get_asser_done_and_reset();
+    inverse_couleur();
     while(1)
     {
-        gestion_capteursUS();
-        toggle_all_led();
-
-        if (back == 1) {
-            back = 0;
-            char buffer[1000];
-            send_val(buffer, keys[VAL_DELTA], -700);
-            UART_send_message(buffer, strlen(buffer));
-            send_val(buffer, keys[VAL_ALPHA], 0);
-            UART_send_message(buffer, strlen(buffer));
-            send_cmd(buffer, keys[FCT_ALPHA_DELTA]);
-            UART_send_message(buffer, strlen(buffer));
+        //toggle_ledVerte();
+        // gestion_capteursUS();
+        // toggle_all_led();
 
 
+        if (match_fini == 1) {
+            send_cmd(buffer, keys[CMD_EMERGENCY_STOP]);
+            while(1);
         }
-        //gestion_rupteurs();
-        //gestion_communication();
 
-        //gestion_actions();
+        // if (back == 1) {
+        //     back = 0;
+        //     send_val(buffer, keys[VAL_DELTA], -700);
+        //     UART_send_message(buffer, strlen(buffer));
+        //     send_val(buffer, keys[VAL_ALPHA], 0);
+        //     UART_send_message(buffer, strlen(buffer));
+        //     send_cmd(buffer, keys[FCT_ALPHA_DELTA]);
+        //     UART_send_message(buffer, strlen(buffer));
+        // }
+
+        gestion_actions();
+
         delay_ms(100);
     }
-
+    while(1);
     return 0;
 }
 
 int main() {
     init_hardware();
-    //return mainTest();
+    // return mainTest();
     return mainStrategieRobot2A();
 }
