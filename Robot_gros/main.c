@@ -186,6 +186,60 @@ void alarme_fin_match() {
     match_fini = 1;
 }
 
+XL_320_socket_t socket_servos;
+XL_320_servo_t gauche;
+XL_320_servo_t droite;
+
+void setSpeed(int speed) {
+    if (speed > 0) {
+        set_speed_servo         (&gauche, 0 + speed, 1);
+        delay_ms(100);
+        set_speed_servo         (&droite, 1024 + speed, 1);
+        delay_ms(100);
+    }
+    if (speed < 0) {
+        speed = -speed;
+        set_speed_servo         (&gauche, 1024 + speed, 1);
+        delay_ms(100);
+        set_speed_servo         (&droite, 0 + speed, 1);
+        delay_ms(100);
+    }
+    if (speed == 0) {
+        set_speed_servo         (&gauche, 0, 1);
+        delay_ms(100);
+        set_speed_servo         (&droite, 0, 1);
+        delay_ms(100);
+    }
+}
+
+void rotateSpeed(int speed) {
+    if (speed > 0) {
+        set_speed_servo         (&gauche, 1024 + speed, 1);
+        delay_ms(100);
+        set_speed_servo         (&droite, 1024 + speed, 1);
+        delay_ms(100);
+    }
+    if (speed < 0) {
+        speed = -speed;
+        set_speed_servo         (&gauche, 0 + speed, 1);
+        delay_ms(100);
+        set_speed_servo         (&droite, 0 + speed, 1);
+        delay_ms(100);
+    }
+    if (speed == 0) {
+        set_speed_servo         (&gauche, 0, 1);
+        delay_ms(100);
+        set_speed_servo         (&droite, 0, 1);
+        delay_ms(100);
+    }
+
+}
+
+void toggle_led() {
+    toggle_all_led();
+
+}
+
 int mainStrategieRobot2A() {
     // Initialisation des différents machins
 
@@ -194,10 +248,45 @@ int mainStrategieRobot2A() {
     init_uart_asser();
     init_uart_servos();
 
-    init_servos();
+
+    add_alarm(200, toggle_led, true);
+
+
+    //init_servos();
 
     // à décomenter si on est en vert
     // inverse_couleur(); //ici on change si on est en vert
+
+
+    init_socket(&socket_servos,&send_servo);
+
+    init_servo(&gauche,0x02,&socket_servos);
+    disable_power_servo     (&gauche, 1);
+    set_control_mode_servo  (&gauche, WHEEL_MODE, 1);
+    enable_power_servo      (&gauche, 1);
+    set_led_color_servo     (&gauche, gauche.ID,0);
+
+    init_servo(&droite,0x01,&socket_servos);
+    disable_power_servo     (&droite, 1);
+    set_control_mode_servo  (&droite, WHEEL_MODE, 1);
+    enable_power_servo      (&droite, 1);
+    set_led_color_servo     (&droite, droite.ID,0);
+
+
+    setSpeed(    1000);
+    delay_ms(2000);
+    while(1);
+    setSpeed(   -1000);
+    delay_ms(2000);
+    rotateSpeed( 1000);
+    delay_ms(2000);
+    rotateSpeed(-1000);
+    delay_ms(2000);
+
+
+
+
+
 
     while(read_tirette()); // On attend la tirette
     // Voilà, maintenant on peut s'amuser !

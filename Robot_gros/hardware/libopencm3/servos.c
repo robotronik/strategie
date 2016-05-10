@@ -25,7 +25,7 @@ void init_uart_servos() {
     rcc_periph_clock_enable(RCC_UART_SERVOS);
 
     // Set up USART/UART parameters using the libopencm3 helper functions
-    usart_set_baudrate(UART_SERVOS, 9600);
+    usart_set_baudrate(UART_SERVOS, 1000000);
     usart_set_databits(UART_SERVOS, 8);
     usart_set_stopbits(UART_SERVOS, USART_STOPBITS_1);
     usart_set_mode(UART_SERVOS, USART_MODE_TX);
