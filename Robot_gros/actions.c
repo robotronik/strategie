@@ -130,22 +130,12 @@ void pause(int ms)
 	}
 }
 
-int asser_done = 1;
-void gestion_communication() {
-	char c;
-	if (UART_getc(&c)) {
-		reception_communication((char) c);
-		asser_done = get_asser_done_and_reset();
-	}
-}
-
 void gestion_actions()
 {
-	gestion_communication();
 
 	//char buff[33];
 	//int length;
-	if (!asser_done)
+	if (get_asser_done_and_reset() == 0)
 	{
 		set_ledBleue();
 		return;

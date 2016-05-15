@@ -4,7 +4,6 @@
 #include <debug.h>
 
 
-int received_asser_done = 1;
 
 
 
@@ -34,16 +33,19 @@ void reception_set_theta() {
     received_theta = values.received_value;
 }
 
-
+// Est à 1 pour que la première action s'effectue.
+int received_asser_done = 1;
 void reception_done() {
-    toggle_ledVerte();
+    toggle_ledBleue();
     received_asser_done = 1;
 }
 int get_asser_done_and_reset() {
-    //clear_ledVerte();
-    int a = received_asser_done;
-    received_asser_done = 0;
-    return a;
+    if (received_asser_done ==1) {
+        received_asser_done = 0;
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 void reception_send_pos() {
