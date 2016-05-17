@@ -18,18 +18,18 @@ void gestion_communication() {
     }
 }
 
-void reception_done() {
-    set_ledOrange();
-    asser_done = 1;
-}
+/* void reception_done() { */
+/*     set_ledOrange(); */
+/*     asser_done = 1; */
+/* } */
 
-void reset_asser_done() {
-    asser_done = 0;
-}
+/* void reset_asser_done() { */
+/*     asser_done = 0; */
+/* } */
 
-int asser_is_done() {
-    return asser_done;
-}
+/* int asser_is_done() { */
+/*     return asser_done; */
+/* } */
 
 char buffer[40];
 
@@ -60,6 +60,11 @@ int get_asser_done_and_reset() {
     } else {
         return 0;
     }
+}
+
+int asser_is_done()
+{
+  return received_asser_done;
 }
 
 void reception_send_pos() {

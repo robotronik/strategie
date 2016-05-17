@@ -50,18 +50,18 @@ static int milestones[][3]= {
 
 
 
-	{DELTA, 300, 0}, 	        {PAUSE, DELAI, 0}, {WAIT_ASSER, DELAI, 0}, 
-	{ALPHA, -420, 0}, 	        {PAUSE, DELAI, 0}, {WAIT_ASSER, DELAI, 0}, 
-	{DELTA, 200, 0}, 		{PAUSE, DELAI, 0}, {WAIT_ASSER, DELAI, 0},
-	{ALPHA, 420, 0}, 		{PAUSE, DELAI, 0}, {WAIT_ASSER, DELAI, 0},
-	{DELTA, 800, 0}, 		{PAUSE, DELAI, 0}, {WAIT_ASSER, DELAI, 0},
-	{DELTA, -100, 0}, 		{PAUSE, DELAI, 0}, {WAIT_ASSER, DELAI, 0},
-	{ALPHA, -QTOUR, 0}, 	{PAUSE, DELAI, 0}, {WAIT_ASSER, DELAI, 0},
-	{DELTA, 650, 0}, 		{PAUSE, DELAI, 0}, {WAIT_ASSER, DELAI, 0},
-	{ALPHA, -2094, 0}, 		{PAUSE, DELAI, 0}, {WAIT_ASSER, DELAI, 0},
-	{DELTA, 800, 0}, 		{PAUSE, DELAI, 0}, {WAIT_ASSER, DELAI, 0},
-	{ALPHA, -171, 0}, 		{PAUSE, DELAI, 0}, {WAIT_ASSER, DELAI, 0},
-	{DELTA, 200, 0}, 		{PAUSE, DELAI, 0}, {WAIT_ASSER, DELAI, 0},
+	{DELTA, 300, 0}, 	        {PAUSE, DELAI, 0}, 
+	{ALPHA, -420, 0}, 	        {PAUSE, DELAI, 0},
+	{DELTA, 200, 0}, 		{PAUSE, DELAI, 0},
+	{ALPHA, 420, 0}, 		{PAUSE, DELAI, 0},
+	{DELTA, 800, 0}, 		{PAUSE, DELAI, 0}, 
+	{DELTA, -100, 0}, 		{PAUSE, DELAI, 0}, 
+	{ALPHA, -QTOUR, 0}, 	{PAUSE, DELAI, 0}, 
+	{DELTA, 650, 0}, 		{PAUSE, DELAI, 0}, 
+	{ALPHA, -2094, 0}, 		{PAUSE, DELAI, 0}, 
+	{DELTA, 800, 0}, 		{PAUSE, DELAI, 0}, 
+	{ALPHA, -171, 0}, 		{PAUSE, DELAI, 0}, 
+	{DELTA, 200, 0}, 		{PAUSE, DELAI, 0}, 
 
 
 
@@ -133,7 +133,7 @@ void pause(int ms)
 
 void gestion_actions()
 {
-
+  	  toggle_ledVerte();
 	//char buff[33];
 	//int length;
 	if (get_asser_done_and_reset() == 0)
@@ -158,7 +158,7 @@ void gestion_actions()
 			UART_send_message(buffer, 40);
 			send_cmd(buffer, keys[FCT_XY_ABSOLU]);
 			UART_send_message(buffer, 40);
-			reset_asser_done();
+			//reset_asser_done();
 			delay_ms(500); //le temps que l'asser remette la pin à 0
 			//TODO
 			break;
@@ -169,7 +169,7 @@ void gestion_actions()
 			UART_send_message(buffer, 40);
 			send_cmd(buffer, keys[FCT_ALPHA_DELTA]);
 			UART_send_message(buffer, 40);
-			reset_asser_done();
+			//reset_asser_done();
 			delay_ms(500);
 			//TODO
 			break;
@@ -181,7 +181,7 @@ void gestion_actions()
 			UART_send_message(buffer, 40);
 			send_cmd(buffer, keys[FCT_ALPHA_DELTA]);
 			UART_send_message(buffer, 40);
-			reset_asser_done();
+			//reset_asser_done();
 			delay_ms(500);
 			break;
 
@@ -190,7 +190,7 @@ void gestion_actions()
 			UART_send_message(buffer, 40);
 			send_cmd(buffer, keys[FCT_THETA]);
 			UART_send_message(buffer, 40);
-			reset_asser_done();
+			//reset_asser_done();
 			delay_ms(500);
 			break;
 
@@ -201,7 +201,6 @@ void gestion_actions()
             break;
 
 		case WAIT_ASSER :
-		  		  toggle_ledVerte();
 	  		if(!asser_is_done()){
 	    		cpt--;
 	  		}
@@ -209,7 +208,6 @@ void gestion_actions()
 
 	  	case PAUSE :
 		        pause(milestones[cpt][1]);
-			cpt--;
 	  		break;
 
 

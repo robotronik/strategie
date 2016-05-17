@@ -174,12 +174,12 @@ void gestion_capteursUS() {
 }
 
 
-void gestion_communication() {
-    char c;
-    if (UART_getc(&c)) {
-        reception_communication((char) c);
-    }
-}
+/* void gestion_communication() { */
+/*     char c; */
+/*     if (UART_getc(&c)) { */
+/*         reception_communication((char) c); */
+/*     } */
+/* } */
 
 // Callbacks d'alarme
 int match_fini = 0;
