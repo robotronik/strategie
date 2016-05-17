@@ -9,6 +9,8 @@ extern callback_t callbacks[KEYS_SIZE];
 
 void init_reception_communication();
 void reception_communication(char c);
+void reset_asser_done();
+int asser_is_done();
 
 
 #endif

@@ -3,6 +3,7 @@
 #include "hardware/common.h"
 #include "actions.h"
 #include "actionneurs.h"
+#include "reception_communication.h"
 #include <string.h>
 #include "../../common_code/communication/keys.h"
 #include "../../common_code/communication/emission.h"
@@ -16,7 +17,7 @@ static int cpt_pause=0;
 #define QTOUR 1571
 #define DTOUR 3142
 
-#define DELAI 0
+#define DELAI 1500
 /*
 static int milestones[40][3]=
 {
@@ -49,18 +50,18 @@ static int milestones[][3]= {
 
 
 
-	{DELTA, 150, 0}, 		{PAUSE, DELAI, 0},
-	{ALPHA, -420, 0}, 		{PAUSE, DELAI, 0},
-	{DELTA, 80, 0}, 		{PAUSE, DELAI, 0},
-	{ALPHA, 420, 0}, 		{PAUSE, DELAI, 0},
-	{DELTA, 1000, 0}, 		{PAUSE, DELAI, 0},
-	{DELTA, -100, 0}, 		{PAUSE, DELAI, 0},
-	{ALPHA, -QTOUR, 0}, 	{PAUSE, DELAI, 0},
-	{DELTA, 650, 0}, 		{PAUSE, DELAI, 0},
-	{ALPHA, -2094, 0}, 		{PAUSE, DELAI, 0},
-	{DELTA, 800, 0}, 		{PAUSE, DELAI, 0},
-	{ALPHA, -171, 0}, 		{PAUSE, DELAI, 0},
-	{DELTA, 200, 0}, 		{PAUSE, DELAI, 0},
+	{DELTA, 300, 0}, 	        {PAUSE, DELAI, 0}, {WAIT_ASSER, DELAI, 0}, 
+	{ALPHA, -420, 0}, 	        {PAUSE, DELAI, 0}, {WAIT_ASSER, DELAI, 0}, 
+	{DELTA, 200, 0}, 		{PAUSE, DELAI, 0}, {WAIT_ASSER, DELAI, 0},
+	{ALPHA, 420, 0}, 		{PAUSE, DELAI, 0}, {WAIT_ASSER, DELAI, 0},
+	{DELTA, 800, 0}, 		{PAUSE, DELAI, 0}, {WAIT_ASSER, DELAI, 0},
+	{DELTA, -100, 0}, 		{PAUSE, DELAI, 0}, {WAIT_ASSER, DELAI, 0},
+	{ALPHA, -QTOUR, 0}, 	{PAUSE, DELAI, 0}, {WAIT_ASSER, DELAI, 0},
+	{DELTA, 650, 0}, 		{PAUSE, DELAI, 0}, {WAIT_ASSER, DELAI, 0},
+	{ALPHA, -2094, 0}, 		{PAUSE, DELAI, 0}, {WAIT_ASSER, DELAI, 0},
+	{DELTA, 800, 0}, 		{PAUSE, DELAI, 0}, {WAIT_ASSER, DELAI, 0},
+	{ALPHA, -171, 0}, 		{PAUSE, DELAI, 0}, {WAIT_ASSER, DELAI, 0},
+	{DELTA, 200, 0}, 		{PAUSE, DELAI, 0}, {WAIT_ASSER, DELAI, 0},
 
 
 
@@ -129,30 +130,20 @@ void pause(int ms)
 		cpt_pause=0;
 	}
 }
-
-int asser_done = 1;
-void gestion_communication() {
-	char c;
-	if (UART_getc(&c)) {
-		reception_communication((char) c);
-		asser_done = get_asser_done_and_reset();
-	}
-}
-
 void gestion_actions()
 {
-	gestion_communication();
-
 	//char buff[33];
 	//int length;
-	if (!asser_done)
+        
+	if (asser_is_done())
 	{
 		set_ledBleue();
+		delay_ms(400);
 		return;
 	}
 	else
 	{
-		delay_ms(400);
+		//delay_ms(400);
     	clear_ledBleue();
 	}
 
@@ -166,7 +157,7 @@ void gestion_actions()
 			UART_send_message(buffer, 40);
 			send_cmd(buffer, keys[FCT_XY_ABSOLU]);
 			UART_send_message(buffer, 40);
-			//asser_done=0;
+			reset_asser_done();
 			delay_ms(500); //le temps que l'asser remette la pin à 0
 			//TODO
 			break;
@@ -177,7 +168,7 @@ void gestion_actions()
 			UART_send_message(buffer, 40);
 			send_cmd(buffer, keys[FCT_ALPHA_DELTA]);
 			UART_send_message(buffer, 40);
-			//asser_done=0;
+			reset_asser_done();
 			delay_ms(500);
 			//TODO
 			break;
@@ -189,7 +180,7 @@ void gestion_actions()
 			UART_send_message(buffer, 40);
 			send_cmd(buffer, keys[FCT_ALPHA_DELTA]);
 			UART_send_message(buffer, 40);
-			//asser_done=0;
+			reset_asser_done();
 			delay_ms(500);
 			break;
 
@@ -198,7 +189,7 @@ void gestion_actions()
 			UART_send_message(buffer, 40);
 			send_cmd(buffer, keys[FCT_THETA]);
 			UART_send_message(buffer, 40);
-			//asser_done=0;
+			reset_asser_done();
 			delay_ms(500);
 			break;
 
@@ -206,13 +197,25 @@ void gestion_actions()
 		case FIN :
             send_cmd(buffer, keys[CMD_EMERGENCY_STOP]);
             while(1);
+            break;
+
+		case WAIT_ASSER :
+		  		  toggle_ledVerte();
+	  		if(!asser_is_done()){
+	    		cpt--;
+	  		}
+	  		break;
+
+	  	case PAUSE :
+		        pause(milestones[cpt][1]);
+			cpt--;
+	  		break;
 
 
 		//actions
 
 
 	}
-    set_ledBleue();
 	cpt++;
 }
 
@@ -249,9 +252,8 @@ void inverse_couleur()
 	}
 }
 
-/*
-void set_asser_done()
-{
-	asser_done=1;
-}
-*/
+
+/* void set_asser_done() */
+/* { */
+/* 	asser_done=1; */
+/* } */

@@ -202,8 +202,8 @@ int mainStrategieRobot2A() {
     while(read_tirette()); // On attend la tirette
     // Voilà, maintenant on peut s'amuser !
 
-    // add_alarm(85000, alarme_fin_match, false);
-    add_alarm(10000, send_backward, false);
+    //add_alarm(85000, alarme_fin_match, false);
+    //add_alarm(10000, send_backward, false);
 
     // Mouvement robot
     char buffer[1000];
@@ -211,7 +211,7 @@ int mainStrategieRobot2A() {
 
     // Ça, c'est pour être sûr que le bus uart est réinitialisé du côté
     // de l'asservissement, pour que la lecture se fasse bien
-    UART_send_message("\n", 1);
+    //UART_send_message("\n", 1);
 
 
 
@@ -231,7 +231,6 @@ int mainStrategieRobot2A() {
     // int asser_done=0;
 
     clear_ledBleue();
-    get_asser_done_and_reset();
     inverse_couleur();
     while(1)
     {
@@ -254,6 +253,8 @@ int mainStrategieRobot2A() {
         //     send_cmd(buffer, keys[FCT_ALPHA_DELTA]);
         //     UART_send_message(buffer, strlen(buffer));
         // }
+
+        gestion_communication();
 
         gestion_actions();
 

@@ -8,6 +8,7 @@ typedef enum
 	ALPHA,
 	DELTA,
 	THETA,
+	WAIT_ASSER,
 
 	//actions
 	CLAP_OUVRE_D,

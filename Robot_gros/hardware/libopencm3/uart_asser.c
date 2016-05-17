@@ -10,8 +10,8 @@ void init_uart_asser() {
     usart_set_databits      (UART7, 8);
     usart_set_stopbits      (UART7, USART_STOPBITS_1);
 
-    usart_set_mode          (UART7, USART_MODE_TX);
-//    usart_set_mode(UART_ASSER, USART_MODE_TX_RX);
+    //usart_set_mode          (UART7, USART_MODE_TX);
+    usart_set_mode(UART_ASSER, USART_MODE_TX_RX);
 
     usart_set_parity        (UART7, USART_PARITY_NONE);
     usart_set_flow_control  (UART8, USART_FLOWCONTROL_NONE);
@@ -57,9 +57,9 @@ void uart7_isr(void) {
 
 int UART_getc(unsigned char *c) {
     if (RxBufferRead != RxBufferWrite) {
-        c = RxBuffer[RxBufferRead];
+        *c = RxBuffer[RxBufferRead];
         RxBufferRead = (RxBufferRead + 1) % RxBufferSize;
-        return true;
+        return 1;
     }
-    return false;
+    return 0;
 }

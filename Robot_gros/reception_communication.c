@@ -2,20 +2,34 @@
 
 #include "reception_communication.h"
 #include <debug.h>
-
-
-int received_asser_done = 1;
-
-
+#include <UART.h>
 
 Reception_object values;
+
+int asser_done = 0;
 
 void init_reception_communication(){
     init_reception(&values, callbacks);
 }
 
-void reception_communication(char c) {
-    lecture_message((char) c, &values);
+void gestion_communication() {
+    char c;
+    if (UART_getc(&c)) {
+        lecture_message((char) c, &values);
+    }
+}
+
+void reception_done() {
+    set_ledOrange();
+    asser_done = 1;
+}
+
+void reset_asser_done() {
+    asser_done = 0;
+}
+
+int asser_is_done() {
+    return asser_done;
 }
 
 char buffer[40];
@@ -32,18 +46,6 @@ void reception_set_y() {
 }
 void reception_set_theta() {
     received_theta = values.received_value;
-}
-
-
-void reception_done() {
-    toggle_ledVerte();
-    received_asser_done = 1;
-}
-int get_asser_done_and_reset() {
-    //clear_ledVerte();
-    int a = received_asser_done;
-    received_asser_done = 0;
-    return a;
 }
 
 void reception_send_pos() {
