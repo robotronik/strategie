@@ -174,27 +174,26 @@ void gestion_capteursUS() {
 }
 
 
-// Callbacks d'alarme
-
-int back = 0;
-void send_backward(){
-    back = 1;
+void gestion_communication() {
+    char c;
+    if (UART_getc(&c)) {
+        reception_communication((char) c);
+    }
 }
 
+// Callbacks d'alarme
 int match_fini = 0;
 void alarme_fin_match() {
     match_fini = 1;
 }
 
 int mainStrategieRobot2A() {
-    // Initialisation des différents machins
-
+    // Initialisation des capteurs
     init_capteurs_US();
+
+    // Initialisation de la réception
     init_reception_communication();
     init_uart_asser();
-    init_uart_servos();
-
-    init_servos();
 
     // à décomenter si on est en vert
     // inverse_couleur(); //ici on change si on est en vert
@@ -203,7 +202,6 @@ int mainStrategieRobot2A() {
     // Voilà, maintenant on peut s'amuser !
 
     //add_alarm(85000, alarme_fin_match, false);
-    //add_alarm(10000, send_backward, false);
 
     // Mouvement robot
     char buffer[1000];
@@ -211,48 +209,25 @@ int mainStrategieRobot2A() {
 
     // Ça, c'est pour être sûr que le bus uart est réinitialisé du côté
     // de l'asservissement, pour que la lecture se fasse bien
-    //UART_send_message("\n", 1);
+    UART_send_message("\n", 1);
 
 
-
+    // Servos et positions d'actionneurs
+    init_uart_servos();
+    init_servos();
     set_position_portes(0);
 
-
-    // send_val(buffer, keys[VAL_DELTA], 800);
-    // UART_send_message(buffer, strlen(buffer));
-
-    // send_val(buffer, keys[VAL_ALPHA], 0);
-    // UART_send_message(buffer, strlen(buffer));
-
-    // send_cmd(buffer, keys[FCT_ALPHA_DELTA]);
-    // UART_send_message(buffer, strlen(buffer));
-    // delay_ms(1000);
-
-    // int asser_done=0;
-
     clear_ledBleue();
-    inverse_couleur();
     while(1)
     {
-        //toggle_ledVerte();
+        // toggle_ledVerte();
         // gestion_capteursUS();
         // toggle_all_led();
-
 
         if (match_fini == 1) {
             send_cmd(buffer, keys[CMD_EMERGENCY_STOP]);
             while(1);
         }
-
-        // if (back == 1) {
-        //     back = 0;
-        //     send_val(buffer, keys[VAL_DELTA], -700);
-        //     UART_send_message(buffer, strlen(buffer));
-        //     send_val(buffer, keys[VAL_ALPHA], 0);
-        //     UART_send_message(buffer, strlen(buffer));
-        //     send_cmd(buffer, keys[FCT_ALPHA_DELTA]);
-        //     UART_send_message(buffer, strlen(buffer));
-        // }
 
         gestion_communication();
 

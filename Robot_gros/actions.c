@@ -130,12 +130,13 @@ void pause(int ms)
 		cpt_pause=0;
 	}
 }
+
 void gestion_actions()
 {
+
 	//char buff[33];
 	//int length;
-        
-	if (asser_is_done())
+	if (get_asser_done_and_reset() == 0)
 	{
 		set_ledBleue();
 		delay_ms(400);

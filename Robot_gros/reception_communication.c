@@ -6,7 +6,6 @@
 
 Reception_object values;
 
-int asser_done = 0;
 
 void init_reception_communication(){
     init_reception(&values, callbacks);
@@ -46,6 +45,21 @@ void reception_set_y() {
 }
 void reception_set_theta() {
     received_theta = values.received_value;
+}
+
+// Est à 1 pour que la première action s'effectue.
+int received_asser_done = 1;
+void reception_done() {
+    set_ledOrange();
+    received_asser_done = 1;
+}
+int get_asser_done_and_reset() {
+    if (received_asser_done ==1) {
+        received_asser_done = 0;
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 void reception_send_pos() {
